@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+/*
+-------------------- FONTS -----------------------
+*/
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('/src/assets/fonts/Poppins-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('/src/assets/fonts/Poppins-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Hani';
+  src: url('/src/assets/fonts/Rajdhani-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Hani';
+  src: url('/src/assets/fonts/Rajdhani-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+
+/* =========================
+  THEME
+========================= */
+@theme {
+  /* Colores */
+  --color-blue: rgb(3, 45, 60);
+  --color-blueT: rgba(65, 107, 107, 0.732);
+  --color-darkB: #012133;
+  --color-borderC: rgb(3, 45, 60, 0.5);
+  --color-cyanO: #0E7490;
+  --color-cyanC: #06B6D4,
+
+
+  /* Fuentes */
+  --font-poppins: "Poppins", sans-serif;
+  --font-hani: "Hani", sans-serif;
+
+  /* Breakpoint */
+  --breakpoint-xs: 375px;
+
+  /* Espaciado */
+  --spacing-18: 4.5rem;
+  --spacing-22: 5.5rem;
+
+  /* Sombras */
+  --shadow-soft: 0 4px 10px rgba(0,0,0,0.3);
+  --shadow-medium: 0 6px 16px rgba(0,0,0,0.5);
+  --shadow-strong: 0 10px 25px rgba(0,0,0,0.9);
+
+  /* Bordes */
+  --radius-xl2: 1.5rem;
+  --radius-xl3: 2rem;
+
+  /* Animaciones */
+  --animate-float: float 2s ease-in-out infinite;
+  --animate-scrollLeft: scrollLeft 30s linear infinite;
+}
+
+@layer utilities {
+  @keyframes shine {
+    from {
+      left: -75%;
+    }
+    to {
+      left: 125%;
+    }
+  }
+
+  .animate-shine {
+    animation: shine 0.9s ease-in-out;
+  }
+}
+
+
+
+
+
+
