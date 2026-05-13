@@ -15,59 +15,69 @@ function FormLogin({ onLogin }) {
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
-  e.preventDefault()
-  setLoading(true)
-  setError('')
+    e.preventDefault()
+    setLoading(true)
+    setError('')
 
-  setTimeout(() => {
+    setTimeout(() => {
 
     const usuarios = [
-      { user: 'alumno', pass: '1234', role: 'alumno' },
-      { user: 'docente', pass: '1234', role: 'docente' },
-      { user: 'auxiliar', pass: '1234', role: 'auxiliar' },
-      { user: 'admin', pass: '1234', role: 'administrador' }
-    ]
+  {
+    user: 'admin',
+    pass: '1234',
+    role: 'admin'
+  },
 
-    const usuario = usuarios.find(
-      u => u.user === email.toLowerCase().trim() && u.pass === password
-    )
+  {
+    user: 'assistant',
+    pass: '1234',
+    role: 'assistant'
+  },
 
-    if (!usuario) {
-      setError('Credenciales incorrectas')
+  {
+    user: 'father',
+    pass: '1234',
+    role: 'father'
+  }
+]
+
+      const usuario = usuarios.find(
+        u => u.user === email.toLowerCase().trim() && 
+        u.pass === password
+      )
+
+      if (!usuario) {
+        setError('Credenciales incorrectas')
+        setLoading(false)
+        return
+      }
+
+      const response = {
+        name: usuario.user,
+        role: usuario.role,
+        email: `${usuario.user}@institucion.edu.pe`
+      }
+      if (onLogin) onLogin(response)
+
+      // navegación según tu sistema
+      switch (usuario.role) {
+        case 'admin':
+          navigate('/')
+          break
+        case 'assistant':
+          navigate('/attendance-control')
+          break
+        case 'father':
+          navigate('/attendance-student')
+          break
+        default:
+          navigate('/')
+      }
+
       setLoading(false)
-      return
-    }
 
-    const response = {
-      nombre: usuario.user,
-      rol: usuario.role,
-      correo: `${usuario.user}@institucion.edu.pe`
-    }
-
-    if (onLogin) onLogin(response)
-
-    // navegación según tu sistema
-    switch (usuario.role) {
-      case 'administrador':
-        navigate('/')
-        break
-      case 'docente':
-        navigate('/')
-        break
-      case 'auxiliar':
-        navigate('/')
-        break
-      case 'alumno':
-        navigate('/')
-        break
-      default:
-        navigate('/')
-    }
-
-    setLoading(false)
-
-  }, 800)
-}
+    }, 800)
+  }
 
   const formFields = [
     {

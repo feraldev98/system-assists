@@ -1,6 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-function Logo({ variant= 'default' }) {
+function Logo({ variant= 'default' , user}) {
+  const navigate = useNavigate()
+  const handelNavigate = () => {
+    navigate(`/${use.role}`)
+  }
   const variants = {
     default: `relative w-[8em] h-[8em] rounded-full overflow-hidden mt-13`,
     primary: `relative w-[10em] h-[10em] rounded-full overflow-hidden `

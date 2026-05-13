@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Bell } from 'lucide-react';
-import { NavbarLink } from "../atoms/navbarLink";
 import { Button } from '../atoms/button';
 import { UserMenuModal } from '../modals/modalsUser/userMenuModal';
 import { UserNavbar } from '../molecules/userNavbar';
 import { ChangePasswordModal } from '../modals/modalsUser/userPasswordModal';
+import { NavbarMenu } from '../molecules/desktopMenu';
+import { Link } from 'react-router-dom';
 
 function UserMenu({ onLogout, handleLogout, mobile = false }) {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -26,11 +27,14 @@ function UserMenu({ onLogout, handleLogout, mobile = false }) {
       `}
     >
       {/*icono notificaciones*/}
-      <div className="text-white p-[1em]  
-      transition-colors duration-400 hover:bg-blueT border-r boder-white
-    ">
-        <Bell />
-      </div>
+      <Link
+        to='/notifications' 
+        variant=''
+        className="text-white p-[1em]  
+        transition-colors duration-400 hover:bg-blueT border-r boder-white
+      ">
+        <Bell className='text-white'/>
+      </Link>
 
       {/*Usuario en el navbar */}
       <UserNavbar 

@@ -16,7 +16,7 @@ function DescriptionLogin() {
         <div>
           <Paragraph
             text={welcome}
-            variant="primary"
+            variant="secondary"
           />
           <Title
             level="h2"
@@ -29,7 +29,7 @@ function DescriptionLogin() {
       </div>
       <Paragraph
         text={description}
-        variant="primary"
+        variant="secondary"
       />
     </div>
   )

@@ -1,11 +1,11 @@
 import { MyTemplate } from "../../templates/myTemplate";
 
-function Classroom () {
+function InstitutioPage () {
   return(
     <MyTemplate>
-      <h1>Registro de asistencia en el aula</h1>
+      <h2>Sobre nuestra institucion</h2>
     </MyTemplate>
   )
 }
 
-export {Classroom}
+export {InstitutioPage}

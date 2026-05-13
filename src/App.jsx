@@ -1,33 +1,32 @@
 import { useState, useEffect, useRef } from 'react'
 import { Route, Routes } from 'react-router-dom'
-// PAGES
-import { LoginPage } from './componets/pages/loginPage'
 import { Navbar } from './componets/organims/navbar'
-import { HomePage } from './componets/pages/homePage'
-import { AboutUs } from './componets/pages/aboutUs'
-// STUDENTS
-import { StudentsSchedules } from './componets/pages/students/studentsSchedulesPage'
-import { StudentesCourses } from './componets/pages/students/studentsCoursesPage'
-import { StudentsGrades } from './componets/pages/students/studentsGradesPage'
-import { StudentsAttendance } from './componets/pages/students/studentsAttendance'
-// TEACHERS
-import { TeachersCourses } from './componets/pages/teachers/teachersCoursesPage'
-import { TeachersSchedules } from './componets/pages/teachers/teachersSchedulesPag'
-import { TeachersEvaluations } from './componets/pages/teachers/teachersEvaluationsPage'
-// ATTENDANCE
-import { Entry } from './componets/pages/attendances/entry'
-import { Classroom } from './componets/pages/attendances/classroom'
-// MODALS
-import { ModalNotifications } from './componets/modals/modalNotifications'
+// PAGES
+import { LoginPage } from './componets/pages/auth/loginPage'
+import { InstitutioPage } from './componets/pages/institution/institutionPage'
+//FATHER-STUDENT
+import { DashboardStudentPage } from './componets/pages/dashboard/dashboardStudentPage'
+import { AttendanceStudentPage } from './componets/pages/attendance/attendanceStudentPage'
+import { BehaviorStudentPage } from './componets/pages/behavior/behaviorStudentPage'
+import { NotificationsStudentPage } from './componets/pages/notifiacitons/notificationStudentPage'
+
+//ASSITANT-AUXILIAR
+import { DashboardAssitantPage } from './componets/pages/dashboard/dashboardAssistant'
+import { AttendanceControlPage } from './componets/pages/attendance/attendanceControlPage'
+import { BehaviorControlPage } from './componets/pages/behavior/behaviorControlPage'
+import { NotificationsAssistantPage } from './componets/pages/notifiacitons/notificationsAssistantPage'
+
+// ADMIN
+import { DashboardAdminPage } from './componets/pages/dashboard/dashboardAdmin'
+import { RegisterUser } from './componets/pages/admin/registerUserPage'
+import { RegisterStudent } from './componets/pages/admin/registerStudentPage'
+
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [userData, setUserData] = useState(null)
   const inactivityTimerRef = useRef(null)
   const lastResetRef = useRef(0)
-
-  //MODALS
-  const [modalNotiOpen, setModalNotiOpen] = useState(false) 
 
   const INACTIVITY_TIME = 30 * 60 * 1000 // 20 min
 
@@ -63,19 +62,19 @@ function App() {
     localStorage.setItem('lastActivity', Date.now().toString())
   }
 
-  const handleLogout = () => {
+  const handleLogout = () =>{
     setIsAuthenticated(false)
-    setUserData(null)
+        setUserData(null)
 
-    localStorage.removeItem('isAuthenticated')
-    localStorage.removeItem('userData')
-    localStorage.removeItem('lastActivity')
-
-    if (inactivityTimerRef.current) {
-      clearTimeout(inactivityTimerRef.current)
-    }
+        
+        localStorage.removeItem('isAuthenticated')
+        localStorage.removeItem('userData')
+        localStorage.removeItem('lastActivity')
+    
+        if (inactivityTimerRef.current) {
+          clearTimeout(inactivityTimerRef.current)
+        }
   }
-
 
   // INACTIVITY SYSTEM (FIXED)
 
@@ -118,17 +117,18 @@ function App() {
 
   // ROUTES
   const pages = [
-    { path: '/', component: <HomePage userData={userData}/> },
-    { path: '/students/schedules', component: <StudentsSchedules /> },
-    { path: '/students/courses', component: <StudentesCourses /> },
-    { path: '/students/grades', component: <StudentsGrades /> },
-    { path: '/students/attendance', component: <StudentsAttendance /> },
-    { path: '/teachers/courses', component: <TeachersCourses /> },
-    { path: '/teachers/schedule', component: <TeachersSchedules /> },
-    { path: '/teachers/evaluations', component: <TeachersEvaluations /> },
-    { path: '/attendance/entry', component: <Entry /> },
-    { path: '/attendance/classroom', component: <Classroom /> },
-    { path: '/aboutUs', component: <AboutUs /> },
+    { path: '/', component: <DashboardStudentPage userData={userData}/> },
+    { path: '/', component: <DashboardAssitantPage userData={userData}/> },
+    { path: '/', component: <DashboardAdminPage userData={userData}/> },
+    { path: '/attendance-control', component: <AttendanceControlPage /> },
+    { path: '/attendance-student', component: <AttendanceStudentPage /> },
+    { path: '/behavior-control', component: <BehaviorControlPage/> },
+    { path: '/behavior-student', component: <BehaviorStudentPage/> },
+    { path: '/institution', component: <InstitutioPage/> },
+    { path: '/notifications', component: <NotificationsStudentPage /> },
+    { path: '/notifications', component: <NotificationsAssistantPage /> },
+    { path: '/admin/register-student', component: <RegisterStudent /> },
+    { path: '/admin/register-user', component: <RegisterUser /> },
   ]
 
   // LOGIN GATE
@@ -141,11 +141,8 @@ function App() {
   return (
     <>
       <Navbar 
-        setModalNotiOpen={setModalNotiOpen} 
         handleLogout={handleLogout}
       />
-
-      {modalNotiOpen && <ModalNotifications setModalNotiOpen={setModalNotiOpen}/>}
       <Routes>
         {pages.map((route, index) => (
           <Route key={index} path={route.path} element={route.component} />

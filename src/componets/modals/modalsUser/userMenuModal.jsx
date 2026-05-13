@@ -28,6 +28,7 @@ function UserMenuModal({ setIsUserMenuOpen, setIsPasswordModalOpen, handleLogout
   ];
   
   const CLOSE_DURATION = 300
+
   const handleClick = (action) => {
 
     if (action === "password") {
@@ -102,7 +103,7 @@ function UserMenuModal({ setIsUserMenuOpen, setIsPasswordModalOpen, handleLogout
           />
           <Paragraph
             size="small"
-            variant="primary"
+            variant="secondary"
             text={user.email}
           />
         </div>

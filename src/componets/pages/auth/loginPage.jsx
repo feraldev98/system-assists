@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { FormLogin } from '../organims/formLogin'
-import { DescriptionLogin } from '../molecules/loginPage/descriptión'
+import { FormLogin } from '../../organims/formLogin'
+import { DescriptionLogin } from '../../molecules/loginPage/descriptión'
 
 export const LoginPage = ({ onLogin }) => {
 
@@ -11,18 +11,16 @@ export const LoginPage = ({ onLogin }) => {
     onLogin(user)
 
     // redirección según rol
-    switch (user.rol) {
-      case 'administrador':
-        navigate('/admin')
+    switch (user.role) {
+
+      case 'admin':
+        navigate('/')
         break
-      case 'docente':
-        navigate('/teachers/courses')
+      case 'assistant':
+        navigate('/attendance-control')
         break
-      case 'auxiliar':
-        navigate('/attendance/entry')
-        break
-      case 'alumno':
-        navigate('/students/courses')
+      case 'father':
+        navigate('/attendance-student')
         break
       default:
         navigate('/')
@@ -43,8 +41,8 @@ export const LoginPage = ({ onLogin }) => {
       {/* RIGHT */}
       <div className="flex-1 flex items-center justify-center px-6 py-10 relative overflow-hidden bg-white">
 
-        <div className="absolute inset-0 bg-[radial-gradient(500px_circle_at_0%_0%,rgba(166,166,166,0.45),transparent_70%)]"/>
-        <div className="absolute inset-0 bg-[radial-gradient(600px_circle_at_100%_100%,rgba(3,45,60,0.12),transparent_70%)]"/>
+        <div className="absolute inset-0 bg-[radial-gradient(500px_circle_at_0%_0%,rgba(166,166,166,0.45),transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(600px_circle_at_100%_100%,rgba(3,45,60,0.12),transparent_70%)]" />
 
         <FormLogin onLogin={handleLoginSuccess} />
       </div>

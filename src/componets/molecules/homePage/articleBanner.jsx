@@ -21,11 +21,11 @@ function Article ({greetingLabel, visible, userData, saludo}) {
           </Title>
 
           <Paragraph 
-            className="mt-2 font-hani"
+            className="mt-2"
             variant="secondary"
             size="small"
           >
-            Plataforma académica — {new Date().toLocaleDateString('es-PE', {
+            Sistema de control de asistencia — {new Date().toLocaleDateString('es-PE', {
               weekday: 'long',
               year: 'numeric',
               month: 'long',

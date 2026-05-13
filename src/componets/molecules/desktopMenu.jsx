@@ -1,8 +1,6 @@
-// NavbarMenu.jsx
-
 import React, { useState, useRef, useEffect } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
-
+import { menuByRole } from "../../config/sidebarLinks";
 import { NavbarLink } from "../atoms/navbarLink";
 import { MobileMenu } from "./mobileMenu";
 
@@ -12,51 +10,34 @@ function NavbarMenu() {
 
   const menuRef = useRef(null);
 
-  const menu = [
-    {
-      href: "/students",
-      text: "Estudiantes",
-      submenu: [
-        { href: "/students/schedules", text: "Horarios" },
-        { href: "/students/courses", text: "Cursos" },
-        { href: "/students/grades", text: "Calificaciones" },
-        { href: "/students/attendance", text: "Asistencia" },
-      ],
-    },
-    {
-      href: "/teachers",
-      text: "Docentes",
-      submenu: [
-        { href: "/teachers/courses", text: "Cursos" },
-        { href: "/teachers/schedule", text: "Horarios" },
-        { href: "/teachers/evaluations", text: "Evaluaciones" },
-      ],
-    },
-    {
-      href: "/attendance",
-      text: "Asistencias",
-      submenu: [
-        { href: "/attendance/entry", text: "Entrada" },
-        { href: "/attendance/classroom", text: "Aulas" },
-      ],
-    },
-    {
-      href: "/aboutUs",
-      text: "Institución",
-    },
-  ];
+  /*
+    USUARIO LOGUEADO
+  */
+  const user = JSON.parse(localStorage.getItem("userData")) || {
+  role: "father",
+}
+  /*
+    MENU SEGUN ROL
+  */
+  const menu = menuByRole[user.role] || [];
 
   const toggleDropdown = (index) => {
     setOpenDropdown(openDropdown === index ? null : index);
   };
 
+  /*
+    MOBILE MENU
+  */
+
   const handleToggle = (e) => {
     e.preventDefault();
-
     setMobileOpen((prev) => !prev);
   };
 
-  // cerrar dropdown y menú móvil al hacer click fuera
+  /*
+    CERRAR MENU AL HACER CLICK FUERA
+  */
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -74,7 +55,10 @@ function NavbarMenu() {
 
   return (
     <div ref={menuRef}>
-      {/* HAMBURGER */}
+      {/*
+        HAMBURGER
+    */}
+
       <button
         className="md:hidden text-white z-50 relative"
         onClick={handleToggle}
@@ -82,9 +66,11 @@ function NavbarMenu() {
         {mobileOpen ? <X size={28} /> : <Menu size={28} />}
       </button>
 
-      {/* DESKTOP MENU */}
+      {/* 
+        DESKTOP MENU
+      */}
+
       <ul
-        ref={menuRef}
         className="
           hidden md:flex top-0 h-full
           list-none m-0 p-0 
@@ -103,6 +89,10 @@ function NavbarMenu() {
               hover:bg-blueT
             "
           >
+            {/* 
+                ITEM CON SUBMENU
+           */}
+
             {item.submenu ? (
               <div className="relative h-full flex items-center">
                 <button
@@ -125,6 +115,10 @@ function NavbarMenu() {
                   />
                 </button>
 
+                {/* 
+                    SUBMENU
+                */}
+
                 {openDropdown === index && (
                   <ul
                     className="
@@ -132,9 +126,10 @@ function NavbarMenu() {
                       bg-blue
                       shadow-lg
                       py-2
-                      min-w-[200px]
+                      min-w-[230px]
                       z-50
                       list-none
+                      overflow-hidden
                     "
                   >
                     {item.submenu.map((subitem, subindex) => (
@@ -145,8 +140,8 @@ function NavbarMenu() {
                         onClick={() => setOpenDropdown(null)}
                         variant="submenu"
                         className="
-                          block px-5 py-2
-                          text-white text-[.8em]
+                          block px-5 py-3
+                          text-white text-[.85em]
                           hover:bg-blueT/80
                           hover:pl-6
                           transition-all duration-200
@@ -157,6 +152,10 @@ function NavbarMenu() {
                 )}
               </div>
             ) : (
+              /*
+                  ITEM NORMAL
+              */
+
               <NavbarLink
                 href={item.href}
                 text={item.text}
@@ -167,7 +166,10 @@ function NavbarMenu() {
         ))}
       </ul>
 
-      {/* MOBILE MENU */}
+      {/*
+          MOBILE MENU
+      */}
+
       <MobileMenu
         menu={menu}
         mobileOpen={mobileOpen}
