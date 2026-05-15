@@ -11,13 +11,12 @@ function Article ({greetingLabel, visible, userData, saludo}) {
           </span>
 
           <Title
-            level="h2"
             weight="bold"
             variant="primary"
             className={`transition-all duration-500 font-poppins${
             visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
           }`}>
-            {saludo}, {userData?.nombre || 'bienvenido'}
+            {saludo}, {userData?.name || 'bienvenido'}
           </Title>
 
           <Paragraph 

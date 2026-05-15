@@ -57,18 +57,20 @@ function FormLogin({ onLogin }) {
         role: usuario.role,
         email: `${usuario.user}@institucion.edu.pe`
       }
+
+      localStorage.setItem('user', JSON.stringify(response))
       if (onLogin) onLogin(response)
 
       // navegación según tu sistema
       switch (usuario.role) {
         case 'admin':
-          navigate('/')
+          navigate('/admin')
           break
         case 'assistant':
-          navigate('/attendance-control')
+          navigate('/assistant')
           break
         case 'father':
-          navigate('/attendance-student')
+          navigate('/father')
           break
         default:
           navigate('/')
@@ -104,7 +106,7 @@ function FormLogin({ onLogin }) {
     <form
       onSubmit={handleSubmit}
       className="
-        absolute w-80 sm:w-90 py-10
+        absolute w-88 sm:w-90 py-10
         bg-[#f6f6f6] rounded-lg shadow-lg shadow-blue/20
         flex flex-col gap-5 p-6 z-999
         transition-all duration-400
@@ -119,7 +121,7 @@ function FormLogin({ onLogin }) {
 
       <Title
         text='Iniciar Sesión'
-        level="h3"
+        level="h2"
         align="center"
         weight="bold"
         className="text-center font-bold text-3xl text-gray-800"

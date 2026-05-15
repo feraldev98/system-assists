@@ -1,22 +1,28 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function Logo({ variant= 'default' , user}) {
+function Logo({ variant = 'default' }) {
+
   const navigate = useNavigate()
-  const handelNavigate = () => {
-    navigate(`/${use.role}`)
+  const user = JSON.parse(localStorage.getItem('user'))
+  const handleNavigate = () => {
+    if(!user) return
+    navigate(`/${user.role}`)
   }
+
   const variants = {
     default: `relative w-[8em] h-[8em] rounded-full overflow-hidden mt-13`,
-    primary: `relative w-[10em] h-[10em] rounded-full overflow-hidden `
-
+    primary: `relative w-[10em] h-[10em] rounded-full overflow-hidden`
   }
+
   return (
     <div
+      onClick={handleNavigate}
       className={`
         ${variants[variant] || variants.default}
-        group 
+        group cursor-pointer
       `}
     >
+
       {/* Shine effect */}
       <span
         className="
@@ -28,8 +34,7 @@ function Logo({ variant= 'default' , user}) {
         "
       />
 
-      <Link
-        to="/"
+      <div
         className="
           relative z-10 flex items-center justify-center
           w-full h-full
@@ -42,7 +47,7 @@ function Logo({ variant= 'default' , user}) {
           alt="Logo Institucional"
           className="w-[88%] h-[88%] object-contain transition-transform duration-300"
         />
-      </Link>
+      </div>
     </div>
   );
 }

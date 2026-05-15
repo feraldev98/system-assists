@@ -1,4 +1,4 @@
-import { LogOut, Settings } from "lucide-react";
+import { IoSettings, IoLogOutOutline  } from "react-icons/io5";
 import { useState, useEffect, useRef } from "react";
 import { Title } from "../../atoms/title";
 import { Paragraph } from "../../atoms/paragraph";
@@ -17,12 +17,12 @@ function UserMenuModal({ setIsUserMenuOpen, setIsPasswordModalOpen, handleLogout
   const menuItems = [
     {
       text: "Cambiar Contraseña",
-      icon: Settings,
+      icon: IoSettings,
       action: "password",
     },
     {
       text: "Cerrar Sesión",
-      icon: LogOut,
+      icon: IoLogOutOutline,
       action: "logout",
     },
   ];

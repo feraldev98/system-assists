@@ -1,17 +1,17 @@
 import { Title } from "../../atoms/title"
 
-function CoursesPorsentages({courses}) {
+function CoursesPorsentages({averageAttendances}) {
   return (
     <div className="flex flex-col gap-6">
-      {courses.map((course, i) => (
+      {averageAttendances.map((attendance, i) => (
         <div key={i}>
           <div className="flex justify-between items-center mb-2 gap-4">
             <Title 
               level="h5"
-              text={course.name}
+              text={attendance.name}
             />
             <span className="text-sm text-gray-500">
-              {course.teacher}
+              {attendance.description}
             </span>
           </div>
 
@@ -25,10 +25,10 @@ function CoursesPorsentages({courses}) {
                         text-white text-xs font-semibold
                       "
               style={{
-                width: `${course.progress}%`,
+                width: `${attendance.progress}%`,
               }}
             >
-              {course.progress}%
+              {attendance.progress}%
             </div>
           </div>
         </div>

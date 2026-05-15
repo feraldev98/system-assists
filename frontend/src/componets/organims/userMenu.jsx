@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bell } from 'lucide-react';
+import { IoNotifications } from "react-icons/io5";
 import { Button } from '../atoms/button';
 import { UserMenuModal } from '../modals/modalsUser/userMenuModal';
 import { UserNavbar } from '../molecules/userNavbar';
@@ -33,7 +33,7 @@ function UserMenu({ onLogout, handleLogout, mobile = false }) {
         className="text-white p-[1em]  
         transition-colors duration-400 hover:bg-blueT border-r boder-white
       ">
-        <Bell className='text-white'/>
+        <IoNotifications size={23} className='text-white'/>
       </Link>
 
       {/*Usuario en el navbar */}

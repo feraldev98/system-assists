@@ -1,5 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Menu, X, ChevronDown } from "lucide-react";
+import {
+  HiBars3,
+  HiXMark,
+  HiChevronDown,
+} from "react-icons/hi2";
 import { menuByRole } from "../../config/sidebarLinks";
 import { NavbarLink } from "../atoms/navbarLink";
 import { MobileMenu } from "./mobileMenu";
@@ -63,7 +67,7 @@ function NavbarMenu() {
         className="md:hidden text-white z-50 relative"
         onClick={handleToggle}
       >
-        {mobileOpen ? <X size={28} /> : <Menu size={28} />}
+        {mobileOpen ? <HiXMark size={28} /> : <HiBars3 size={28} />}
       </button>
 
       {/* 
@@ -107,7 +111,7 @@ function NavbarMenu() {
                 >
                   {item.text}
 
-                  <ChevronDown
+                  <HiChevronDown
                     size={16}
                     className={`transition-transform duration-300 ${
                       openDropdown === index ? "rotate-180" : ""

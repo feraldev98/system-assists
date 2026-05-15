@@ -10,10 +10,11 @@ function Small ({
 
   const variants = {
     default : `text-gray-500`,
-    primary: ``
+    primary: `text-blueT`
   }
 
   const sices = {
+    xsmall: 'text-[.7em]',
     small: 'text-sm',
     medium: 'text-md',
     large: 'text-lg',

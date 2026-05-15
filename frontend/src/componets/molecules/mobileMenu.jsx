@@ -1,6 +1,6 @@
 // mobileMenu.jsx
 
-import { ChevronDown } from "lucide-react";
+import {HiChevronDown} from "react-icons/hi2";
 
 import { NavbarLink } from "../atoms/navbarLink";
 import { UserMenu } from "../organims/userMenu";
@@ -54,7 +54,7 @@ function MobileMenu({
                 >
                   <span>{item.text}</span>
 
-                  <ChevronDown
+                  <HiChevronDown
                     size={18}
                     className={`transition-transform duration-300 ${
                       openDropdown === item.text ? "rotate-180" : ""

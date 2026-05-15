@@ -1,4 +1,4 @@
-import { Article } from "../../molecules/homePage/articlebanner";
+import { Article } from "../../molecules/dashboardStudent/articlebanner";
 
 function Banner ({greetingLabel, userData, visible, saludo}) {
   return(

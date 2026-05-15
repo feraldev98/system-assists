@@ -1,4 +1,5 @@
-import { Lock, X,Eye, EyeOff} from "lucide-react";
+import { FiX } from "react-icons/fi";
+import { IoEye, IoEyeOff  } from "react-icons/io5";
 import { useState } from "react";
 import { Button } from "../../atoms/button";
 import { FormItem } from "../../molecules/formItems";
@@ -50,7 +51,7 @@ function ChangePasswordModal({setIsPasswordModalOpen }) {
     name: 'passwd',
     value: currentPassword,
     onChange: (e) => setCurrentPassword(e.target.value),
-    icon: showCurrentPassword ? <Eye size={18}/> : <EyeOff size={18}/>,
+    icon: showCurrentPassword ? <IoEye size={18}/> : <IoEyeOff size={18}/>,
     onIconClick: () =>
       setShowCurrentPassword(prev => !prev),
   },
@@ -63,7 +64,7 @@ function ChangePasswordModal({setIsPasswordModalOpen }) {
     value: newPassword,
     onChange: (e) =>
       setNewPassword(e.target.value),
-    icon: showNewPassword ? <Eye size={18}/> : < EyeOff size={18}/>,
+    icon: showNewPassword ? <IoEye size={18}/> : < IoEyeOff size={18}/>,
     onIconClick: () =>
       setShowNewPassword(prev => !prev),
   },
@@ -95,7 +96,7 @@ function ChangePasswordModal({setIsPasswordModalOpen }) {
               className="font-poppins"
               align="center"
             />
-            <X 
+            <FiX 
               onClick={handleClose}
               className="absolute right-2 top-2 text-blue/40 z-100"/>
           </div>

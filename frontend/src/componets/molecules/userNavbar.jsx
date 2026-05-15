@@ -1,4 +1,5 @@
-import { ChevronDown, User } from "lucide-react"
+import { IoChevronDownSharp,  } from "react-icons/io5";
+import { FaUser } from "react-icons/fa6";
 import { Button } from "../atoms/button"
 
 function UserNavbar ({setIsUserMenuOpen, user, isUserMenuOpen}) {
@@ -16,7 +17,7 @@ function UserNavbar ({setIsUserMenuOpen, user, isUserMenuOpen}) {
           <img src={user.avatar} alt={user.name} className="w-9 h-9 rounded-full object-cover" />
         ) : (
           <div className="w-9 h-9 rounded-full bg-blueT flex items-center justify-center text-white">
-            <User size={20} />
+            <FaUser size={20} />
           </div>
         )}
 
@@ -24,7 +25,7 @@ function UserNavbar ({setIsUserMenuOpen, user, isUserMenuOpen}) {
           {user.name}
         </span>
 
-        <ChevronDown
+        <IoChevronDownSharp
           size={16}
           className={`transition-transform duration-300 text-white ${isUserMenuOpen ? 'rotate-180' : ''
             }`}

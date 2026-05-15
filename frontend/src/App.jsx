@@ -28,7 +28,7 @@ function App() {
   const inactivityTimerRef = useRef(null)
   const lastResetRef = useRef(0)
 
-  const INACTIVITY_TIME = 30 * 60 * 1000 // 20 min
+  const INACTIVITY_TIME = 60 * 60 * 1000 // 20 min
 
   // LOGIN CHECK
 
@@ -117,16 +117,16 @@ function App() {
 
   // ROUTES
   const pages = [
-    { path: '/', component: <DashboardStudentPage userData={userData}/> },
-    { path: '/', component: <DashboardAssitantPage userData={userData}/> },
-    { path: '/', component: <DashboardAdminPage userData={userData}/> },
+    { path: '/father', component: <DashboardStudentPage userData={userData}/> },
+    { path: '/assistant', component: <DashboardAssitantPage userData={userData}/> },
+    { path: '/admin', component: <DashboardAdminPage userData={userData}/> },
     { path: '/attendance-control', component: <AttendanceControlPage /> },
     { path: '/attendance-student', component: <AttendanceStudentPage /> },
     { path: '/behavior-control', component: <BehaviorControlPage/> },
     { path: '/behavior-student', component: <BehaviorStudentPage/> },
     { path: '/institution', component: <InstitutioPage/> },
-    { path: '/notifications', component: <NotificationsStudentPage /> },
-    { path: '/notifications', component: <NotificationsAssistantPage /> },
+    { path: '/notifications-student', component: <NotificationsStudentPage /> },
+    { path: '/notifications-assistant', component: <NotificationsAssistantPage /> },
     { path: '/admin/register-student', component: <RegisterStudent /> },
     { path: '/admin/register-user', component: <RegisterUser /> },
   ]
