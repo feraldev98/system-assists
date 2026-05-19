@@ -36,12 +36,27 @@ const authController = {
       return res.json({
         message: `Bienvenido ${credentials.firstname} ${credentials.lastname}`,
         email: credentials.email,
+        firstname: credentials.firstname,
+        lastname: credentials.lastname,
         role: credentials.role,
       });
     } catch (error) {
       next(error);
     }
   },
+  logout: async (req, res, next) => {
+    try {
+      if (!req.cookies.token) throw new AppError("Sin autorización", 401, { message: "Sin autorización" })
+
+      res.clearCookie("token", COOKIE_OPTIONS)
+
+      return res.json({
+        message: "Sesión cerrada correctamente"
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 };
 
 export { authController };

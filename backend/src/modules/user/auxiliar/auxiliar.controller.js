@@ -26,11 +26,13 @@ const auxiliarController = {
 
       const queryResult = await userService.createUser({ firstname, lastname, email, passwordHash })
 
-      return res.json(queryResult)
+      return res.json(queryResult.user)
     } catch (error) {
       next(error)
     }
-  }
+  },
+
+  // TODO: update, delete, getAll, getById
 }
 
 export { auxiliarController }
