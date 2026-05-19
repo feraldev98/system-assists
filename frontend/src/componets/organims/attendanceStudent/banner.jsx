@@ -1,40 +1,45 @@
-import { useState } from "react";
-import { Title } from "../../atoms/title";
-import { Paragraph } from "../../atoms/paragraph";
 import { AttendanceCards } from "./attendanceCard";
+import { HiOutlineCalendarDateRange,  } from "react-icons/hi2";
+import { GiCheckMark } from "react-icons/gi";
+import { FiX } from "react-icons/fi";
+import { FaArrowTrendUp } from "react-icons/fa6";
+import { Titlebanner } from "../../molecules/attendanceStudent/titleBanner";
 
-function BannerAttendances({ students }) {
-  const [selectedStudent, setSelectedStudent] = useState(1);
+function BannerAttendances({ 
+    students, 
+    visible, 
+    currentStudent, 
+    setSelectedStudent,
+    selectedStudent
+  }) {
   const title = `Asistencias de`
 
-  const currentStudent = students.find(
-    (student) => student.id === selectedStudent,
-  );
- 
   const attendanceStats = [
   {
-    icon: '',
+    icon: <HiOutlineCalendarDateRange size={30} className="text-blue-500 "/>,
     stats: currentStudent?.stats?.days ?? 0,
     text: 'Días registrados'
   },
   {
-    icon: '',
+    icon: <GiCheckMark size={30} className="text-green-700 "/>,
     stats: currentStudent?.stats?.presents ?? 0,
     text: 'Asistencias'
   },
   {
-    icon: '',
+    icon: <FiX size={30} className="text-red-700 "/>,
     stats: currentStudent?.stats?.late ?? 0,
-    text: 'Inasistencias'
+    text: 'Inasistencias',
   },
   {
-    icon: '',
+    icon: <FaArrowTrendUp size={30}  />,
     stats: currentStudent?.stats?.rate ?? 0,
     text: 'Taza de asistencias'
   }
 ]
   return (
     <section className="
+      mt-6
+      md:mt-0
       px-6 py-8 
       w-full 
       md:w-[90%]
@@ -44,22 +49,26 @@ function BannerAttendances({ students }) {
     ">
 
       <div className="flex items-center justify-between">
-        <div>
-          <Title
-            level="h2"
-            text={`${title} ${currentStudent.name}`}
-          />
-          <Paragraph
-            text={` Historial de asistencias y estadísticas`}
-          />
-        </div>
+        <Titlebanner
+          title={title}
+          currentStudent={currentStudent}
+        />
+
         {/* FILTRO DE HIJOS */}
         <select
           value={selectedStudent}
           onChange={(e) =>
             setSelectedStudent(Number(e.target.value))
           }
-          className="border border-gray-300 shadow rounded-xl px-4 py-3 bg-white"
+          className="
+          border-b
+        border-borderC
+          px-4
+          py-3
+          outline-none
+          ocus:ring-2
+        focus:ring-blue-400
+          cursor-pointer"
         >
           {students.map((student) => (
             <option key={student.id} value={student.id}
@@ -73,6 +82,7 @@ function BannerAttendances({ students }) {
       {/* CARDS */}
         <AttendanceCards
           attendanceStats={attendanceStats}
+          visible={visible}
         />
     </section>
   );

@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom"
-import { Title } from "../../atoms/title"
-import { Small } from "../../atoms/small"
+import { Title } from "../atoms/title"
+import { Small } from "../atoms/small"
 
-function TitlesHomeOverview ({ title, icon: Icon, href, text }) {
+function TitleIconLink ({ title, icon: Icon, href, text }) {
   return (
     <div className="flex items-center justify-between w-full gap-2 mb-5">
       <div className="flex items-center gap-2 " >
@@ -27,4 +27,4 @@ function TitlesHomeOverview ({ title, icon: Icon, href, text }) {
   )
 }
 
-export { TitlesHomeOverview }
+export { TitleIconLink }
