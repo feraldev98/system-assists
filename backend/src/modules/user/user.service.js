@@ -11,7 +11,6 @@ const userService = {
       createdAt: true,
       updatedAt: true,
     }
-
     const queryResult = await prisma.$transaction(async (prisma) => {
       const user = await prisma.user.create({
         data: { firstname, lastname, email, passwordHash, role: 'AUXILIAR'},
@@ -20,7 +19,6 @@ const userService = {
       console.log(passwordHash)
       return { user }
     })
-
     return queryResult
   }
 }

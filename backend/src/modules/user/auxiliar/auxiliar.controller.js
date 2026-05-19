@@ -2,12 +2,13 @@ import { hash as bcryptHash } from "bcrypt";
 import { AppError } from "../../../utils/AppError.js";
 import { userSchema } from "../user.schema.js";
 import { userService } from "../user.service.js";
+import { generatePasswordHash } from "../../../utils/auth.utils.js";
 
 const auxiliarController = {
   createAuxiliar: async (req, res, next) => {
     try {
       const { firstname, lastname, email, password, repassword } = req.body;
-      const validationResult = await userSchema.safeParseAsync({
+      const validate = await userSchema.safeParseAsync({
         firstname,
         lastname,
         email,
@@ -16,13 +17,13 @@ const auxiliarController = {
         role: 'AUXILIAR'
       });
 
-      if(!validationResult.success) throw new AppError(
+      if(!validate.success) throw new AppError(
         "Error de validación",
         400,
-        validationResult.error.issues
+        validate.error.issues
       )
 
-      const passwordHash = await bcryptHash(password, 10)
+      const passwordHash = await generatePasswordHash(password)
 
       const queryResult = await userService.createUser({ firstname, lastname, email, passwordHash })
 

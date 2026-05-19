@@ -1,4 +1,4 @@
-function errorHandler(err, req, res, next) {
+function errorsMiddleware(err, req, res, next) {
   console.error(err);
 
   // Prisma: valor único duplicado
@@ -34,4 +34,4 @@ function errorHandler(err, req, res, next) {
   });
 }
 
-export { errorHandler };
+export { errorsMiddleware };
