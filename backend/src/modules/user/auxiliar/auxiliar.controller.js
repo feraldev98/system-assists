@@ -1,4 +1,3 @@
-import { hash as bcryptHash } from "bcrypt";
 import { AppError } from "../../../utils/AppError.js";
 import { userSchema } from "../user.schema.js";
 import { userService } from "../user.service.js";
