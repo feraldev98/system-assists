@@ -17,18 +17,14 @@ const authController = {
       const credentials = await authService.getCredentials({ email });
 
       if (!credentials)
-        throw new AppError("Usuario y/o contraseña incorrectos", 400, {
-          message: "Usuario y/o contraseña incorrectos",
-        });
+        throw new AppError("Usuario y/o contraseña incorrectos", 400, {});
 
       const isPasswordCorrect = await validatePassword(
         password,
         credentials.passwordHash,
       );
       if (!isPasswordCorrect)
-        throw new AppError("Usuario y/o contraseña incorrectos", 400, {
-          message: "Usuario y/o contraseña incorrectos",
-        });
+        throw new AppError("Usuario y/o contraseña incorrectos", 400, {});
 
       const token = await generateToken(credentials);
       res.cookie("token", token, COOKIE_OPTIONS);

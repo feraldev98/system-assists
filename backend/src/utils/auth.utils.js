@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { hash as bcryptHash } from "bcrypt";
 
 const generatePasswordHash = async (password) => {
-  const SALT_ROUNDS = process.env.SALT_ROUNDS || 10
+  const SALT_ROUNDS = Number(process.env.SALT_ROUNDS) || 10
   const passwordHash = await bcryptHash(password, SALT_ROUNDS)
   return passwordHash
 }

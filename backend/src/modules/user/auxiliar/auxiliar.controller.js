@@ -19,7 +19,10 @@ const auxiliarController = {
       if(!validate.success) throw new AppError(
         "Error de validación",
         400,
-        validate.error.issues
+        validate.error.issues.map((issue) => ({
+          field: issue.path[0],
+          message: issue.message
+        }))
       )
 
       const passwordHash = await generatePasswordHash(password)
