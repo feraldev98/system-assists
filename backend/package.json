@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "db:migrate": "prisma migrate dev && prisma generate"
+    "db:migrate": "prisma migrate dev && prisma generate && node src/setup.js"
   },
   "keywords": [],
   "author": "",
