@@ -27,6 +27,11 @@ function Button({
       hover:-translate-y-0.5
       active:scale-95
     `,
+    ternary: `
+      px-5 py-3 rounded-md font-semibold transition duration-300
+      bg-gray-300 
+      hover:bg-gray-300 cursor-pointer
+    `
   }
 
   return (

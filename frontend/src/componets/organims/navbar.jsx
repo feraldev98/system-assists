@@ -10,9 +10,7 @@ function Navbar({handleLogout}) {
       <Logo
       />
       <NavbarMenu />
-      <UserMenu 
-        handleLogout={handleLogout}
-      />
+      <UserMenu/>
     </nav>
   )
 }

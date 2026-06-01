@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { IoNotifications } from "react-icons/io5";
 import { Button } from '../atoms/button';
 import { UserMenuModal } from '../modals/modalsUser/userMenuModal';
@@ -6,10 +5,14 @@ import { UserNavbar } from '../molecules/userNavbar';
 import { ChangePasswordModal } from '../modals/modalsUser/userPasswordModal';
 import { NavbarMenu } from '../molecules/desktopMenu';
 import { Link } from 'react-router-dom';
+import { useModal } from '../../hooks/useModal';
 
-function UserMenu({ onLogout, handleLogout, mobile = false }) {
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+function UserMenu({ onLogout, mobile = false }) {
+
+  //hook modal
+  const userMenuModal = useModal() 
+  const passwordModal = useModal()
+  
   const user = {
     name: 'Wynsely Durán',
     email: 'wynjs@gmail.com',
@@ -38,24 +41,25 @@ function UserMenu({ onLogout, handleLogout, mobile = false }) {
 
       {/*Usuario en el navbar */}
       <UserNavbar 
-        user= {user}
-        setIsUserMenuOpen={setIsUserMenuOpen}
-        isUserMenuOpen={isUserMenuOpen}
+        user={user}
+        toggleModal={userMenuModal.toggleModal}
+        isOpen={userMenuModal.isOpen}
       />
 
       {/*Renderizado de modales menu usuario y cambiar contraseña */}
       {
-        isUserMenuOpen && (
+        userMenuModal.isOpen && (
           <UserMenuModal 
-            setIsUserMenuOpen={setIsUserMenuOpen} 
-            handleLogout={handleLogout}
-            setIsPasswordModalOpen={setIsPasswordModalOpen}
+            closeModal={userMenuModal.closeModal}
+            openPasswordModal={passwordModal.openModal}
           />
         )
       }
       {
-        isPasswordModalOpen && (
-          <ChangePasswordModal setIsPasswordModalOpen={setIsPasswordModalOpen}/>
+        passwordModal.isOpen && (
+          <ChangePasswordModal
+            closeModal={passwordModal.closeModal}
+          />
         )
       }
     </div>

@@ -15,8 +15,8 @@ function Small ({
 
   const sices = {
     xsmall: 'text-[.7em]',
-    small: 'text-sm',
-    medium: 'text-md',
+    small: 'text-[.8em]',
+    medium: 'text-sm',
     large: 'text-lg',
   }
 
@@ -30,7 +30,7 @@ function Small ({
       className={`
         ${className}
         ${variants[variant] || variants.default}
-        ${sices[size] || sices.small}
+        ${sices[size] || sices.medium}
         ${alignments[align] || alignments.left}
       `}
     >

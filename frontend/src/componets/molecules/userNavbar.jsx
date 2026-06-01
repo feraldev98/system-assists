@@ -2,15 +2,14 @@ import { IoChevronDownSharp,  } from "react-icons/io5";
 import { FaUser } from "react-icons/fa6";
 import { Button } from "../atoms/button"
 
-function UserNavbar ({setIsUserMenuOpen, user, isUserMenuOpen}) {
-
-  const toggleUserMenu = () => {
-    setIsUserMenuOpen(prev => !prev)
-  }
+function UserNavbar ({
+  user,
+  toggleModal,
+  isOpen}) {
 
   return(
       <Button
-        onClick={toggleUserMenu}
+        onClick={toggleModal}
         className="flex flex-row md:flex-row items-center gap-2 px-4 py-2 h-full transition-colors duration-300 hover:bg-blueT"
       >
         {user.avatar ? (
@@ -27,7 +26,7 @@ function UserNavbar ({setIsUserMenuOpen, user, isUserMenuOpen}) {
 
         <IoChevronDownSharp
           size={16}
-          className={`transition-transform duration-300 text-white ${isUserMenuOpen ? 'rotate-180' : ''
+          className={`transition-transform duration-300 text-white ${isOpen ? 'rotate-180' : ''
             }`}
         />
       </Button>

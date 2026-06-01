@@ -4,7 +4,6 @@ import {
   FaCheckCircle,
   FaTimesCircle,
 } from "react-icons/fa";
-
 import { IoTime } from "react-icons/io5";
 import { FilterAttendances } from "../../molecules/attendanceStudent/filtersAttendances";
 import { useMemo, useState } from "react";
@@ -51,10 +50,9 @@ function FiltersAttendancesSection({
   return (
     <section
       className="
-        w-full
-        px-6
+        w-[96%]
         md:max-w-7xl
-        md:mx-auto
+        mx-auto
         py-8
         space-y-8
       "

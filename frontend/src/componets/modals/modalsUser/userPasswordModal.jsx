@@ -1,29 +1,39 @@
 import { FiX } from "react-icons/fi";
 import { IoEye, IoEyeOff  } from "react-icons/io5";
-import { useState } from "react";
 import { Button } from "../../atoms/button";
 import { FormItem } from "../../molecules/formItems";
-import { Paragraph } from "../../atoms/paragraph";
 import { Title } from "../../atoms/title";
+import { useToggle } from "../../../hooks/useToggle";
+import { useModal } from "../../../hooks/useModal";
+import { useLoading } from "../../../hooks/useLoading";
+import { useState } from "react";
 
-function ChangePasswordModal({setIsPasswordModalOpen }) {
+function ChangePasswordModal({closeModal}) {
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  //ver contraseña
-  const [showCurrentPassword, setShowCurrentPassword] = useState(false)
-  const [showNewPassword, setShowNewPassword] = useState(false)
+  const {
+  loading = true,
+  startLoading,
+  stopLoading 
+} = useLoading()
 
-  const handleClose = () => {
-    setIsPasswordModalOpen(false);
-  };
+  //VER CONTRASEÑA
+  const {
+    state: showCurrentPassword,
+    toggle: toggleCurrentPassword 
+  } = useToggle()
+
+  const {
+    state: showNewPassword,
+    toggle: toggleNewPassword
+  } = useToggle()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    startLoading()
     setError("");
 
     try {
@@ -32,17 +42,19 @@ function ChangePasswordModal({setIsPasswordModalOpen }) {
         newPassword,
       });
 
-      // petición backend
-      handleClose();
+    // PETICIÓN BACK
+      closeModal();
+
     } catch (err) {
       setError(
         "Error al cambiar contraseña"
       );
     } finally {
-      setLoading(false);
+      stopLoading()
     }
   };
 
+  //LISTA DE ITEMS
   const formFields = [
   {
     text: 'Nueva contraseña',
@@ -52,8 +64,7 @@ function ChangePasswordModal({setIsPasswordModalOpen }) {
     value: currentPassword,
     onChange: (e) => setCurrentPassword(e.target.value),
     icon: showCurrentPassword ? <IoEye size={18}/> : <IoEyeOff size={18}/>,
-    onIconClick: () =>
-      setShowCurrentPassword(prev => !prev),
+    onIconClick: toggleCurrentPassword,
   },
 
   {
@@ -62,18 +73,17 @@ function ChangePasswordModal({setIsPasswordModalOpen }) {
     placeholder: '••••••••',
     name: 'newPasswd',
     value: newPassword,
-    onChange: (e) =>
-      setNewPassword(e.target.value),
+    onChange: (e) => setNewPassword(e.target.value),
     icon: showNewPassword ? <IoEye size={18}/> : < IoEyeOff size={18}/>,
-    onIconClick: () =>
-      setShowNewPassword(prev => !prev),
+    onIconClick: toggleNewPassword,
   },
 ]
+
 
   return (
     <div
       className=" fixed inset-0  flex justify-center items-center md:block bg-black/50 z-100 transition-opacity duration-300"
-      onClick={handleClose}
+      onClick={closeModal}
     >
       <form
         onSubmit={handleSubmit}
@@ -97,7 +107,7 @@ function ChangePasswordModal({setIsPasswordModalOpen }) {
               align="center"
             />
             <FiX 
-              onClick={handleClose}
+              onClick={closeModal}
               className="absolute right-2 top-2 text-blue/40 z-100"/>
           </div>
         {/* ERROR */}

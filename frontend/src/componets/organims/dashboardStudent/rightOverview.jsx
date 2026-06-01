@@ -1,6 +1,6 @@
 import { HiOutlineBookOpen, HiOutlineClipboardDocumentList} from "react-icons/hi2";
 import { QuickAccess } from "./quickAccess";
-import { TitlesHomeOverview } from "../../molecules/dashboardStudent/titleshomeOverview";
+import { TitleIconLink } from "../../molecules/titleIconLink";
 import { Link } from "../../atoms/link"
 import { CoursesPorsentages } from "./coursesPorcentageRight"
 import { href } from "react-router-dom";
@@ -31,7 +31,7 @@ function RightOverview ({ averageAttendances, visible  }) {
           {/* ACCESOS RÁPIDOS */}
           <div className={` bg-white rounded-md border border-borderC p-6 shadow-sm w-full
             `}>
-            <TitlesHomeOverview
+            <TitleIconLink
               title={title}
               icon={HiOutlineClipboardDocumentList}
             />
@@ -48,7 +48,7 @@ function RightOverview ({ averageAttendances, visible  }) {
               ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}
             `}>
             <div className="flex items-center justify-between mb-6">
-              <TitlesHomeOverview
+              <TitleIconLink
                 title={title3}
                 icon={HiOutlineBookOpen}
                 text={'Ver Todo'}

@@ -13,7 +13,7 @@ function Title({
   const variants = {
     default: 'text-black',
     primary: 'text-white',
-    secondary: 'text-orange',
+    secondary: 'text-cyan-700',
     danger: 'text-blue',
   };
 

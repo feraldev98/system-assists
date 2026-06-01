@@ -1,12 +1,17 @@
-import { IoSettings, IoLogOutOutline  } from "react-icons/io5";
 import { useState, useEffect, useRef } from "react";
 import { Title } from "../../atoms/title";
 import { Paragraph } from "../../atoms/paragraph";
+import { useAuth } from "../../../hooks/useAuth";
+import { menuUserItems } from "../../../mocks/menuModalUser";
 
-function UserMenuModal({ setIsUserMenuOpen, setIsPasswordModalOpen, handleLogout}) {
+function UserMenuModal({ closeModal, openPasswordModal, }) {
+
+  // USAMOS EL HOOK useAuth PARA EL MENEJO DE SERRAR SESIÓN
+  const { logout } = useAuth()
+
   const [isClosing, setIsClosing] = useState(false);
-
   const menuRef = useRef(null);
+
 
   const user = {
     name: "Wynsely Durán",
@@ -14,51 +19,32 @@ function UserMenuModal({ setIsUserMenuOpen, setIsPasswordModalOpen, handleLogout
     avatar: null,
   };
 
-  const menuItems = [
-    {
-      text: "Cambiar Contraseña",
-      icon: IoSettings,
-      action: "password",
-    },
-    {
-      text: "Cerrar Sesión",
-      icon: IoLogOutOutline,
-      action: "logout",
-    },
-  ];
-  
   const CLOSE_DURATION = 300
 
   const handleClick = (action) => {
-
     if (action === "password") {
       handleClose();
       setTimeout(() => {
-      setIsPasswordModalOpen(true);
-    }, CLOSE_DURATION);
+        openPasswordModal();
+      }, CLOSE_DURATION);
     }
 
     //LOGOUT
     if (action === "logout") {
-
-    handleClose();
-
-    setTimeout(() => {
-      handleLogout();
-    }, CLOSE_DURATION);
-  }
+      handleClose();
+      setTimeout(() => {
+        logout();
+      }, CLOSE_DURATION);
+    }
   };
 
   const handleClose = () => {
-
-  if (isClosing) return;
-
-  setIsClosing(true);
-
-  setTimeout(() => {
-    setIsUserMenuOpen(false);
-  }, CLOSE_DURATION);
-};
+    if (isClosing) return;
+    setIsClosing(true);
+    setTimeout(() => {
+      closeModal();
+    }, CLOSE_DURATION);
+  };
 
   // CLICK OUTSIDE
   useEffect(() => {
@@ -113,7 +99,7 @@ function UserMenuModal({ setIsUserMenuOpen, setIsPasswordModalOpen, handleLogout
       <div className="h-px bg-white/20"></div>
 
       <ul className="py-2">
-        {menuItems.map((item, index) => {
+        {menuUserItems.map((item, index) => {
           const Icon = item.icon;
 
           return (

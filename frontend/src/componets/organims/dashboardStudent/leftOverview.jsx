@@ -4,7 +4,7 @@ import { GiCheckMark, GiAlarmClock } from "react-icons/gi";
 import { IoNotificationsSharp } from "react-icons/io5";
 import { MdDateRange } from "react-icons/md";
 import { FiX } from "react-icons/fi";
-import { TitlesHomeOverview } from "../../molecules/dashboardStudent/titleshomeOverview"
+import { TitleIconLink } from "../../molecules/titleIconLink";
 
 function LeftOverview() {
   const title = 'MIS NOTIFICACIONES RECIENTES'
@@ -73,7 +73,7 @@ function LeftOverview() {
 
       {/*NOTIFICAIONES RECIENTES*/}
       <div className="flex flex-col gap-2 bg-white rounded-md border border-borderC p-6 shadow-sm">
-        <TitlesHomeOverview
+        <TitleIconLink
           title={title}
           icon={IoNotificationsSharp}
           text={'Ver Todo'}
@@ -84,7 +84,7 @@ function LeftOverview() {
         />
       </div>
       <div className="bg-white rounded-md border border-borderC p-6 shadow-sm">
-        <TitlesHomeOverview
+        <TitleIconLink
           title={title2}
           icon={MdDateRange}
           text={'Ver Todo'}
