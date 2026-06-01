@@ -4,7 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install:all": "npm install && npm install --prefix backend && npm install --prefix frontend",
+    "db:migrate": "npm run db:migrate --prefix backend",
+    "env": "shx cp ./backend/.env.example backend/.env",
+    "dev": "concurrently --names \"BACKEND,FRONTEND\" --prefix-colors \"cyan,magenta\" \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+    "build:frontend": "npm run build --prefix frontend",
+    "setup": "npm run install:all && npm run env && npm run db:migrate"
   },
   "repository": {
     "type": "git",
@@ -13,9 +19,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/wynsley/system-assists/issues"
   },
-  "homepage": "https://github.com/wynsley/system-assists#readme"
+  "homepage": "https://github.com/wynsley/system-assists#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "shx": "^0.4.0"
+  }
 }
