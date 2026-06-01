@@ -1,6 +1,4 @@
 function errorsMiddleware(err, req, res, next) {
-  console.error(err);
-
   // Prisma: valor único duplicado
   if (err.code === "P2002") {
     return res.status(409).json({

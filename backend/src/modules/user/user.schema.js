@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-const userSchema = z.object(
-  {
+const userSchema = z
+  .object({
     firstname: z
       .string({ required_error: `El nombre es requerido` })
       .trim()
@@ -9,7 +9,7 @@ const userSchema = z.object(
       .max(50, `El nombre no puede tener más de 50 caracteres`)
       .regex(
         /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/,
-        `El nombre solo puede contener letras y espacios`
+        `El nombre solo puede contener letras y espacios`,
       ),
     lastname: z
       .string({ required_error: `El apellido es requerido` })
@@ -18,7 +18,7 @@ const userSchema = z.object(
       .max(50, `El apellido no puede tener más de 50 caracteres`)
       .regex(
         /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/,
-        `El apellido solo puede contener letras y espacios`
+        `El apellido solo puede contener letras y espacios`,
       ),
     email: z
       .string({ required_error: "El email es requerido" })
@@ -36,22 +36,22 @@ const userSchema = z.object(
       .string({ required_error: "Debes confirmar la contraseña" })
       .trim()
       .min(8, "La contraseña debe tener mínimo 8 caracteres"),
-    role: z
-      .enum(["ADMIN", "AUXILIAR", "PARENT"], {
-        required_error: "El rol es requerido",
-        message: "El rol debe ser AUXILIAR, PARENT o ADMIN",
-      }
-    ),
-    phone: z.string()
-    .regex(/^\+51\d{9}$/, "El teléfono debe tener formato +519XXXXXXXX")
-    .optional()
-    .or(z.literal(""))
-  }
-).refine(
-  (data) => data.password === data.repassword, {
+    role: z.enum(["ADMIN", "AUXILIAR", "PARENT"], {
+      required_error: "El rol es requerido",
+      message: "El rol debe ser AUXILIAR, PARENT o ADMIN",
+    }),
+    phone: z
+      .string()
+      .trim()
+      .transform((value) => value.replace(/\s+/g, ""))
+      .refine((value) => !value || /^\+51\d{9}$/.test(value), {
+        message: "El teléfono debe tener formato +519XXXXXXXX",
+      })
+      .optional(),
+  })
+  .refine((data) => data.password === data.repassword, {
     message: "Las contraseñas no coinciden",
     path: ["repassword"],
-  }
-)
+  });
 
-export { userSchema }
+export { userSchema };

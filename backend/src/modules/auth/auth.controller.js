@@ -17,14 +17,18 @@ const authController = {
       const credentials = await authService.getCredentials({ email });
 
       if (!credentials)
-        throw new AppError("Usuario y/o contraseña incorrectos", 400, {});
+        throw new AppError("Usuario y/o contraseña incorrectos", 400, {
+          message: "Usuario y/o contraseña incorrectos",
+        });
 
       const isPasswordCorrect = await validatePassword(
         password,
         credentials.passwordHash,
       );
       if (!isPasswordCorrect)
-        throw new AppError("Usuario y/o contraseña incorrectos", 400, {});
+        throw new AppError("Usuario y/o contraseña incorrectos", 400, {
+          message: "Usuario y/o contraseña incorrectos",
+        });
 
       const token = await generateToken(credentials);
       res.cookie("token", token, COOKIE_OPTIONS);
@@ -42,17 +46,20 @@ const authController = {
   },
   logout: async (req, res, next) => {
     try {
-      if (!req.cookies.token) throw new AppError("Sin autorización", 401, { message: "Sin autorización" })
+      if (!req.cookies.token)
+        throw new AppError("Sin autorización", 401, {
+          message: "Sin autorización",
+        });
 
-      res.clearCookie("token", COOKIE_OPTIONS)
+      res.clearCookie("token", COOKIE_OPTIONS);
 
       return res.json({
-        message: "Sesión cerrada correctamente"
+        message: "Sesión cerrada correctamente",
       });
     } catch (error) {
       next(error);
     }
-  }
+  },
 };
 
 export { authController };

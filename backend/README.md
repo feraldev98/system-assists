@@ -26,7 +26,7 @@ http://localhost:3000
 - El frontend debe enviar:
 
 ```js
-credentials: "include"
+credentials: "include";
 ```
 
 ---
@@ -35,140 +35,176 @@ credentials: "include"
 
 ADMIN  
 AUXILIAR  
-PARENT  
+PARENT
 
 ---
-
 
 ## 📌 Endpoints
 
 ### Auth
 
 <details>
-  <summary>LOGIN</summary>
+<summary>LOGIN</summary>
   
-  POST /login
+### POST /login
 
-  Body:
-  ```json
-  {
-    "email": "testing@hotmail.com",
-    "password": "1234567a"
+Autentica un usuario mediante email y contraseña.
+Si las credenciales son válidas, el servidor genera una cookie HTTPOnly llamada token que contiene el JWT de autenticación.
+
+### Body:
+
+```json
+{
+  "email": "testing@hotmail.com",
+  "password": "1234567a"
+}
+```
+
+### Validations:
+
+- email: requerido, trim, convertido a minúsculas, formato válido de email, máximo 100 caracteres.
+- password: requerida, trim, obligatoria, máximo 100 caracteres, al menos una letra, al menos un número.
+
+### Response:
+
+```json
+{
+  "message": "Bienvenido Fernando Pérez",
+  "email": "testing@hotmail.com",
+  "firstname": "Fernando",
+  "lastname": "Pérez",
+  "role": "AUXILIAR"
+}
+```
+
+### Error Response
+
+```json
+{
+  "success": false,
+  "message": "Usuario y/o contraseña incorrectos",
+  "errors": {
+    "message": "Usuario y/o contraseña incorrectos"
   }
-  ```
-
-  Response:
-  ```json
-  {
-    "message": "Bienvenido Fernando Aliaga Pérez",
-    "email": "testing@hotmail.com",
-    "firstname": "Fernando",
-    "lastname": "Aliaga Pérez",
-    "role": "AUXILIAR"
-  }
-  ```
-
-  Validations: 
-  - email: requerido, trim, convertido a minúsculas, formato válido de email, máximo 100 caracteres.
-  - password: requerida, trim, obligatoria, máximo 100 caracteres.
-  - verifica que exista un usuario con el email proporcionado.
-  - verifica que la contraseña coincida con el hash almacenado.
-
-  ```json
-  {
-    "success": false,
-    "message": "Usuario y/o contraseña incorrectos",
-    "errors": {}
-  }
-  ```
+}
+```
 
 </details>
 
 <details>
-  <summary>LOGOUT</summary>
+<summary>LOGOUT</summary>
 
-  POST /logout
+### POST /logout
 
-  Response:
-  ```json
-  {
-    "message": "Sesión cerrada correctamente"
+Cierra la sesión del usuario autenticado eliminando la cookie HTTPOnly token.
+
+### Response:
+
+```json
+{
+  "message": "Sesión cerrada correctamente"
+}
+```
+
+### Validations:
+
+- requiere usuario autenticado.
+
+### Unauthorized Response
+
+```json
+{
+  "success": false,
+  "message": "Sin autorización",
+  "errors": {
+    "message": "Sin autorización"
   }
-  ```
+}
+```
 
-  Validations:
-  - requiere usuario autenticado.
+</details>
 
-  Error:
-  ```json
-  {
-    "success": false,
-    "message": "Sin autorización",
-    "errors": {
-      "message": "Sin autorización"
+### User
+
+<details>
+<summary>REGISTER</summary>
+  
+### POST /auxiliar
+
+Crea un nuevo usuario en el sistema. Requiere autenticación y permisos de administrador.
+
+### Authentication
+
+- Solo usuarios con rol ADMIN pueden acceder a este endpoint.
+
+### Body:
+
+```json
+{
+  "firstname": "Fernando",
+  "lastname": "Pérez",
+  "email": "testing@hotmail.com",
+  "password": "1234567a",
+  "repassword": "1234567a",
+  "phone": "+51 985 988 977",
+  "role": "AUXILIAR"
+}
+```
+
+### Validations:
+
+- firstname: requerido, trim, mínimo 2 caracteres, máximo 50 caracteres, solo letras y espacios.
+- lastname: requerido, trim, mínimo 2 caracteres, máximo 50 caracteres, solo letras y espacios.
+- email: requerido, trim, convertido a minúsculas, formato válido de email.
+- password: requerida, trim, mínimo 8 caracteres, máximo 100 caracteres, al menos una letra, al menos un número.
+- repassword: requerida, trim, debe coincidir con password.
+- phone: opcional, trim, elimina espacios automáticamente, debe tener formato +519XXXXXXXX.
+- role: requerido, valores permitidos: ADMIN, AUXILIAR, PARENT.
+
+### Response:
+
+```json
+{
+  "idUser": 1,
+  "firstname": "Fernando",
+  "lastname": "Pérez",
+  "email": "testing@hotmail.com",
+  "phone": "+51985988977",
+  "role": "AUXILIAR",
+  "createdAt": "2026-06-01T15:00:00.000Z",
+  "updatedAt": "2026-06-01T15:00:00.000Z"
+}
+```
+
+### Validation Error Response
+
+```json
+{
+  "success": false,
+  "message": "Error de validación",
+  "errors": [
+    {
+      "field": "email",
+      "message": "El email no tiene un formato válido"
+    },
+    {
+      "field": "phone",
+      "message": "El teléfono debe tener formato +519XXXXXXXX"
     }
+  ]
+}
+```
+
+### Unauthorized Response
+
+```json
+{
+  "success": false,
+  "message": "Sin autorización",
+  "errors": {
+    "message": "Sin autorización"
   }
-  ```
+}
+```
 
 </details>
-
-### Auxiliar
-
-<details>
-  <summary>REGISTER</summary>
-  
-  POST /auxiliar
-
-  Body:
-  ```json
-  {
-    "firstname": "Fernando", 
-    "lastname": "Aliaga Pérez", 
-    "email": "testing@hotmail.com", 
-    "password": "1234567", 
-    "repassword": "1234567"
-  }
-  ```
-
-  Response:
-  ```json
-  {
-    "idUser": 1,
-    "firstname": "Fernando",
-    "lastname": "Aliaga Pérez",
-    "email": "testing@hotmail.com",
-    "role": "AUXILIAR",
-    "createdAt": "2026-05-20T17:45:33.123Z",
-    "updatedAt": "2026-05-20T17:45:33.123Z"
-  }
-  ```
-
-  Validations:
-  - firstname: requerido, trim, 2–50 caracteres, solo letras y espacios.
-  - lastname: requerido, trim, 2–50 caracteres, solo letras y espacios.
-  - email: requerido, trim, formato email válido, convertido a minúsculas.
-  - password: requerida, trim, 8–100 caracteres, mínimo una letra y un número.
-  - repassword: requerida, trim, mínimo 8 caracteres, debe coincidir con password.
-
-  ```json
-  {
-    "success": false,
-    "message": "Error de validación",
-    "errors": [
-      {
-        "field": "password",
-        "message": "La contraseña debe tener mínimo 8 caracteres"
-      },
-      {
-        "field": "password",
-        "message": "La contraseña debe tener al menos una letra"
-      },
-      {
-        "field": "repassword",
-        "message": "La contraseña debe tener mínimo 8 caracteres"
-      }, ...
-    ]
-  }
-  ```
-</details>
-
