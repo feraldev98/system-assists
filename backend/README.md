@@ -2,18 +2,6 @@
 
 API backend para gestión de asistencia, usuarios e incidencias.
 
----
-
-## 🚀 Setup
-
-```bash
-npm install
-npm run db:migrate
-npm run dev
-```
-
----
-
 ## 🌐 Base URL
 
 http://localhost:3000
@@ -44,7 +32,7 @@ PARENT
 ### Auth
 
 <details>
-<summary>LOGIN</summary>
+<summary>INICIAR SESIÓN</summary>
   
 ### POST /login
 
@@ -92,7 +80,7 @@ Si las credenciales son válidas, el servidor genera una cookie HTTPOnly llamada
 </details>
 
 <details>
-<summary>LOGOUT</summary>
+<summary>CERRAR SESIÓN</summary>
 
 ### POST /logout
 
@@ -127,9 +115,9 @@ Cierra la sesión del usuario autenticado eliminando la cookie HTTPOnly token.
 ### User
 
 <details>
-<summary>REGISTER</summary>
+<summary>CREAR NUEVO USUARIO</summary>
   
-### POST /auxiliar
+### POST /user
 
 Crea un nuevo usuario en el sistema. Requiere autenticación y permisos de administrador.
 
@@ -194,6 +182,89 @@ Crea un nuevo usuario en el sistema. Requiere autenticación y permisos de admin
   ]
 }
 ```
+
+### Unauthorized Response
+
+```json
+{
+  "success": false,
+  "message": "Sin autorización",
+  "errors": {
+    "message": "Sin autorización"
+  }
+}
+```
+
+</details>
+
+<details>
+<summary>LISTAR TODOS LOS USUARIOS</summary>
+  
+### GET /user
+
+Obtiene una lista paginada de usuarios del sistema. Requiere autenticación y permisos de administrador.
+
+### Authentication
+
+- Solo usuarios con rol ADMIN pueden acceder a este endpoint.
+
+### Query Params
+
+| Parameter | Type   | Required | Description                                                                                                                               |
+| --------- | ------ | -------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| page      | number | No       | Número de página. Valor mínimo: 1. Default: 1.                                                                                            |
+| limit     | number | No       | Cantidad de registros por página. Mínimo: 1. Máximo: 100. Default: 10.                                                                    |
+| role      | string | No       | Filtra usuarios por rol. Valores permitidos: ADMIN, AUXILIAR, PARENT.                                                                     |
+| search    | string | No       | Busca coincidencias por firstname, lastname, email o phone.                                                                               |
+| sortBy    | string | No       | Campo utilizado para ordenar resultados. Valores permitidos: firstname, lastname, email, phone, createdAt, updatedAt. Default: createdAt. |
+| sortOrder | string | No       | Ordenamiento ascendente o descendente. Valores permitidos: asc, desc. Default: asc.                                                       |
+
+### Example Request
+
+- GET /users?page=1&limit=10&role=AUXILIAR&search=fernando&sortBy=createdAt&sortOrder=desc
+
+### Response
+
+```json
+{
+  "data": [
+    {
+      "idUser": 1,
+      "firstname": "Admin",
+      "lastname": "System",
+      "email": "admin@system.com",
+      "phone": null,
+      "role": "ADMIN",
+      "createdAt": "2026-06-01T16:14:50.528Z",
+      "updatedAt": "2026-06-01T16:14:50.528Z"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 10,
+    "total": 1,
+    "totalPages": 1
+  }
+}
+```
+
+### Search Behavior
+
+El parámetro search realiza búsquedas insensibles a mayúsculas/minúsculas sobre los siguientes campos:
+
+- firstname
+- lastname
+- email
+- phone
+
+### Validations
+
+- page: opcional, número entero, mínimo 1.
+- limit: opcional, número entero, mínimo 1, máximo 100.
+- role: opcional, valores permitidos: ADMIN, AUXILIAR, PARENT.
+- sortBy: opcional, valores permitidos: firstname, lastname, email, phone, createdAt, updatedAt.
+- sortOrder: opcional, valores permitidos: asc, desc.
+- search: opcional, trim automático.
 
 ### Unauthorized Response
 

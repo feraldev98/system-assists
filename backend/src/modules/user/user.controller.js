@@ -1,4 +1,3 @@
-import { prisma } from "../../config/prisma.js";
 import { AppError } from "../../utils/AppError.js";
 import { generatePasswordHash } from "../../utils/auth.utils.js";
 import { userSchema } from "./user.schema.js";
@@ -63,65 +62,13 @@ const userController = {
 
       const search = req.query.search?.trim();
 
-      const where = {};
-
-      if (role) {
-        where.role = role;
-      }
-
-      if (search) {
-        where.OR = [
-          {
-            firstname: {
-              contains: search,
-              mode: "insensitive",
-            },
-          },
-          {
-            lastname: {
-              contains: search,
-              mode: "insensitive",
-            },
-          },
-          {
-            email: {
-              contains: search,
-              mode: "insensitive",
-            },
-          },
-          {
-            phone: {
-              contains: search,
-              mode: "insensitive",
-            },
-          },
-        ];
-      }
-
-      const users = await prisma.user.findMany({
-        where,
-
-        select: {
-          idUser: true,
-          firstname: true,
-          lastname: true,
-          email: true,
-          phone: true,
-          role: true,
-          createdAt: true,
-        },
-
-        skip: (page - 1) * limit,
-
-        take: limit,
-
-        orderBy: {
-          [sortBy]: sortOrder,
-        },
-      });
-
-      const total = await prisma.user.count({
-        where,
+      const [users, total] = await userService.getUsers({
+        page,
+        limit,
+        role,
+        sortBy,
+        search,
+        sortOrder,
       });
 
       return res.json({
