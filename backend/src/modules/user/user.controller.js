@@ -1,85 +1,81 @@
-import { AppError } from "../../utils/AppError.js";
 import { generatePasswordHash } from "../../utils/auth.utils.js";
-import { userSchema } from "./user.schema.js";
 import { userService } from "./user.service.js";
+import {
+  userCreateSchema,
+  userParamsSchema,
+  userUpdateSchema,
+} from "./user.schema.js";
+import { idSchema, validateSchema } from "../../utils/validate.utils.js";
+import { AppError } from "../../utils/AppError.js";
 
 const userController = {
   create: async (req, res, next) => {
     try {
-      const validate = await userSchema.safeParseAsync(req.body);
+      const validate = await validateSchema(userCreateSchema, req.body);
 
-      if (!validate.success)
-        throw new AppError(
-          "Error de validación",
-          400,
-          validate.error.issues.map((issue) => ({
-            field: issue.path[0],
-            message: issue.message,
-          })),
-        );
-
-      const { firstname, lastname, email, password, phone, role } =
-        validate.data;
-
-      const passwordHash = await generatePasswordHash(password);
+      const passwordHash = await generatePasswordHash(validate.password);
 
       const queryResult = await userService.createUser({
-        firstname,
-        lastname,
-        email,
+        ...validate,
         passwordHash,
-        phone,
-        role,
       });
 
-      return res.json(queryResult.user);
+      return res.json({
+        message: "Usuario creado correctamente",
+        user: queryResult,
+      });
     } catch (error) {
       next(error);
     }
   },
   get: async (req, res, next) => {
     try {
-      const page = Math.max(Number(req.query.page) || 1, 1);
+      const validate = await validateSchema(userParamsSchema, req.query);
 
-      const limit = Math.min(Math.max(Number(req.query.limit) || 10, 1), 100);
-
-      const role = ["ADMIN", "AUXILIAR", "PARENT"].includes(req.query.role)
-        ? req.query.role
-        : undefined;
-
-      const sortBy = [
-        "firstname",
-        "lastname",
-        "email",
-        "phone",
-        "createdAt",
-        "updatedAt",
-      ].includes(req.query.sortBy)
-        ? req.query.sortBy
-        : "createdAt";
-
-      const sortOrder = req.query.sortOrder === "desc" ? "desc" : "asc";
-
-      const search = req.query.search?.trim();
-
-      const [users, total] = await userService.getUsers({
-        page,
-        limit,
-        role,
-        sortBy,
-        search,
-        sortOrder,
-      });
+      const [users, total] = await userService.getUsers(validate);
 
       return res.json({
         data: users,
 
         pagination: {
-          page,
-          limit,
+          page: validate.page,
+          limit: validate.limit,
           total,
-          totalPages: Math.ceil(total / limit),
+          totalPages: Math.ceil(total / validate.limit),
         },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  update: async (req, res, next) => {
+    try {
+      const { id: userId } = await validateSchema(idSchema, req.params);
+
+      const data = await validateSchema(userUpdateSchema, req.body);
+
+      if (data.length === 0) {
+        throw new AppError("No se enviaron campos para actualizar", 400, [
+          {
+            field: "body",
+            message: "Debes enviar al menos un campo para actualizar",
+          },
+        ]);
+      }
+
+      if (data.password) {
+        data.passwordHash = await generatePasswordHash(data.password);
+
+        delete data.password;
+        delete data.repassword;
+      }
+
+      const updatedUser = await userService.updateUser(userId, data);
+
+      return res.json({
+        message: "Datos actualizados correctamente",
+        user: updatedUser,
       });
     } catch (error) {
       next(error);

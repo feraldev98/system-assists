@@ -63,7 +63,6 @@ const userService = {
         },
       ];
     }
-
     const users = await prisma.user.findMany({
       where,
 
@@ -91,6 +90,27 @@ const userService = {
       where,
     });
     return [users, total];
+  },
+  updateUser: async (idUser, data) => {
+    const updatedUser = await prisma.user.update({
+      where: {
+        idUser,
+      },
+
+      data,
+
+      select: {
+        idUser: true,
+        firstname: true,
+        lastname: true,
+        email: true,
+        phone: true,
+        role: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+    return updatedUser;
   },
 };
 

@@ -21,13 +21,11 @@ userRouter.get(
   userController.get,
 );
 
-export { userRouter };
-
-/*userRouter.get(
-  "/protected",
+userRouter.patch(
+  "/:id",
   authMiddleware,
-  authMiddlewareRole(["ADMIN", "AUXILIAR", "PARENT"]),
-  async (req, res) => {
-    return res.json({ message: "Bienvenido a la API de sistema assistentes" });
-  },
-);*/
+  authMiddlewareRole(["ADMIN"]),
+  userController.update,
+);
+
+export { userRouter };

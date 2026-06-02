@@ -1,22 +1,53 @@
-function errorsMiddleware(err, req, res, next) {
-  // Prisma: valor único duplicado
+function errorsMiddleware(err, req, res, _next) {
+  if (process.env.NODE_ENV !== "test") {
+    console.error(err);
+  }
+
+  // Prisma unique
   if (err.code === "P2002") {
     return res.status(409).json({
       success: false,
-      message: "Ya existe un registro con ese valor único",
-      field: err.meta?.target,
+      message: "Valor duplicado",
+      errors: [
+        {
+          field: err.meta?.target?.[0],
+          message: "Ya existe un registro con este valor",
+        },
+      ],
     });
   }
 
-  // Prisma: no encontrado
+  // Prisma not found
   if (err.code === "P2025") {
     return res.status(404).json({
       success: false,
       message: "Registro no encontrado",
+      errors: [
+        {
+          field: "id",
+          message: "No existe un registro con el ID proporcionado",
+        },
+      ],
     });
   }
 
-  // Error personalizado (validaciones)
+  // JWT invalid
+  if (err.name === "JsonWebTokenError") {
+    return res.status(401).json({
+      success: false,
+      message: "Token inválido",
+    });
+  }
+
+  // JWT expired
+  if (err.name === "TokenExpiredError") {
+    return res.status(401).json({
+      success: false,
+      message: "Token expirado",
+    });
+  }
+
+  // Operational
   if (err.isOperational) {
     return res.status(err.statusCode || 400).json({
       success: false,
@@ -25,7 +56,7 @@ function errorsMiddleware(err, req, res, next) {
     });
   }
 
-  // Error desconocido
+  // Unknown
   return res.status(500).json({
     success: false,
     message: "Error interno del servidor",
