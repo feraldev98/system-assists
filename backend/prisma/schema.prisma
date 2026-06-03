@@ -7,7 +7,6 @@
 generator client {
   provider = "prisma-client-js"
   output   = "./generated"
-  
 }
 
 datasource db {
@@ -22,17 +21,18 @@ enum Role {
 }
 
 model User {
-  idUser       Int          @id @default(autoincrement())
-  firstname    String       @db.VarChar(50)
-  lastname     String       @db.VarChar(50)
-  email        String       @unique @db.VarChar(100)
-  passwordHash String
-  role         Role
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  parents      Parent[]
-  attendances  Attendance[]
-  incidents    Incident[]
+  idUser               Int                   @id @default(autoincrement())
+  firstname            String                @db.VarChar(50)
+  lastname             String                @db.VarChar(50)
+  email                String                @unique @db.VarChar(100)
+  passwordHash         String
+  role                 Role
+  phone                String?               @db.VarChar(20)
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  attendances          Attendance[]
+  incidents            Incident[]
+  parentStudentDetails ParentStudentDetail[]
 }
 
 model Grade {
@@ -64,18 +64,10 @@ model Student {
   @@index([idSection])
 }
 
-model Parent {
-  idParent             Int                   @id @default(autoincrement())
-  phone                String                @unique @db.VarChar(15)
-  user                 User                  @relation(fields: [idUser], references: [idUser])
-  idUser               Int
-  parentStudentDetails ParentStudentDetail[]
-}
-
 model ParentStudentDetail {
   student   Student @relation(fields: [idStudent], references: [idStudent])
   idStudent Int
-  parent    Parent  @relation(fields: [idParent], references: [idParent])
+  parent    User    @relation(fields: [idParent], references: [idUser])
   idParent  Int
 
   @@id([idParent, idStudent])

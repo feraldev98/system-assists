@@ -1,25 +1,162 @@
 import { prisma } from "../../config/prisma.js";
+import { AppError } from "../../utils/AppError.js";
 
 const userService = {
-  createUser: async ({ firstname, lastname, email, passwordHash, role }) => {
+  createUser: async ({
+    firstname,
+    lastname,
+    email,
+    passwordHash,
+    phone = null,
+    role,
+  }) => {
     const USER_SELECT = {
       idUser: true,
       firstname: true,
       lastname: true,
       email: true,
+      phone: true,
       role: true,
       createdAt: true,
       updatedAt: true,
     };
     const queryResult = await prisma.$transaction(async (prisma) => {
       const user = await prisma.user.create({
-        data: { firstname, lastname, email, passwordHash, role },
+        data: { firstname, lastname, email, passwordHash, phone, role },
         select: USER_SELECT,
       });
       return { user };
     });
     return queryResult;
   },
+  getUsers: async ({ page, limit, role, sortBy, search, sortOrder }) => {
+    const where = {};
+
+    if (role) {
+      where.role = role;
+    }
+
+    if (search) {
+      where.OR = [
+        {
+          firstname: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
+        {
+          lastname: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
+        {
+          email: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
+        {
+          phone: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
+      ];
+    }
+    const users = await prisma.user.findMany({
+      where,
+
+      select: {
+        idUser: true,
+        firstname: true,
+        lastname: true,
+        email: true,
+        phone: true,
+        role: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+
+      skip: (page - 1) * limit,
+
+      take: limit,
+
+      orderBy: {
+        [sortBy]: sortOrder,
+      },
+    });
+
+    const total = await prisma.user.count({
+      where,
+    });
+    return [users, total];
+  },
+
+  updateUser: async (idUser, data) => {
+    const updatedUser = await prisma.user.update({
+      where: {
+        idUser,
+      },
+
+      data,
+
+      select: {
+        idUser: true,
+        firstname: true,
+        lastname: true,
+        email: true,
+        phone: true,
+        role: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+    return updatedUser;
+  },
+
+  deleteUser: async (idUser) => {
+    const deletedUser = await prisma.user.delete({
+      where: { idUser },
+      select: {
+        idUser: true,
+        firstname: true,
+        lastname: true,
+        email: true,
+        role: true,
+        createdAt: true,
+      },
+    });
+    return deletedUser;
+  },
+
+  getUserById: async (idUser) => {
+    const user = await prisma.user.findUnique({
+      where: { idUser },
+      select: {
+        idUser: true,
+        firstname: true,
+        lastname: true,
+        email: true,
+        phone: true,
+        role: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    if (!user) {
+      throw new AppError("Registro no encontrado", 404, [
+        {
+          field: "id",
+          message: "No existe un registro con el ID proporcionado",
+        },
+      ]);
+    }
+    return user;
+  },
 };
 
 export { userService };
+
+//TODO: factorizar xd buena suerte...
