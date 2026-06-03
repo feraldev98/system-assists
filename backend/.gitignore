@@ -1,8 +1,13 @@
+# Dependencies
 /node_modules
-/dist
 
 # Keep environment variables out of version control
 .env
+.env.local
+.env.*.local
+
+# Logs
+*.log
 
 # IDEs and editors
 /.idea
@@ -21,10 +26,8 @@
 !.vscode/extensions.json
 .history/*
 
-# Package lock files
-package-lock.json
-yarn.lock
-
-#Custom ignores
+# Prisma ignores
 /prisma/migrations
 /prisma/generated
+/prisma/dev.db
+/prisma/dev.db-journal
