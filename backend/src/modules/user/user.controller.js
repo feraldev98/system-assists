@@ -1,40 +1,104 @@
-import { AppError } from "../../utils/AppError.js";
 import { generatePasswordHash } from "../../utils/auth.utils.js";
-import { userSchema } from "./user.schema.js";
 import { userService } from "./user.service.js";
-
+import {
+  userCreateSchema,
+  userParamsSchema,
+  userUpdateSchema,
+} from "./user.schema.js";
+import { idSchema, validateSchema } from "../../utils/validate.utils.js";
 
 const userController = {
-    create: async (req, res, next) => {
+  create: async (req, res, next) => {
     try {
-      const { firstname, lastname, email, password, repassword, role } = req.body;
-      const validate = await userSchema.safeParseAsync({
-        firstname,
-        lastname,
-        email,
-        password,
-        repassword,
-        role
+      const validate = await validateSchema(userCreateSchema, req.body);
+
+      const passwordHash = await generatePasswordHash(validate.password);
+
+      const queryResult = await userService.createUser({
+        ...validate,
+        passwordHash,
       });
 
-      if(!validate.success) throw new AppError(
-        "Error de validación",
-        400,
-        validate.error.issues.map((issue) => ({
-          field: issue.path[0],
-          message: issue.message
-        }))
-      )
-
-      const passwordHash = await generatePasswordHash(password)
-
-      const queryResult = await userService.createUser({ firstname, lastname, email, passwordHash, role })
-
-      return res.json(queryResult.user)
+      return res.json({
+        message: "Usuario creado correctamente",
+        user: queryResult,
+      });
     } catch (error) {
-      next(error)
+      next(error);
     }
-  }
-}
+  },
+  get: async (req, res, next) => {
+    try {
+      const validate = await validateSchema(userParamsSchema, req.query);
 
-export { userController }
+      const [users, total] = await userService.getUsers(validate);
+
+      return res.json({
+        data: users,
+
+        pagination: {
+          page: validate.page,
+          limit: validate.limit,
+          total,
+          totalPages: Math.ceil(total / validate.limit),
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  update: async (req, res, next) => {
+    try {
+      const { id: userId } = await validateSchema(idSchema, req.params);
+
+      const data = await validateSchema(userUpdateSchema, req.body);
+
+      if (data.password) {
+        data.passwordHash = await generatePasswordHash(data.password);
+
+        delete data.password;
+        delete data.repassword;
+      }
+
+      const updatedUser = await userService.updateUser(userId, data);
+
+      return res.json({
+        message: "Datos actualizados correctamente",
+        user: updatedUser,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  getById: async (req, res, next) => {
+    try {
+      const { id } = await validateSchema(idSchema, req.params);
+      const user = await userService.getUserById(id);
+
+      return res.json({
+        message: "Usuario encontrado",
+        user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  delete: async (req, res, next) => {
+    try {
+      const { id } = await validateSchema(idSchema, req.params);
+      const deletedUser = await userService.deleteUser(id);
+
+      return res.json({
+        message: "Usuario eliminado correctamente",
+        user: deletedUser,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+};
+
+export { userController };
