@@ -55,15 +55,6 @@ const userController = {
 
       const data = await validateSchema(userUpdateSchema, req.body);
 
-      if (data.length === 0) {
-        throw new AppError("No se enviaron campos para actualizar", 400, [
-          {
-            field: "body",
-            message: "Debes enviar al menos un campo para actualizar",
-          },
-        ]);
-      }
-
       if (data.password) {
         data.passwordHash = await generatePasswordHash(data.password);
 
@@ -76,6 +67,42 @@ const userController = {
       return res.json({
         message: "Datos actualizados correctamente",
         user: updatedUser,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  getById: async (req, res, next) => {
+    try {
+      const { id } = await validateSchema(idSchema, req.params);
+      const user = await userService.getUserById(id);
+      if (!user) {
+        throw new AppError("Usuario no encontrado", 404, [
+          {
+            field: "id",
+            message: "No existe un usuario con el ID proporcionado",
+          },
+        ]);
+      }
+
+      return res.json({
+        message: "Usuario encontrado",
+        user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  delete: async (req, res, next) => {
+    try {
+      const { id } = await validateSchema(idSchema, req.params);
+      const deletedUser = await userService.deleteUser(id);
+
+      return res.json({
+        message: "Usuario eliminado correctamente",
+        user: deletedUser,
       });
     } catch (error) {
       next(error);

@@ -112,6 +112,37 @@ const userService = {
     });
     return updatedUser;
   },
+  deleteUser: async (idUser) => {
+    const deletedUser = await prisma.user.delete({
+      where: { idUser },
+      select: {
+        idUser: true,
+        firstname: true,
+        lastname: true,
+        email: true,
+        role: true,
+        createdAt: true,
+      },
+    });
+    return deletedUser;
+  },
+  getUserById: async (idUser) => {
+    const user = await prisma.user.findUnique({
+      where: { idUser },
+      select: {
+        idUser: true,
+        firstname: true,
+        lastname: true,
+        email: true,
+        phone: true,
+        role: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    return user;
+  },
 };
 
 export { userService };

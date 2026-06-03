@@ -28,4 +28,18 @@ userRouter.patch(
   userController.update,
 );
 
+userRouter.get(
+  "/:id",
+  authMiddleware,
+  authMiddlewareRole(["ADMIN"]),
+  userController.getById,
+);
+
+userRouter.delete(
+  "/:id",
+  authMiddleware,
+  authMiddlewareRole(["ADMIN"]),
+  userController.delete,
+);
+
 export { userRouter };

@@ -291,7 +291,7 @@ Obtiene una lista paginada de usuarios del sistema. Requiere autenticación y pe
 
 - Solo usuarios con rol ADMIN pueden acceder a este endpoint.
 
-### Query Params
+### URL Params
 
 | URL Param | Type   | Required | Description                             |
 | --------- | ------ | -------- | --------------------------------------- |
@@ -412,6 +412,93 @@ Todos los campos son opcionales, pero se debe enviar al menos uno.
 {
   "success": false,
   "message": "Registro no encontrado"
+}
+```
+
+</details>
+
+<details>
+<summary>LISTAR USUARIO POR ID</summary>
+  
+### GET /user/:id
+
+Obtiene la información de un usuario específico mediante su ID. Requiere autenticación y permisos de administrador.
+
+### Authentication
+
+- Solo usuarios con rol ADMIN pueden acceder a este endpoint.
+
+### URL Params
+
+| URL Param | Type   | Required | Description                             |
+| --------- | ------ | -------- | --------------------------------------- |
+| id        | number | Sí       | ID del usuario que se desea actualizar. |
+
+### Example Request
+
+GET /user/1
+
+### Validations
+
+- id: requerido, número entero, mayor a 0.
+
+### Validation Error Response
+
+```json
+{
+  "success": false,
+  "message": "Error de validación",
+  "errors": [
+    {
+      "field": "id",
+      "message": "El ID de usuario debe ser mayor a 0"
+    }
+  ]
+}
+```
+
+### Response
+
+```json
+{
+  "message": "Usuario encontrado",
+  "user": {
+    "idUser": 1,
+    "firstname": "Fernando",
+    "lastname": "Pérez",
+    "email": "fernando@hotmail.com",
+    "phone": "+51985988977",
+    "role": "AUXILIAR",
+    "createdAt": "2026-06-01T16:14:50.528Z",
+    "updatedAt": "2026-06-02T10:30:00.000Z"
+  }
+}
+```
+
+### Not Found Response
+
+```json
+{
+  "success": false,
+  "message": "Usuario no encontrado",
+  "errors": [
+    {
+      "field": "id",
+      "message": "No existe un usuario con el ID proporcionado"
+    }
+  ]
+}
+```
+
+### Unauthorized Response
+
+```json
+{
+  "success": false,
+  "message": "Sin autorización",
+  "errors": {
+    "message": "Sin autorización"
+  }
 }
 ```
 
