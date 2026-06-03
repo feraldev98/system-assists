@@ -1,18 +1,34 @@
 import { IoNotifications } from "react-icons/io5";
 import { Button } from '../atoms/button';
-import { UserMenuModal } from '../modals/modalsUser/userMenuModal';
 import { UserNavbar } from '../molecules/userNavbar';
-import { ChangePasswordModal } from '../modals/modalsUser/userPasswordModal';
 import { NavbarMenu } from '../molecules/desktopMenu';
 import { Link } from 'react-router-dom';
+import { useAuth } from "../../hooks/useAuth";
+//HOOK MODAL
 import { useModal } from '../../hooks/useModal';
+//MODALES
+import { UserMenuModal } from '../modals/modalsUser/userMenuModal';
+import { ChangePasswordModal } from '../modals/modalsUser/userPasswordModal';
 
 function UserMenu({ onLogout, mobile = false }) {
 
   //hook modal
   const userMenuModal = useModal() 
   const passwordModal = useModal()
-  
+  //hook idenfiticar rol
+  const {role} =  useAuth()
+
+  //navegar a las notificaciones segun el rol
+  const notificationsRutes = {
+    admin: '/notifications-assistant',
+    assistant: '/notifications-assistant',
+    father: '/notifications-student',
+  }
+
+  const notificationRoute =
+  notificationRoutes[role] || '/notifications-student';
+
+
   const user = {
     name: 'Wynsely Durán',
     email: 'wynjs@gmail.com',
@@ -31,7 +47,7 @@ function UserMenu({ onLogout, mobile = false }) {
     >
       {/*icono notificaciones*/}
       <Link
-        to='/notifications' 
+        to={notificationRoute} 
         variant=''
         className="text-white p-[1em]  
         transition-colors duration-400 hover:bg-blueT border-r boder-white

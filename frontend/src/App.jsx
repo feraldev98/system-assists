@@ -1,9 +1,12 @@
 import { Route, Routes } from 'react-router-dom'
 import { Navbar } from './componets/organims/navbar'
+import { Footer } from './componets/organims/footer'
 import { useAuth } from './hooks/useAuth'
+import { Navigate } from 'react-router-dom'
+import { dashboardRoutes } from './config/dashboardRutes'
 // PAGES
 import { LoginPage } from './componets/pages/auth/loginPage'
-import { InstitutioPage } from './componets/pages/institution/institutionPage'
+import { InstitutionPage } from './componets/pages/institution/institutionPage'
 // FATHER-STUDENT
 import { DashboardStudentPage } from './componets/pages/dashboard/dashboardStudentPage'
 import { AttendanceStudentPage } from './componets/pages/attendance/attendanceStudentPage'
@@ -34,7 +37,7 @@ function App() {
     { path: '/attendance-student', component: <AttendanceStudentPage /> },
     { path: '/behavior-control', component: <BehaviorControlPage /> },
     { path: '/behavior-student', component: <BehaviorStudentPage /> },
-    { path: '/institution', component: <InstitutioPage /> },
+    { path: '/institution', component: <InstitutionPage /> },
     { path: '/notifications-student', component: <NotificationsStudentPage /> },
     { path: '/notifications-assistant', component: <NotificationsAssistantPage /> },
     { path: '/admin/register-student', component: <RegisterStudent /> },
@@ -47,8 +50,19 @@ function App() {
 
   return (
     <>
+
       <Navbar />
       <Routes>
+        <Route
+          path='/'
+          element = {
+            <Navigate
+              to={dashboardRoutes[userData?.role]}
+              replace
+      />
+          }
+        />
+
         {pages.map((route, index) => (
           <Route
             key={index}
@@ -57,6 +71,7 @@ function App() {
           />
         ))}
       </Routes>
+      <Footer/>
     </>
   )
 }

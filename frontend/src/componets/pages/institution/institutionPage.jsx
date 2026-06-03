@@ -1,11 +1,18 @@
+import { InstitutionBanner } from "../../organims/institution/banner";
+import { MisionVision } from "../../organims/institution/missionVision";
+import { OurStaff } from "../../organims/institution/ourStaff";
+import { OurValues } from "../../organims/institution/ourValues";
 import { MyTemplate } from "../../templates/myTemplate";
 
-function InstitutioPage () {
+function InstitutionPage () {
   return(
     <MyTemplate>
-      <h2>Sobre nuestra institucion</h2>
+      <InstitutionBanner/>
+      <MisionVision/>
+      <OurValues/>
+      <OurStaff/>
     </MyTemplate>
   )
 }
 
-export {InstitutioPage}
+export {InstitutionPage}

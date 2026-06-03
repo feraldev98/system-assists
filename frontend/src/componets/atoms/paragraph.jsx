@@ -13,7 +13,8 @@ function Paragraph ({
     default: 'text-black',
     primary: 'text-cyan-700',
     secondary: 'text-white/70  ',
-    danger: 'text-blueT'
+    danger: 'text-blueT',
+    ternary: 'text-gray-500'
   };
 
   const alignments = {

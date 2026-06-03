@@ -17,7 +17,7 @@ function Small ({
     xsmall: 'text-[.7em]',
     small: 'text-[.8em]',
     medium: 'text-sm',
-    large: 'text-lg',
+    large: 'text-[.8em] ',
   }
 
   const alignments = {

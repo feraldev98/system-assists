@@ -41,10 +41,9 @@ function CardGrandingScale() {
               <Title
                 text={item.value}
                 level="h2"
-                align="center"
                 weight="bold"
                 variant="secondary"
-                className="min-w-15 my-auto bg-gray-100 h-full flex items-center justify-center"
+                className="min-w-15 my-auto "
               />
               <div className="flex flex-col">
 
