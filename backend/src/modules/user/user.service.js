@@ -1,4 +1,5 @@
 import { prisma } from "../../config/prisma.js";
+import { AppError } from "../../utils/AppError.js";
 
 const userService = {
   createUser: async ({
@@ -91,6 +92,7 @@ const userService = {
     });
     return [users, total];
   },
+
   updateUser: async (idUser, data) => {
     const updatedUser = await prisma.user.update({
       where: {
@@ -112,6 +114,7 @@ const userService = {
     });
     return updatedUser;
   },
+
   deleteUser: async (idUser) => {
     const deletedUser = await prisma.user.delete({
       where: { idUser },
@@ -126,6 +129,7 @@ const userService = {
     });
     return deletedUser;
   },
+
   getUserById: async (idUser) => {
     const user = await prisma.user.findUnique({
       where: { idUser },
@@ -141,8 +145,18 @@ const userService = {
       },
     });
 
+    if (!user) {
+      throw new AppError("Registro no encontrado", 404, [
+        {
+          field: "id",
+          message: "No existe un registro con el ID proporcionado",
+        },
+      ]);
+    }
     return user;
   },
 };
 
 export { userService };
+
+//TODO: factorizar xd buena suerte...

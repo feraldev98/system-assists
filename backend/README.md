@@ -411,7 +411,13 @@ Todos los campos son opcionales, pero se debe enviar al menos uno.
 ```json
 {
   "success": false,
-  "message": "Registro no encontrado"
+  "message": "Registro no encontrado",
+  "errors": [
+    {
+      "field": "id",
+      "message": "No existe un registro con el ID proporcionado"
+    }
+  ]
 }
 ```
 
@@ -430,9 +436,9 @@ Obtiene la información de un usuario específico mediante su ID. Requiere auten
 
 ### URL Params
 
-| URL Param | Type   | Required | Description                             |
-| --------- | ------ | -------- | --------------------------------------- |
-| id        | number | Sí       | ID del usuario que se desea actualizar. |
+| URL Param | Type   | Required | Description                         |
+| --------- | ------ | -------- | ----------------------------------- |
+| id        | number | Sí       | ID del usuario que se desea buscar. |
 
 ### Example Request
 
@@ -485,6 +491,91 @@ GET /user/1
     {
       "field": "id",
       "message": "No existe un usuario con el ID proporcionado"
+    }
+  ]
+}
+```
+
+### Unauthorized Response
+
+```json
+{
+  "success": false,
+  "message": "Sin autorización",
+  "errors": {
+    "message": "Sin autorización"
+  }
+}
+```
+
+</details>
+
+<details>
+<summary>ELIMINAR USUARIO POR ID</summary>
+  
+### DELETE /user/:id
+
+Elimina un usuario del sistema mediante su ID. Requiere autenticación y permisos de administrador.
+
+### Authentication
+
+- Solo usuarios con rol ADMIN pueden acceder a este endpoint.
+
+### URL Params
+
+| URL Param | Type   | Required | Description                           |
+| --------- | ------ | -------- | ------------------------------------- |
+| id        | number | Sí       | ID del usuario que se desea eliminar. |
+
+### Example Request
+
+DELETE /user/1
+
+### Validations
+
+- id: requerido, número entero, mayor a 0.
+
+### Validation Error Response
+
+```json
+{
+  "success": false,
+  "message": "Error de validación",
+  "errors": [
+    {
+      "field": "id",
+      "message": "El ID de usuario debe ser mayor a 0"
+    }
+  ]
+}
+```
+
+### Response
+
+```json
+{
+  "message": "Usuario eliminado correctamente",
+  "user": {
+    "idUser": 1,
+    "firstname": "Fernando",
+    "lastname": "Pérez",
+    "email": "fernando@hotmail.com",
+    "role": "AUXILIAR",
+    "createdAt": "2026-06-01T16:14:50.528Z"
+  }
+}
+```
+
+### Not Found Response
+
+```json
+{
+  "success": false,
+  "message": "Registro no encontrado",
+  "errors": [
+    {
+      "field": "id",
+      "message": "No existe un registro con el ID proporcionado"
     }
   ]
 }

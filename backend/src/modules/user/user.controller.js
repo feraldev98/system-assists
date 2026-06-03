@@ -6,7 +6,6 @@ import {
   userUpdateSchema,
 } from "./user.schema.js";
 import { idSchema, validateSchema } from "../../utils/validate.utils.js";
-import { AppError } from "../../utils/AppError.js";
 
 const userController = {
   create: async (req, res, next) => {
@@ -77,14 +76,6 @@ const userController = {
     try {
       const { id } = await validateSchema(idSchema, req.params);
       const user = await userService.getUserById(id);
-      if (!user) {
-        throw new AppError("Usuario no encontrado", 404, [
-          {
-            field: "id",
-            message: "No existe un usuario con el ID proporcionado",
-          },
-        ]);
-      }
 
       return res.json({
         message: "Usuario encontrado",
