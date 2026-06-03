@@ -58,5 +58,3 @@ desktop.ini
 .parcel-cache/
 frontend/.vite/
 *.tsbuildinfo
-
-package-lock.json

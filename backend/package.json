@@ -5,7 +5,13 @@
   "main": "src/index.js",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "db:migrate": "prisma migrate dev && prisma generate && node src/setup.js"
+    "build": "node --check src/index.js && echo Build OK",
+    "setup": "pnpm run env && prisma migrate dev && prisma generate && node src/setup.js",
+    "env": "shx cp ./.env.example ./.env",
+    "db:migrate": "prisma migrate dev",
+    "db:generate": "prisma generate",
+    "db:studio": "prisma studio",
+    "db:reset": "prisma migrate reset"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +37,7 @@
     "globals": "^17.6.0",
     "nodemon": "3.1.14",
     "prettier": "3.8.3",
-    "prisma": "^6.8.0"
+    "prisma": "^6.8.0",
+    "shx": "^0.4.0"
   }
 }
