@@ -16,6 +16,23 @@ const gradeService = {
     });
     return queryResult.grade;
   },
+  get: async ({ page, limit, sortBy, sortOrder }) => {
+    const grades = await prisma.grade.findMany({
+      select: {
+        idGrade: true,
+        level: true,
+      },
+      skip: (page - 1) * limit,
+      take: limit,
+      orderBy: {
+        [sortBy]: sortOrder,
+      },
+    });
+
+    const total = await prisma.grade.count();
+
+    return [grades, total];
+  },
 };
 
 export { gradeService };

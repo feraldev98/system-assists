@@ -14,4 +14,11 @@ gradeRouter.post(
   gradeController.create,
 );
 
+gradeRouter.get(
+  "/",
+  authMiddleware,
+  authMiddlewareRole(["ADMIN", "AUXILIAR"]),
+  gradeController.get,
+);
+
 export { gradeRouter };
