@@ -48,6 +48,23 @@ const gradeController = {
       next(error);
     }
   },
+
+  update: async (req, res, next) => {
+    try {
+      const { id } = await validateSchema(idSchema, req.params);
+      const data = await validateSchema(gradeSchema.updateGrade, req.body);
+      const updatedGrade = await gradeService.update(id, data);
+      return res.json({
+        success: true,
+        message: "Grado actualizado correctamente",
+        grade: updatedGrade,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  // todo: delete by id.
 };
 
 export { gradeController };

@@ -52,6 +52,17 @@ const gradeService = {
     }
     return grade;
   },
+  update: async (id, data) => {
+    const gradeUpdated = await prisma.grade.update({
+      where: { idGrade: id },
+      data,
+      select: {
+        idGrade: true,
+        level: true,
+      },
+    });
+    return gradeUpdated;
+  },
 };
 
 export { gradeService };
