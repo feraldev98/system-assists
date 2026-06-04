@@ -29,7 +29,7 @@ PARENT
 
 ## 📌 Endpoints
 
-### Auth
+### AUTH
 
 <details>
 <summary>INICIAR SESIÓN</summary>
@@ -52,6 +52,7 @@ Si las credenciales son válidas, el servidor genera una cookie HTTPOnly llamada
 
 - email: requerido, trim, convertido a minúsculas, formato válido de email, máximo 100 caracteres.
 - password: requerida, trim, obligatoria, máximo 100 caracteres, al menos una letra, al menos un número.
+- No se permiten campos adicionales.
 
 ### Response:
 
@@ -112,7 +113,7 @@ Cierra la sesión del usuario autenticado eliminando la cookie HTTPOnly token.
 
 </details>
 
-### User
+### USER
 
 <details>
 <summary>CREAR NUEVO USUARIO</summary>
@@ -148,6 +149,7 @@ Crea un nuevo usuario en el sistema. Requiere autenticación y permisos de admin
 - repassword: requerida, trim, debe coincidir con password.
 - phone: opcional, trim, elimina espacios automáticamente, debe tener formato +519XXXXXXXX.
 - role: requerido, valores permitidos: ADMIN, AUXILIAR, PARENT.
+- No se permiten campos adicionales.
 
 ### Response:
 
@@ -447,6 +449,7 @@ GET /user/1
 ### Validations
 
 - id: requerido, número entero, mayor a 0.
+- No se permiten campos adicionales.
 
 ### Validation Error Response
 
@@ -534,6 +537,7 @@ DELETE /user/1
 ### Validations
 
 - id: requerido, número entero, mayor a 0.
+- No se permiten campos adicionales.
 
 ### Validation Error Response
 
@@ -576,6 +580,101 @@ DELETE /user/1
     {
       "field": "id",
       "message": "No existe un registro con el ID proporcionado"
+    }
+  ]
+}
+```
+
+### Unauthorized Response
+
+```json
+{
+  "success": false,
+  "message": "Sin autorización",
+  "errors": {
+    "message": "Sin autorización"
+  }
+}
+```
+
+</details>
+
+### GRADE
+
+<details>
+<summary>CREAR NUEVO GRADO</summary>
+  
+### POST /grade
+
+Crea un nuevo grado en el sistema. Requiere autenticación y permisos de administrador.
+
+### Authentication
+
+- Solo usuarios con rol ADMIN pueden acceder a este endpoint.
+
+### body
+
+```json
+{
+  "level": 1
+}
+```
+
+### Example Request
+
+- POST /user
+
+- BODY:
+
+```json
+{
+  "level": 1
+}
+```
+
+### Validations
+
+- level: requerido, número entero.
+- level: no puede ser negativo.
+- No se permiten campos adicionales.
+
+### Validation Error Response
+
+```json
+{
+  "success": false,
+  "message": "Error de validación",
+  "errors": [
+    {
+      "field": "level",
+      "message": "El grado debe ser un número entero"
+    }
+  ]
+}
+```
+
+### Response
+
+```json
+{
+  "message": "Grado creado correctamente",
+  "grade": {
+    "idGrade": 28,
+    "level": 6
+  }
+}
+```
+
+### Duplicate Grade Response
+
+```json
+{
+  "success": false,
+  "message": "Valor duplicado",
+  "errors": [
+    {
+      "field": "level",
+      "message": "Ya existe un registro con este valor"
     }
   ]
 }

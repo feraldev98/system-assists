@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import { authRouter } from "./modules/auth/auth.router.js";
 import { errorsMiddleware } from "./middlewares/errors.middleware.js";
 import { userRouter } from "./modules/user/user.router.js";
+import { gradeRouter } from "./modules/grade/grade.router.js";
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(cookieParser());
 // routes
 app.use("/", authRouter);
 app.use("/user", userRouter);
+app.use("/grade", gradeRouter);
 
 app.use(errorsMiddleware);
 
