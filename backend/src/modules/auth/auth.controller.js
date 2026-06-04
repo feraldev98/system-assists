@@ -34,11 +34,14 @@ const authController = {
       res.cookie("token", token, COOKIE_OPTIONS);
 
       return res.json({
+        success: true,
         message: `Bienvenido ${credentials.firstname} ${credentials.lastname}`,
-        email: credentials.email,
-        firstname: credentials.firstname,
-        lastname: credentials.lastname,
-        role: credentials.role,
+        user: {
+          email: credentials.email,
+          firstname: credentials.firstname,
+          lastname: credentials.lastname,
+          role: credentials.role,
+        },
       });
     } catch (error) {
       next(error);
@@ -54,6 +57,7 @@ const authController = {
       res.clearCookie("token", COOKIE_OPTIONS);
 
       return res.json({
+        success: true,
         message: "Sesión cerrada correctamente",
       });
     } catch (error) {

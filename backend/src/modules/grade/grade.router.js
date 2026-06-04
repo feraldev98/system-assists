@@ -21,4 +21,11 @@ gradeRouter.get(
   gradeController.get,
 );
 
+gradeRouter.get(
+  "/:id",
+  authMiddleware,
+  authMiddlewareRole(["ADMIN", "AUXILIAR"]),
+  gradeController.getById,
+);
+
 export { gradeRouter };

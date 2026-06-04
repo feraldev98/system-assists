@@ -1,4 +1,5 @@
 import { prisma } from "../../config/prisma.js";
+import { AppError } from "../../utils/AppError.js";
 
 const gradeService = {
   create: async (data) => {
@@ -32,6 +33,24 @@ const gradeService = {
     const total = await prisma.grade.count();
 
     return [grades, total];
+  },
+  getById: async (id) => {
+    const grade = await prisma.grade.findUnique({
+      where: { idGrade: id },
+      select: {
+        idGrade: true,
+        level: true,
+      },
+    });
+    if (!grade) {
+      throw new AppError("Registro no encontrado", 404, [
+        {
+          field: "id",
+          message: "No existe un registro con el ID proporcionado",
+        },
+      ]);
+    }
+    return grade;
   },
 };
 

@@ -58,11 +58,14 @@ Si las credenciales son válidas, el servidor genera una cookie HTTPOnly llamada
 
 ```json
 {
-  "message": "Bienvenido Fernando Pérez",
-  "email": "testing@hotmail.com",
-  "firstname": "Fernando",
-  "lastname": "Pérez",
-  "role": "AUXILIAR"
+  "success": true,
+  "message": "Bienvenido qwe Kael",
+  "user": {
+    "email": "auxiliar@gmail.com",
+    "firstname": "qwe",
+    "lastname": "Kael",
+    "role": "AUXILIAR"
+  }
 }
 ```
 
@@ -91,6 +94,7 @@ Cierra la sesión del usuario autenticado eliminando la cookie HTTPOnly token.
 
 ```json
 {
+  "success": true,
   "message": "Sesión cerrada correctamente"
 }
 ```
@@ -155,14 +159,20 @@ Crea un nuevo usuario en el sistema. Requiere autenticación y permisos de admin
 
 ```json
 {
-  "idUser": 1,
-  "firstname": "Fernando",
-  "lastname": "Pérez",
-  "email": "testing@hotmail.com",
-  "phone": "+51985988977",
-  "role": "AUXILIAR",
-  "createdAt": "2026-06-01T15:00:00.000Z",
-  "updatedAt": "2026-06-01T15:00:00.000Z"
+  "success": true,
+  "message": "Usuario creado correctamente",
+  "user": {
+    "user": {
+      "idUser": 6,
+      "firstname": "qwe",
+      "lastname": "Kael",
+      "email": "auxiliar2@gmail.com",
+      "phone": "+51985988977",
+      "role": "AUXILIAR",
+      "createdAt": "2026-06-04T22:26:54.496Z",
+      "updatedAt": "2026-06-04T22:26:54.496Z"
+    }
+  }
 }
 ```
 
@@ -229,22 +239,43 @@ Obtiene una lista paginada de usuarios del sistema. Requiere autenticación y pe
 
 ```json
 {
+  "success": true,
   "data": [
     {
-      "idUser": 1,
-      "firstname": "Admin",
-      "lastname": "System",
-      "email": "admin@system.com",
-      "phone": null,
-      "role": "ADMIN",
-      "createdAt": "2026-06-01T16:14:50.528Z",
-      "updatedAt": "2026-06-01T16:14:50.528Z"
+      "idUser": 2,
+      "firstname": "qwe",
+      "lastname": "Kael",
+      "email": "auxiliar@gmail.com",
+      "phone": "+51985988977",
+      "role": "AUXILIAR",
+      "createdAt": "2026-06-04T21:56:17.433Z",
+      "updatedAt": "2026-06-04T21:56:17.433Z"
+    },
+    {
+      "idUser": 4,
+      "firstname": "qwe",
+      "lastname": "Kael",
+      "email": "auxiliar1@gmail.com",
+      "phone": "+51985988977",
+      "role": "AUXILIAR",
+      "createdAt": "2026-06-04T22:26:24.283Z",
+      "updatedAt": "2026-06-04T22:26:24.283Z"
+    },
+    {
+      "idUser": 6,
+      "firstname": "qwe",
+      "lastname": "Kael",
+      "email": "auxiliar2@gmail.com",
+      "phone": "+51985988977",
+      "role": "AUXILIAR",
+      "createdAt": "2026-06-04T22:26:54.496Z",
+      "updatedAt": "2026-06-04T22:26:54.496Z"
     }
   ],
   "pagination": {
     "page": 1,
     "limit": 10,
-    "total": 1,
+    "total": 4,
     "totalPages": 1
   }
 }
@@ -348,16 +379,17 @@ Todos los campos son opcionales, pero se debe enviar al menos uno.
 
 ```json
 {
+  "success": true,
   "message": "Datos actualizados correctamente",
   "user": {
     "idUser": 1,
     "firstname": "Fernando",
-    "lastname": "Pérez",
-    "email": "fernando@hotmail.com",
+    "lastname": "System",
+    "email": "admin@system.com",
     "phone": "+51999888777",
-    "role": "AUXILIAR",
-    "createdAt": "2026-06-01T16:14:50.528Z",
-    "updatedAt": "2026-06-02T10:30:00.000Z"
+    "role": "ADMIN",
+    "createdAt": "2026-06-04T19:18:17.496Z",
+    "updatedAt": "2026-06-04T22:30:21.481Z"
   }
 }
 ```
@@ -470,16 +502,17 @@ GET /user/1
 
 ```json
 {
+  "success": true,
   "message": "Usuario encontrado",
   "user": {
     "idUser": 1,
     "firstname": "Fernando",
-    "lastname": "Pérez",
-    "email": "fernando@hotmail.com",
-    "phone": "+51985988977",
-    "role": "AUXILIAR",
-    "createdAt": "2026-06-01T16:14:50.528Z",
-    "updatedAt": "2026-06-02T10:30:00.000Z"
+    "lastname": "System",
+    "email": "admin@system.com",
+    "phone": "+51999888777",
+    "role": "ADMIN",
+    "createdAt": "2026-06-04T19:18:17.496Z",
+    "updatedAt": "2026-06-04T22:30:21.481Z"
   }
 }
 ```
@@ -558,14 +591,15 @@ DELETE /user/1
 
 ```json
 {
+  "success": true,
   "message": "Usuario eliminado correctamente",
   "user": {
-    "idUser": 1,
-    "firstname": "Fernando",
-    "lastname": "Pérez",
-    "email": "fernando@hotmail.com",
+    "idUser": 6,
+    "firstname": "qwe",
+    "lastname": "Kael",
+    "email": "auxiliar2@gmail.com",
     "role": "AUXILIAR",
-    "createdAt": "2026-06-01T16:14:50.528Z"
+    "createdAt": "2026-06-04T22:26:54.496Z"
   }
 }
 ```
@@ -657,10 +691,11 @@ Crea un nuevo grado en el sistema. Requiere autenticación y permisos de adminis
 
 ```json
 {
+  "success": true,
   "message": "Grado creado correctamente",
   "grade": {
-    "idGrade": 28,
-    "level": 6
+    "idGrade": 37,
+    "level": 14
   }
 }
 ```
@@ -743,27 +778,111 @@ Obtiene una lista paginada de grados registrados en el sistema. Requiere autenti
 
 ```json
 {
+  "success": true,
   "data": [
     {
-      "idGrade": 36,
-      "level": 13
-    },
-    {
-      "idGrade": 35,
-      "level": 12
+      "idGrade": 15,
+      "level": 0
     },
     ...,
     {
-      "idGrade": 24,
-      "level": 4
+      "idGrade": 31,
+      "level": 8
+    },
+    {
+      "idGrade": 32,
+      "level": 9
     }
   ],
   "pagination": {
     "page": 1,
-    "limit": 14,
-    "total": 14,
+    "limit": 10,
+    "total": 15,
     "totalPages": 2
   }
+}
+```
+
+### Unauthorized Response
+
+```json
+{
+  "success": false,
+  "message": "Sin autorización",
+  "errors": {
+    "message": "Sin autorización"
+  }
+}
+```
+
+</details>
+
+<details>
+<summary>LISTAR GRADO POR ID</summary>
+  
+### GET /grade
+
+Obtiene la información de un grado específico mediante su ID. Requiere autenticación y permisos de administrador o auxiliar.
+
+### Authentication
+
+- Solo usuarios con rol ADMIN o AUXILIAR pueden acceder a este endpoint.
+
+### URL Params
+
+| Parameter | Type   | Required | Description                                                              |
+| :-------- | :----- | :------- | :----------------------------------------------------------------------- |
+| id        | number | Sí       | ID del grado que se desea consultar. Debe ser un número entero positivo. |
+
+### Example Request
+
+- GET /grade/1
+
+### Validations
+
+- id: requerido, debe ser un número entero.
+- No se permiten campos adicionales.
+
+### Validation Error Response
+
+```json
+{
+  "success": false,
+  "message": "Error de validación",
+  "errors": [
+    {
+      "field": "id",
+      "message": "El ID debe ser un número entero"
+    }
+  ]
+}
+```
+
+### Response
+
+```json
+{
+  "success": true,
+  "message": "Grado encontrado",
+  "grade": {
+    "idGrade": 19,
+    "level": 2
+  }
+}
+```
+
+### Not Found Response
+
+```json
+{
+  "success": false,
+  "message": "Registro no encontrado",
+  "errors": [
+    {
+      "field": "id",
+      "message": "No existe un registro con el ID proporcionado"
+    }
+  ]
 }
 ```
 

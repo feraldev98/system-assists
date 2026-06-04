@@ -1,6 +1,6 @@
 import { gradeSchema } from "./grade.schema.js";
 import { gradeService } from "./grade.service.js";
-import { validateSchema } from "../../utils/validate.utils.js";
+import { idSchema, validateSchema } from "../../utils/validate.utils.js";
 
 const gradeController = {
   create: async (req, res, next) => {
@@ -9,6 +9,7 @@ const gradeController = {
       const newGrade = await gradeService.create(data);
 
       return res.json({
+        success: true,
         message: "Grado creado correctamente",
         grade: newGrade,
       });
@@ -21,13 +22,27 @@ const gradeController = {
       const validate = await validateSchema(gradeSchema.userParams, req.query);
       const [grades, totalGrades] = await gradeService.get(validate);
       return res.json({
+        success: true,
         data: grades,
         pagination: {
           page: 1,
-          limit: totalGrades,
+          limit: validate.limit,
           total: totalGrades,
           totalPages: Math.ceil(totalGrades / validate.limit),
         },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+  getById: async (req, res, next) => {
+    try {
+      const { id } = await validateSchema(idSchema, req.params);
+      const grade = await gradeService.getById(id);
+      return res.json({
+        success: true,
+        message: "Grado encontrado",
+        grade,
       });
     } catch (error) {
       next(error);

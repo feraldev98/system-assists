@@ -28,7 +28,7 @@ const validateSchema = async (schema, data) => {
 const idSchema = z.object({
   id: z
     .string()
-    .regex(/^\d+$/, "El ID de usuario debe ser un número entero")
+    .regex(/^\d+$/, "El ID debe ser un número entero")
     .transform(Number),
 });
 
