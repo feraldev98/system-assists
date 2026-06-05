@@ -5,41 +5,41 @@ import {
 } from "../../middlewares/auth.middleware.js";
 import { userController } from "./user.controller.js";
 
-const userRouter = Router();
+const userRoutes = Router();
 
-userRouter.post(
+userRoutes.post(
   "/",
   authMiddleware,
   authMiddlewareRole(["ADMIN"]),
   userController.create,
 );
 
-userRouter.get(
+userRoutes.get(
   "/",
   authMiddleware,
   authMiddlewareRole(["ADMIN"]),
   userController.get,
 );
 
-userRouter.patch(
-  "/:id",
-  authMiddleware,
-  authMiddlewareRole(["ADMIN"]),
-  userController.update,
-);
-
-userRouter.get(
+userRoutes.get(
   "/:id",
   authMiddleware,
   authMiddlewareRole(["ADMIN"]),
   userController.getById,
 );
 
-userRouter.delete(
+userRoutes.patch(
+  "/:id",
+  authMiddleware,
+  authMiddlewareRole(["ADMIN"]),
+  userController.update,
+);
+
+userRoutes.delete(
   "/:id",
   authMiddleware,
   authMiddlewareRole(["ADMIN"]),
   userController.delete,
 );
 
-export { userRouter };
+export { userRoutes };

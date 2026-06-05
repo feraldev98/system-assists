@@ -5,41 +5,41 @@ import {
   authMiddlewareRole,
 } from "../../middlewares/auth.middleware.js";
 
-const gradeRouter = Router();
+const gradeRoutes = Router();
 
-gradeRouter.post(
+gradeRoutes.post(
   "/",
   authMiddleware,
   authMiddlewareRole(["ADMIN"]),
   gradeController.create,
 );
 
-gradeRouter.get(
+gradeRoutes.get(
   "/",
   authMiddleware,
   authMiddlewareRole(["ADMIN", "AUXILIAR"]),
   gradeController.get,
 );
 
-gradeRouter.get(
+gradeRoutes.get(
   "/:id",
   authMiddleware,
   authMiddlewareRole(["ADMIN", "AUXILIAR"]),
   gradeController.getById,
 );
 
-gradeRouter.put(
+gradeRoutes.put(
   "/:id",
   authMiddleware,
   authMiddlewareRole(["ADMIN"]),
   gradeController.update,
 );
 
-gradeRouter.delete(
+gradeRoutes.delete(
   "/:id",
   authMiddleware,
   authMiddlewareRole(["ADMIN"]),
   gradeController.delete,
 );
 
-export { gradeRouter };
+export { gradeRoutes };
