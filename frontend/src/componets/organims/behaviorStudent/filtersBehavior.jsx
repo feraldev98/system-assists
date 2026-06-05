@@ -115,7 +115,7 @@ function FilterBehavior({ currentStudent }) {
           <Button
             key={filter}
             text={filter}
-            variant={dateFilter === filter ? "" : "ternary"}
+            variant={dateFilter === filter ? "base" : "ternary"}
             onClick={() => setDateFilter(filter)}
           />
         ))}

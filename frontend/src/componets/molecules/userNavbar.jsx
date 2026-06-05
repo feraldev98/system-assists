@@ -9,9 +9,9 @@ function UserNavbar ({
 
   return(
       <Button
-        variant="primary"
         onClick={toggleModal}
-        className="flex flex-row md:flex-row items-center gap-2 px-4 py-2 h-full transition-colors duration-300 hover:bg-blueT"
+        className="flex flex-row md:flex-row items-center gap-2 px-4 py-2 h-full
+        transition-colors duration-300 hover:bg-blueT"
       >
         {user.avatar ? (
           <img src={user.avatar} alt={user.name} className="w-9 h-9 rounded-full object-cover" />

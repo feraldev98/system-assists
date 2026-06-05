@@ -6,9 +6,9 @@ function SectionNotifications({ notifications }) {
   return (
     <div
       className="
-        flex flex-col gap-3 px-5 rounded-md
+        flex flex-col gap-3 px-5 pb-5 rounded-md
         border border-borderC bg-gray-200
-        max-h-[50vh] overflow-y-auto 
+        max-h-[55vh] overflow-y-auto 
         md:mt-6 w-[96%] md:w-[90%]
         md:max-w-6xl mx-auto
       "
@@ -23,12 +23,9 @@ function SectionNotifications({ notifications }) {
         <article
           key={notification.id}
           className={`
-            rounded-lg
-            shadow-sm
-            border
-            border-blue/50
-            p-3
-            bg-white
+            rounded-lg shadow-sm border
+            border-cyan-700 p-3 bg-white
+            transition-all duration-300 hover:bg-blueT/30
             ${
               !notification.isRead
                 ? "border-l-8 border-blue"

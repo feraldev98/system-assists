@@ -9,7 +9,8 @@ function Button({
 }) {
 
   const variants = {
-    default: `bg-blueT text-white rounded-md px-3`,
+    base: ' bg-blueT text-white font-bold rounded-md px-3',
+    default: ` text-white px-3`,
     primary: `
     md:right-9 lg:right-9  xl:right-8 bottom-[-2em]
     bg-blue h-10 lg:px-5 rounded-[10px]
