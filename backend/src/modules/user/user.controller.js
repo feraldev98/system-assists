@@ -20,6 +20,7 @@ const userController = {
       });
 
       return res.json({
+        success: true,
         message: "Usuario creado correctamente",
         user: queryResult,
       });
@@ -34,8 +35,8 @@ const userController = {
       const [users, total] = await userService.getUsers(validate);
 
       return res.json({
+        success: true,
         data: users,
-
         pagination: {
           page: validate.page,
           limit: validate.limit,
@@ -64,6 +65,7 @@ const userController = {
       const updatedUser = await userService.updateUser(userId, data);
 
       return res.json({
+        success: true,
         message: "Datos actualizados correctamente",
         user: updatedUser,
       });
@@ -78,6 +80,7 @@ const userController = {
       const user = await userService.getUserById(id);
 
       return res.json({
+        success: true,
         message: "Usuario encontrado",
         user,
       });
@@ -92,6 +95,7 @@ const userController = {
       const deletedUser = await userService.deleteUser(id);
 
       return res.json({
+        success: true,
         message: "Usuario eliminado correctamente",
         user: deletedUser,
       });
