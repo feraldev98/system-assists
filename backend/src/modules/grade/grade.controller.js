@@ -1,11 +1,15 @@
+import { validateUtils } from "../../utils/validate.utils.js";
+import { userSchema } from "../user/user.schema.js";
 import { gradeSchema } from "./grade.schema.js";
 import { gradeService } from "./grade.service.js";
-import { idSchema, validateSchema } from "../../utils/validate.utils.js";
 
 const gradeController = {
   create: async (req, res, next) => {
     try {
-      const data = await validateSchema(gradeSchema.createGrade, req.body);
+      const data = await validateUtils.validateSchema({
+        schema: gradeSchema.create,
+        data: req.body,
+      });
       const newGrade = await gradeService.create(data);
 
       return res.json({
@@ -19,7 +23,10 @@ const gradeController = {
   },
   get: async (req, res, next) => {
     try {
-      const validate = await validateSchema(gradeSchema.userParams, req.query);
+      const validate = await validateUtils.validateSchema({
+        schema: gradeSchema.params,
+        data: req.query,
+      });
       const [grades, totalGrades] = await gradeService.get(validate);
       return res.json({
         success: true,
@@ -37,8 +44,11 @@ const gradeController = {
   },
   getById: async (req, res, next) => {
     try {
-      const { id } = await validateSchema(idSchema, req.params);
-      const grade = await gradeService.getById(id);
+      const validate = await validateUtils.validateSchema({
+        schema: userSchema.params,
+        data: req.params,
+      });
+      const grade = await gradeService.getById(validate.id);
       return res.json({
         success: true,
         message: "Grado encontrado",
@@ -51,9 +61,16 @@ const gradeController = {
 
   update: async (req, res, next) => {
     try {
-      const { id } = await validateSchema(idSchema, req.params);
-      const data = await validateSchema(gradeSchema.updateGrade, req.body);
-      const updatedGrade = await gradeService.update(id, data);
+      const validate = await validateUtils.validateSchema({
+        schema: userSchema.params,
+        data: req.params,
+      });
+
+      const data = await validateUtils.validateSchema({
+        schema: gradeSchema.update,
+        data: req.body,
+      });
+      const updatedGrade = await gradeService.update(validate.id, data);
       return res.json({
         success: true,
         message: "Grado actualizado correctamente",
@@ -67,7 +84,10 @@ const gradeController = {
   // todo: delete by id.
   delete: async (req, res, next) => {
     try {
-      const { id } = await validateSchema(idSchema, req.params);
+      const { id } = await validateUtils.validateSchema({
+        schema: gradeSchema.params,
+        data: req.params,
+      });
       const deletedGrade = await gradeService.delete(id);
       return res.json({
         success: true,
