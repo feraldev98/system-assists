@@ -46,11 +46,15 @@ const userSchema = {
         required: true,
       }),
     })
-    .refine((data) => data.password === data.repassword, {
-      message: "Las contraseñas no coinciden",
-      path: ["repassword"],
-    })
-    .strict({ message: "No se permiten campos adicionales" }),
+    .strict({ message: "No se permiten campos adicionales" })
+    .superRefine((data, ctx) => {
+      validateUtils.validateBody({
+        data,
+        ctx,
+        fields: userFields.editableFields,
+      });
+      validateUtils.verifyPasswords({ data, ctx });
+    }),
 
   update: z
     .object({
@@ -96,7 +100,11 @@ const userSchema = {
       message: "No se permiten campos adicionales",
     })
     .superRefine((data, ctx) => {
-      validateUtils.validateBody({ data, ctx });
+      validateUtils.validateBody({
+        data,
+        ctx,
+        fields: userFields.editableFields,
+      });
       validateUtils.verifyPasswords({ data, ctx });
     }),
   params: z
@@ -110,6 +118,7 @@ const userSchema = {
         min: 1,
         max: 1000,
         defaultValue: 1,
+        required: false,
       }),
 
       limit: schemaUtils.numberField({
@@ -117,6 +126,7 @@ const userSchema = {
         min: 1,
         max: 50,
         defaultValue: 10,
+        required: false,
       }),
 
       role: schemaUtils.roleField({
@@ -125,7 +135,6 @@ const userSchema = {
       }),
 
       sortBy: schemaUtils.sortByField({
-        label: "El campo",
         sortFields: userFields.sortFields,
       }),
 
@@ -133,7 +142,9 @@ const userSchema = {
 
       search: schemaUtils.searchField(),
     })
-    .strict(),
+    .strict({
+      message: "No se permiten campos adicionales",
+    }),
 };
 
 export { userSchema };

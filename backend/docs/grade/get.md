@@ -2,33 +2,96 @@
 
 ## GET /grade
 
-Obtiene una lista paginada de grados registrados en el sistema. Requiere autenticación y permisos de administrador o auxiliar.
+- Obtiene una lista paginada de grados registrados en el sistema.
+- Requiere autenticación.
 
-### Authentication
+## Authentication
 
-- Solo usuarios con rol ADMIN o AUXILIAR pueden acceder a este endpoint.
+- Solo usuarios con rol ADMIN pueden acceder a este endpoint.
 
-### Query Params
+## Query Params
 
-| Parameter | Type   | Required | Description                                                                                  |
-| :-------- | :----- | :------- | :------------------------------------------------------------------------------------------- |
-| page      | number | No       | Número de página. Valor mínimo: 1. Default: 1.                                               |
-| limit     | number | No       | Cantidad de registros por página. Mínimo: 1. Máximo: 100. Default: 10.                       |
-| sortBy    | string | No       | Campo utilizado para ordenar resultados. Valores permitidos: idGrade, level. Default: level. |
-| sortOrder | string | No       | Ordenamiento ascendente o descendente. Valores permitidos: asc, desc. Default: asc.          |
+| Parameter | Type   | Required | Description                                                                         |
+| --------- | ------ | -------- | ----------------------------------------------------------------------------------- |
+| page      | number | No       | Número de página. Valor mínimo: 1. Default: 1.                                      |
+| limit     | number | No       | Cantidad de registros por página. Mínimo: 1. Máximo: 10. Default: 10.               |
+| search    | string | No       | Busca un grado específico por nivel.                                                |
+| sortOrder | string | No       | Ordenamiento ascendente o descendente. Valores permitidos: asc, desc. Default: asc. |
 
-### Example Request
+## Example Request
 
-- GET /grade?page=1&limit=10&sortBy=level&sortOrder=asc
+- GET /grade
+- GET /grade?page=1&limit=10
+- GET /grade?page=1&limit=10&sortOrder=desc
+- GET /grade?page=1&limit=10&search=5
 
-### Validations
+## Response
 
-- page: opcional, número entero, mínimo 1.
-- limit: opcional, número entero, mínimo 1, máximo 100.
-- sortBy: opcional, valores permitidos: idGrade, level.
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "idGrade": 1,
+      "level": 1
+    },
+    {
+      "idGrade": 2,
+      "level": 2
+    },
+    {
+      "idGrade": 3,
+      "level": 3
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 10,
+    "total": 3,
+    "totalPages": 1
+  }
+}
+```
+
+## Search Behavior
+
+El parámetro search busca coincidencias exactas sobre el campo:
+
+- level
+
+## Example Search Query
+
+- GET /grade?search=3
+
+## Example Search Response
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "idGrade": 3,
+      "level": 3
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 10,
+    "total": 1,
+    "totalPages": 1
+  }
+}
+```
+
+## Validations
+
+- page: opcional, número entero, mínimo 1, máximo 1000.
+- limit: opcional, número entero, mínimo 1, máximo 10.
 - sortOrder: opcional, valores permitidos: asc, desc.
+- search: opcional, debe representar un número entero válido.
+- No se permiten parámetros adicionales.
 
-### Validation Error Response
+## Validation Error Response
 
 ```json
 {
@@ -43,36 +106,7 @@ Obtiene una lista paginada de grados registrados en el sistema. Requiere autenti
 }
 ```
 
-### Response
-
-```json
-{
-  "success": true,
-  "data": [
-    {
-      "idGrade": 15,
-      "level": 0
-    },
-    ...,
-    {
-      "idGrade": 31,
-      "level": 8
-    },
-    {
-      "idGrade": 32,
-      "level": 9
-    }
-  ],
-  "pagination": {
-    "page": 1,
-    "limit": 10,
-    "total": 15,
-    "totalPages": 2
-  }
-}
-```
-
-### Unauthorized Response
+## Unauthorized Response
 
 ```json
 {
@@ -84,4 +118,4 @@ Obtiene una lista paginada de grados registrados en el sistema. Requiere autenti
 }
 ```
 
-</details>
+- [Volver al inicio](../../README.md)

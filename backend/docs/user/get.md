@@ -121,6 +121,21 @@ El parámetro search realiza búsquedas insensibles a mayúsculas/minúsculas so
 - sortOrder: opcional, valores permitidos: asc, desc.
 - search: opcional, trim automático.
 
+## Validation Error Response
+
+```json
+{
+  "success": false,
+  "message": "Error de validación",
+  "errors": [
+    {
+      "field": "sortOrder",
+      "message": "El orden debe ser asc o desc"
+    }
+  ]
+}
+```
+
 ## Unauthorized Response
 
 ```json

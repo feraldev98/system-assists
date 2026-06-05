@@ -1,66 +1,66 @@
 import z from "zod";
 import { schemaUtils } from "../../utils/schema.utils.js";
+import { validateUtils } from "../../utils/validate.utils.js";
+import { gradeFields } from "./grade.fields.js";
 const gradeSchema = {
-  createGrade: z
+  create: z
     .object({
-      level: z.preprocess(
-        (val) => val ?? null,
-        z
-          .int({ message: "El grado debe ser un número entero" })
-          .min(0, "El grado no puede ser negativo")
-          .max(15, "El grado no puede ser mayor a 15")
-          .transform(Number),
-      ),
+      level: schemaUtils.numberField({
+        label: "El grado",
+        min: 0,
+        max: 15,
+        required: true,
+      }),
     })
     .strict({
       message: "No se permiten campos adicionales",
     }),
 
-  userParams: z
+  params: z
     .object({
+      id: schemaUtils.idField({
+        label: "El ID del grado",
+        required: false,
+      }),
       page: schemaUtils.numberField({
         label: "La página",
         min: 1,
         max: 1000,
         defaultValue: 1,
+        required: false,
       }),
       limit: schemaUtils.numberField({
         label: "El límite",
         min: 1,
         max: 10,
         defaultValue: 10,
+        required: false,
       }),
-      sortBy: z
-        .string()
-        .refine((val) => ["idGrade", "level"].includes(val), {
-          message: "El ordenamiento puede ser por idGrade o level",
-        })
-        .default("level"),
-
-      sortOrder: z
-        .string()
-        .refine((val) => ["asc", "desc"].includes(val), {
-          message: "El orden debe ser asc o desc",
-        })
-        .default("asc"),
+      sortOrder: schemaUtils.sortOrderField(),
+      search: schemaUtils.searchField(),
     })
     .strict({
       message: "No se permiten campos adicionales",
     }),
 
-  updateGrade: z
+  update: z
     .object({
-      level: z.preprocess(
-        (val) => val ?? null,
-        z
-          .int({ message: "El grado debe ser un número entero" })
-          .min(0, "El grado no puede ser negativo")
-          .max(15, "El grado no puede ser mayor a 15")
-          .transform(Number),
-      ),
+      level: schemaUtils.numberField({
+        label: "El grado",
+        min: 0,
+        max: 15,
+        required: true,
+      }),
     })
     .strict({
       message: "No se permiten campos adicionales",
+    })
+    .superRefine((data, ctx) => {
+      validateUtils.validateBody({
+        data,
+        ctx,
+        fields: gradeFields.editableFields,
+      });
     }),
 };
 

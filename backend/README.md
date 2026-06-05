@@ -38,7 +38,14 @@ PARENT
 
 - [CREAR NUEVO USUARIO](docs/user/create.md)
 - [LISTAR USUARIOS](docs/user/get.md)
+- [LISTAR USUARIOS POR ID](docs/user/getById.md)
 - [ACTUALIZAR USUARIO](docs/user/update.md)
 - [ELIMINAR USUARIO](docs/user/delete.md)
 
 ### GRADE
+
+- [CREAR NUEVO GRADO (EJ. 1°, 2°, ETC)](docs/grade/create.md)
+- [LISTAR TODOS LOS GRADOS](docs/grade/get.md)
+- [LISTAR GRADO POR ID](docs/grade/getById.md)
+- [ACTUALIZAR GRADO](docs/grade/update.md)
+- [ELIMINAR GRADO](docs/grade/delete.md)

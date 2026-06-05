@@ -49,6 +49,7 @@ Todos los campos son opcionales. Se actualizarán únicamente los campos enviado
 ### Params
 
 - id: requerido, número entero positivo.
+- No se permiten campos adicionales.
 
 ### Body
 
@@ -138,6 +139,21 @@ Todos los campos son opcionales. Se actualizarán únicamente los campos enviado
     {
       "field": "id",
       "message": "No existe un registro con el ID proporcionado"
+    }
+  ]
+}
+```
+
+## Duplicate User Response
+
+```json
+{
+  "success": false,
+  "message": "Valor duplicado",
+  "errors": [
+    {
+      "field": "level",
+      "message": "Ya existe un registro con este valor"
     }
   ]
 }

@@ -1,11 +1,11 @@
 import z from "zod";
 import { AppError } from "./AppError.js";
-import { userFields } from "../modules/user/user.fields.js";
 
 const validateUtils = {
-  validateBody: ({ data, ctx }) => {
+  validateBody: ({ data, ctx, fields }) => {
+    console.log(data, ctx, fields);
     // validar que haya al menos un campo
-    const hasAtLeastOneField = userFields.editableFields.some(
+    const hasAtLeastOneField = fields.some(
       (field) => data[field] !== undefined,
     );
 

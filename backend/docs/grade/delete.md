@@ -1,23 +1,23 @@
-# LISTAR GRADO POR ID
+# ELIMINAR GRADO POR ID
 
-## GET /grade/:id
+## DELETE /grade/:id
 
-- Obtiene la información de un grado del sistema mediante su ID.
+- Elimina un grado registrado en el sistema.
 - Requiere autenticación.
 
 ## Authentication
 
-- Solo usuarios con rol ADMIN o AUXILIAR pueden acceder a este endpoint.
+- Solo usuarios con rol ADMIN pueden acceder a este endpoint.
 
 ## URL Params
 
-| URL Param | Type   | Required | Description                       |
-| --------- | ------ | -------- | --------------------------------- |
-| id        | number | Sí       | ID del grado que se desea buscar. |
+| Parameter | Type   | Required | Description                         |
+| :-------- | :----- | :------- | :---------------------------------- |
+| id        | number | Sí       | ID del grado que se desea eliminar. |
 
 ## Example Request
 
-GET /grade/1
+- DELETE /grade/3
 
 ## Validations
 
@@ -34,7 +34,7 @@ GET /grade/1
   "errors": [
     {
       "field": "id",
-      "message": "El ID del usuario debe ser un número entero"
+      "message": "El ID del grado debe ser un número entero"
     }
   ]
 }
@@ -45,10 +45,10 @@ GET /grade/1
 ```json
 {
   "success": true,
-  "message": "Grado encontrado",
+  "message": "Grado eliminado correctamente",
   "grade": {
-    "idGrade": 3,
-    "level": 2
+    "idGrade": 1,
+    "level": 1
   }
 }
 ```

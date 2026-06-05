@@ -1,4 +1,3 @@
-import { schemaUtils } from "../../utils/schema.utils.js";
 import { validateUtils } from "../../utils/validate.utils.js";
 import { userSchema } from "../user/user.schema.js";
 import { gradeSchema } from "./grade.schema.js";
@@ -7,10 +6,10 @@ import { gradeService } from "./grade.service.js";
 const gradeController = {
   create: async (req, res, next) => {
     try {
-      const data = await validateUtils.validateSchema(
-        gradeSchema.createGrade,
-        req.body,
-      );
+      const data = await validateUtils.validateSchema({
+        schema: gradeSchema.create,
+        data: req.body,
+      });
       const newGrade = await gradeService.create(data);
 
       return res.json({
@@ -25,7 +24,7 @@ const gradeController = {
   get: async (req, res, next) => {
     try {
       const validate = await validateUtils.validateSchema({
-        schema: gradeSchema.userParams,
+        schema: gradeSchema.params,
         data: req.query,
       });
       const [grades, totalGrades] = await gradeService.get(validate);
@@ -49,7 +48,6 @@ const gradeController = {
         schema: userSchema.params,
         data: req.params,
       });
-      console.log(validate);
       const grade = await gradeService.getById(validate.id);
       return res.json({
         success: true,
@@ -69,7 +67,7 @@ const gradeController = {
       });
 
       const data = await validateUtils.validateSchema({
-        schema: gradeSchema.updateGrade,
+        schema: gradeSchema.update,
         data: req.body,
       });
       const updatedGrade = await gradeService.update(validate.id, data);
@@ -87,10 +85,7 @@ const gradeController = {
   delete: async (req, res, next) => {
     try {
       const { id } = await validateUtils.validateSchema({
-        schema: schemaUtils.idField({
-          label: "El ID del grado",
-          required: true,
-        }),
+        schema: gradeSchema.params,
         data: req.params,
       });
       const deletedGrade = await gradeService.delete(id);

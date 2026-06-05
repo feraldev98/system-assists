@@ -1,26 +1,21 @@
-<details>
-<summary>CREAR NUEVO GRADO</summary>
-  
-### POST /grade
+# CREAR NUEVO USUARIO
 
-Crea un nuevo grado en el sistema. Requiere autenticación y permisos de administrador.
+## POST /user
 
-### Authentication
+- Crea un nuevo grado en el sistema.
+- Requiere autenticación.
+
+## Authentication
 
 - Solo usuarios con rol ADMIN pueden acceder a este endpoint.
 
-### body
+## Body:
 
-```json
-{
-  "level": 1
-}
-```
+- level: nivel del grado.
 
-### Example Request
+## Example Request
 
-- POST /user
-
+- POST /grade
 - BODY:
 
 ```json
@@ -29,13 +24,16 @@ Crea un nuevo grado en el sistema. Requiere autenticación y permisos de adminis
 }
 ```
 
-### Validations
+## Validations:
 
-- level: requerido, número entero.
-- level: no puede ser negativo.
+- level: requerido.
+- level: debe ser un número.
+- level: debe ser un número entero.
+- level: debe ser mayor o igual a 0.
+- level: no puede ser mayor a 15.
 - No se permiten campos adicionales.
 
-### Validation Error Response
+## Validation Error Response
 
 ```json
 {
@@ -44,26 +42,38 @@ Crea un nuevo grado en el sistema. Requiere autenticación y permisos de adminis
   "errors": [
     {
       "field": "level",
+      "message": "El grado debe ser un número"
+    },
+    {
+      "field": "level",
       "message": "El grado debe ser un número entero"
+    },
+    {
+      "field": "level",
+      "message": "El grado debe ser mayor o igual a 0"
+    },
+    {
+      "field": "level",
+      "message": "El grado no puede ser mayor a 15"
     }
   ]
 }
 ```
 
-### Response
+## Success Response:
 
 ```json
 {
   "success": true,
   "message": "Grado creado correctamente",
   "grade": {
-    "idGrade": 37,
-    "level": 14
+    "idGrade": 5,
+    "level": 12
   }
 }
 ```
 
-### Duplicate Grade Response
+## Duplicate User Response
 
 ```json
 {
@@ -78,7 +88,7 @@ Crea un nuevo grado en el sistema. Requiere autenticación y permisos de adminis
 }
 ```
 
-### Unauthorized Response
+## Unauthorized Response
 
 ```json
 {
@@ -90,4 +100,4 @@ Crea un nuevo grado en el sistema. Requiere autenticación y permisos de adminis
 }
 ```
 
-</details>
+- [Volver al inicio](../../README.md)

@@ -1,48 +1,48 @@
-<details>
-<summary>ACTUALIZAR INFORMACIÓN DE UN GRADO</summary>
-  
-### PUT /grade/:id
+# ACTUALIZAR INFORMACIÓN DE UN GRADO
 
-Actualiza la información de un grado existente mediante su ID. Requiere autenticación y permisos de administrador.
+## PUT /grade/:id
 
-### Authentication
+- Actualiza la información de un grado existente.
+- Requiere autenticación.
+
+## Authentication
 
 - Solo usuarios con rol ADMIN pueden acceder a este endpoint.
 
-### URL Params
+## URL Params
 
-| Parameter | Type   | Required | Description                                                               |
-| :-------- | :----- | :------- | :------------------------------------------------------------------------ |
-| id        | number | Sí       | ID del grado que se desea actualizar. Debe ser un número entero positivo. |
+| URL Param | Type   | Required | Description                           |
+| --------- | ------ | -------- | ------------------------------------- |
+| id        | number | Sí       | ID del grado que se desea actualizar. |
+
+## Body
+
+- level: número del grado.
+
+## Example Request
+
+- PUT /user/1
+- BODY:
+
+```json
+{
+  "level": 2
+}
+```
+
+## Validations
+
+### Params
+
+- id: requerido, número entero positivo.
+- No se permiten campos adicionales.
 
 ### Body
 
-```json
-{
-  "level": 5
-}
-```
-
-### Example Request
-
-- PUT /grade/1
-- Body
-
-```json
-{
-  "level": 5
-}
-```
-
-### Validations
-
-- id: requerido, debe ser un número entero.
-- level: requerido, debe ser un número entero.
-- level: no puede ser negativo.
-- level: no puede ser mayor a 15.
+- level: requerido, debe ser un número entero, mayor o igual a 0 y menor o igual a 15.
 - No se permiten campos adicionales.
 
-### Validation Error Response
+## Validation Error Response
 
 ```json
 {
@@ -51,41 +51,53 @@ Actualiza la información de un grado existente mediante su ID. Requiere autenti
   "errors": [
     {
       "field": "level",
+      "message": "El grado debe ser un número"
+    },
+    {
+      "field": "level",
+      "message": "El grado debe ser un número entero"
+    },
+    {
+      "field": "level",
+      "message": "El grado debe ser mayor o igual a 0"
+    },
+    {
+      "field": "level",
       "message": "El grado no puede ser mayor a 15"
     }
   ]
 }
 ```
 
-### Response
+## Success Response
 
 ```json
 {
   "success": true,
   "message": "Grado actualizado correctamente",
   "grade": {
-    "idGrade": 19,
-    "level": 15
+    "idGrade": 3,
+    "level": 6
   }
 }
 ```
 
-### Duplicate Grade Response
+## Empty Body Error Response
 
 ```json
 {
   "success": false,
-  "message": "Valor duplicado",
+  "message": "Error de validación",
   "errors": [
     {
-      "field": "level",
-      "message": "Ya existe un registro con este valor"
+      "field": "body",
+      "message": "Debes enviar al menos un campo para actualizar"
     }
   ]
 }
 ```
 
-### Not Found Response
+## Not Found User Response
 
 ```json
 {
@@ -100,7 +112,22 @@ Actualiza la información de un grado existente mediante su ID. Requiere autenti
 }
 ```
 
-### Unauthorized Response
+## Duplicate User Response
+
+```json
+{
+  "success": false,
+  "message": "Valor duplicado",
+  "errors": [
+    {
+      "field": "level",
+      "message": "Ya existe un registro con este valor"
+    }
+  ]
+}
+```
+
+## Unauthorized Response
 
 ```json
 {
@@ -112,4 +139,4 @@ Actualiza la información de un grado existente mediante su ID. Requiere autenti
 }
 ```
 
-</details>
+- [Volver al inicio](../../README.md)
