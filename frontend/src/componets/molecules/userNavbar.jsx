@@ -9,6 +9,7 @@ function UserNavbar ({
 
   return(
       <Button
+        variant="primary"
         onClick={toggleModal}
         className="flex flex-row md:flex-row items-center gap-2 px-4 py-2 h-full transition-colors duration-300 hover:bg-blueT"
       >

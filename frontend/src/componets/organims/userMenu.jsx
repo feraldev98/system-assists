@@ -3,9 +3,10 @@ import { Button } from '../atoms/button';
 import { UserNavbar } from '../molecules/userNavbar';
 import { NavbarMenu } from '../molecules/desktopMenu';
 import { Link } from 'react-router-dom';
-import { useAuth } from "../../hooks/useAuth";
-//HOOK MODAL
+//HOOKS
 import { useModal } from '../../hooks/useModal';
+import { useAuth } from "../../hooks/useAuth";
+import { useNavbar } from "../../context/navbarContext";
 //MODALES
 import { UserMenuModal } from '../modals/modalsUser/userMenuModal';
 import { ChangePasswordModal } from '../modals/modalsUser/userPasswordModal';
@@ -15,8 +16,12 @@ function UserMenu({ onLogout, mobile = false }) {
   //hook modal
   const userMenuModal = useModal() 
   const passwordModal = useModal()
+
   //hook idenfiticar rol
   const {role} =  useAuth()
+
+  //hook mobilOpen
+  const {setMobileOpen} = useNavbar()
 
   //navegar a las notificaciones segun el rol
   const notificationsRutes = {
@@ -24,9 +29,8 @@ function UserMenu({ onLogout, mobile = false }) {
     assistant: '/notifications-assistant',
     father: '/notifications-student',
   }
-
   const notificationRoute =
-  notificationRoutes[role] || '/notifications-student';
+  notificationsRutes[role] || '/notifications-student';
 
 
   const user = {
@@ -48,6 +52,7 @@ function UserMenu({ onLogout, mobile = false }) {
       {/*icono notificaciones*/}
       <Link
         to={notificationRoute} 
+        onClick={() => setMobileOpen (false)}
         variant=''
         className="text-white p-[1em]  
         transition-colors duration-400 hover:bg-blueT border-r boder-white

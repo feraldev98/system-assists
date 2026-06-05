@@ -110,12 +110,12 @@ function FilterBehavior({ currentStudent }) {
       "
     >
       {/* ── Botones de filtro por fecha ───────────────────────────────────── */}
-      <div className="flex gap-3 md:gap-6 justify-between md:justify-start bg-gray-200 w-full md:w-sm rounded-md px-3">
+      <div className="flex gap-3 md:gap-6 justify-between md:justify-start w-full md:w-sm rounded-md px-3">
         {DATE_FILTERS.map((filter) => (
           <Button
             key={filter}
             text={filter}
-            variant={dateFilter === filter ? "ternary" : ""}
+            variant={dateFilter === filter ? "" : "ternary"}
             onClick={() => setDateFilter(filter)}
           />
         ))}

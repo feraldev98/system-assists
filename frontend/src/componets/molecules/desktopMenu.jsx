@@ -4,11 +4,17 @@ import { useLocation } from "react-router-dom";
 import { NavbarLink } from "../atoms/navbarLink";
 import { MobileMenu } from "./mobileMenu";
 import { menuByRole } from "../../config/sidebarLinks";
+//Hooks
 import { useAuth } from "../../hooks/useAuth";
+import { useNavbar } from "../../context/navbarContext";
 
 function NavbarMenu() {
-  const [openDropdown, setOpenDropdown] = useState(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const {
+    mobileOpen,
+    setMobileOpen,
+    openDropdown,
+    setOpenDropdown
+  } = useNavbar()
 
   const menuRef = useRef(null);
   const location = useLocation();
@@ -130,9 +136,7 @@ function NavbarMenu() {
                     `}
                   />
                 </button>
-
                 {/* SUBMENÚ */}
-
                 {openDropdown === index && (
                   <ul
                     className="

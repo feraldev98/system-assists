@@ -10,7 +10,7 @@ function Logo({ variant = 'default' }) {
   }
 
   const variants = {
-    default: `relative w-[8em] h-[8em] rounded-full overflow-hidden mt-13`,
+    default: `relative w-[7em] h-[7em] rounded-full overflow-hidden mt-13`,
     primary: `relative w-[10em] h-[10em] rounded-full overflow-hidden`
   }
 
