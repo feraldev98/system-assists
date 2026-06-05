@@ -1,14 +1,14 @@
 import { AppError } from "../../utils/AppError.js";
 import { authService } from "./auth.service.js";
-import { loginSchema } from "./auth.schema.js";
 import { authUtils } from "../../utils/auth.utils.js";
 import { validateUtils } from "../../utils/validate.utils.js";
+import { authSchema } from "./auth.schema.js";
 
 const authController = {
   login: async (req, res, next) => {
     try {
       const validate = await validateUtils.validateSchema({
-        schema: loginSchema,
+        schema: authSchema.login,
         data: req.body,
       });
 

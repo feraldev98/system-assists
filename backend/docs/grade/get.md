@@ -7,7 +7,7 @@
 
 ## Authentication
 
-- Solo usuarios con rol ADMIN pueden acceder a este endpoint.
+- Solo usuarios con rol ADMIN o AUXILIAR pueden acceder a este endpoint.
 
 ## Query Params
 
