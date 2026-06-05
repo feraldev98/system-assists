@@ -46,7 +46,6 @@ const authController = {
         throw new AppError("Sin autorización", 401, {
           message: "Sin autorización",
         });
-
       res.clearCookie("token", authUtils.COOKIE_OPTIONS);
 
       return res.json({

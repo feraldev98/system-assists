@@ -1,11 +1,24 @@
-<details>
-<summary>CERRAR SESIÓN</summary>
+# CERRAR SESIÓN
 
-### POST /logout
+## POST /logout
 
-Cierra la sesión del usuario autenticado eliminando la cookie HTTPOnly token.
+- Cierra la sesión del usuario autenticado.
+- Elimina la cookie HTTPOnly token que contiene el JWT de autenticación.
+- Requiere que exista una sesión activa.
 
-### Response:
+## Authentication
+
+- Solo usuarios atenticados pueden acceder a este endpoint.
+
+## Example Request
+
+- POST /logout
+
+## Validations:
+
+- cookie: si no existe token, el servidor responderá con error de autorización.
+
+## Success Response:
 
 ```json
 {
@@ -14,11 +27,7 @@ Cierra la sesión del usuario autenticado eliminando la cookie HTTPOnly token.
 }
 ```
 
-### Validations:
-
-- requiere usuario autenticado.
-
-### Unauthorized Response
+## Validations Error Response:
 
 ```json
 {
@@ -30,6 +39,16 @@ Cierra la sesión del usuario autenticado eliminando la cookie HTTPOnly token.
 }
 ```
 
-</details>
+## Unauthorized Response
+
+```json
+{
+  "success": false,
+  "message": "Sin autorización",
+  "errors": {
+    "message": "Sin autorización"
+  }
+}
+```
 
 - [Volver al inicio](../../README.md)
