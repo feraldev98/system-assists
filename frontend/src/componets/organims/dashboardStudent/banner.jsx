@@ -1,6 +1,6 @@
-import { Article } from "../../molecules/dashboardStudent/articlebanner";
+import { Article } from "../../molecules/dashboardStudent/articlebanner"
 
-function Banner ({greetingLabel, userData, visible, saludo}) {
+function Banner () {
   return(
     <section className="
       relative
@@ -17,12 +17,7 @@ function Banner ({greetingLabel, userData, visible, saludo}) {
     >
         <div className="absolute -top-16 -right-16 w-60 h-60 rounded-full bg-white/5" />
         <div className="absolute -bottom-10 right-20 w-40 h-40 rounded-full bg-white/10" />
-    <Article
-      greetingLabel={greetingLabel}
-      userData={userData}
-      visible={visible}
-      saludo={saludo}
-    />
+    <Article/>
     </section>
   )
 }

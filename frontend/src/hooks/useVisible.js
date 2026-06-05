@@ -4,11 +4,9 @@ export const useVisible = (
   delay = 80
 ) => {
   
-  const [visible, setVisible] =
-    useState(false)
+  const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-
     const t = setTimeout(() => {
       setVisible(true)
     }, delay)

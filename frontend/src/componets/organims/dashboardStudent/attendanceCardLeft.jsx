@@ -9,16 +9,16 @@ function AttendanceClassCard ({ AttendancesClasses }) {
         <div
           key={i}
           className="
-                    border border-gray-200 rounded-xl
-                    p-4 flex gap-4
-                    hover:shadow-md transition-all
-                  "
+            border border-gray-200 rounded-xl
+            p-4 flex gap-4
+            hover:shadow-md transition-all
+          "
         >
           {/* ICONO */}
           <div
             className="
-                  min-w-[70px] flex items-center justify-center
-                  text-center border-r border-gray-200 pr-4"
+              min-w-[70px] flex items-center justify-center
+              text-center border-r border-gray-200 pr-4"
           >
             {item.icon}
           </div>

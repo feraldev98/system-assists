@@ -3,7 +3,7 @@ import { Paragraph } from "../../atoms/paragraph"
 import { useVisible } from "../../../hooks/useVisible"
 import { useGreeting } from "../../../hooks/useGreeting"
 
-function Article () {
+function ArticleBannerAssitant () {
 
   const { visible } = useVisible(90)
   const {
@@ -11,7 +11,7 @@ function Article () {
     greetingHour,
     name
   } = useGreeting()
-  
+
   return(
     <article className="max-w-5xl mx-auto relative z-10">
           <span className="inline-block bg-white/10 text-cyan-200 text-xs 
@@ -47,4 +47,4 @@ function Article () {
   )
 }
 
-export {Article}
+export {ArticleBannerAssitant}

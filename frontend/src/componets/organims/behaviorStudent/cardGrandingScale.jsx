@@ -27,7 +27,9 @@ function CardGrandingScale() {
       />
       <div className={`grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6
         transition-all duration-500 
-        ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
+        ${visible 
+          ? 'opacity-100 translate-y-0' 
+          : 'opacity-0 translate-y-4'}
       `}>
         {grandingScale.map((item, i) => {
           const Icon = item.icon;

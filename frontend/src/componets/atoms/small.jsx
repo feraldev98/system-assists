@@ -10,7 +10,8 @@ function Small ({
 
   const variants = {
     default : `text-gray-500`,
-    primary: `text-blueT`
+    primary: `text-blueT`,
+    secondary: `text-black`
   }
 
   const sices = {
@@ -18,6 +19,7 @@ function Small ({
     small: 'text-[.8em]',
     medium: 'text-sm',
     large: 'text-[.8em] ',
+    xlarge: 'text-[1em]'
   }
 
   const alignments = {

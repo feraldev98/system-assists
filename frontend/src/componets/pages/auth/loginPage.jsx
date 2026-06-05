@@ -6,7 +6,6 @@ import { DescriptionLogin } from '../../molecules/loginPage/descriptión'
 export const LoginPage = ({ onLogin }) => {
 
   const navigate = useNavigate()
-
   const handleLoginSuccess = (user) => {
     onLogin(user)
 

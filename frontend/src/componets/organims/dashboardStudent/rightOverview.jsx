@@ -4,25 +4,29 @@ import { TitleIconLink } from "../../molecules/titleIconLink";
 import { Link } from "../../atoms/link"
 import { CoursesPorsentages } from "./coursesPorcentageRight"
 import { href } from "react-router-dom";
+import { useVisible } from "../../../hooks/useVisible";
 
-function RightOverview ({ averageAttendances, visible  }) {
+function RightOverview ({ averageAttendances   }) {
   const title = 'ACCESOS RÁPIDOS'
   const title3 = 'PROMEDIO ASISTENCIAS'
+
+  const { visible } = useVisible(90)
+
   const quickAccess = [
     {
       title: "Asitencias",
       days: "Historial completo",
-      href: ''
+      href: '/attendance-student'
     },
     {
       title: "Comportamiento",
       days: "Calificaciones",
-      href: ''
+      href: '/behavior-student'
     },
     {
       title: "Institución ",
       days: "información",
-      href: ''
+      href: '/institution'
     },
   ];
   return(
@@ -47,13 +51,11 @@ function RightOverview ({ averageAttendances, visible  }) {
               transition-all duration-500
               ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}
             `}>
-            <div className="flex items-center justify-between mb-6">
               <TitleIconLink
                 title={title3}
                 icon={HiOutlineBookOpen}
                 text={'Ver Todo'}
               />
-            </div>
               <CoursesPorsentages
                 averageAttendances={averageAttendances}
               />

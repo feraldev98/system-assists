@@ -1,6 +1,7 @@
 import { LeftOverview } from "./leftOverview";
 import { RightOverview } from "./rightOverview";
-function Overview({visible}) {
+
+function Overview() {
 
   const recentResources = [
     {
@@ -59,7 +60,6 @@ function Overview({visible}) {
         <RightOverview
           recentResources={recentResources}
           averageAttendances={averageAttendances}
-          visible={visible}
         />
       </div>
     </section>

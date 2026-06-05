@@ -4,12 +4,12 @@ import { Title } from "../../atoms/title"
 
 function QuickAccess({quickAccess, href, visible, }) {
   return (
-    <Link
-      to={href}
+    <div
       className=" grid sm:grid-cols-2 xl:grid-cols-3 gap-3 w-full ">
       {quickAccess.map((item, i) => (
-        <div
+        <Link
           key={i}
+          to={item.href}
           className={`bg-blueT rounded-md p-4 
               shadow-md shadow-blue/20 border border-borderC
               transition-all duration-300 ease-in-out font-hani 
@@ -33,9 +33,9 @@ function QuickAccess({quickAccess, href, visible, }) {
             className="text-green-50"
           />
           </div>
-        </div>
+        </Link>
       ))}
-    </Link>
+    </div>
   )
 }
 
