@@ -1,0 +1,87 @@
+<details>
+<summary>LISTAR USUARIO POR ID</summary>
+  
+### GET /user/:id
+
+Obtiene la información de un usuario específico mediante su ID. Requiere autenticación y permisos de administrador.
+
+### Authentication
+
+- Solo usuarios con rol ADMIN pueden acceder a este endpoint.
+
+### URL Params
+
+| URL Param | Type   | Required | Description                         |
+| --------- | ------ | -------- | ----------------------------------- |
+| id        | number | Sí       | ID del usuario que se desea buscar. |
+
+### Example Request
+
+GET /user/1
+
+### Validations
+
+- id: requerido, número entero, mayor a 0.
+
+### Validation Error Response
+
+```json
+{
+  "success": false,
+  "message": "Error de validación",
+  "errors": [
+    {
+      "field": "id",
+      "message": "El ID de usuario debe ser mayor a 0"
+    }
+  ]
+}
+```
+
+### Response
+
+```json
+{
+  "success": true,
+  "message": "Usuario encontrado",
+  "user": {
+    "idUser": 1,
+    "firstname": "Fernando",
+    "lastname": "System",
+    "email": "admin@system.com",
+    "phone": "+51999888777",
+    "role": "ADMIN",
+    "createdAt": "2026-06-04T19:18:17.496Z",
+    "updatedAt": "2026-06-04T22:30:21.481Z"
+  }
+}
+```
+
+### Not Found Response
+
+```json
+{
+  "success": false,
+  "message": "Usuario no encontrado",
+  "errors": [
+    {
+      "field": "id",
+      "message": "No existe un usuario con el ID proporcionado"
+    }
+  ]
+}
+```
+
+### Unauthorized Response
+
+```json
+{
+  "success": false,
+  "message": "Sin autorización",
+  "errors": {
+    "message": "Sin autorización"
+  }
+}
+```
+
+</details>

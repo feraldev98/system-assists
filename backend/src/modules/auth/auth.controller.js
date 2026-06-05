@@ -1,37 +1,30 @@
-import { compare as validatePassword } from "bcrypt";
 import { AppError } from "../../utils/AppError.js";
 import { authService } from "./auth.service.js";
 import { loginSchema } from "./auth.schema.js";
-import { COOKIE_OPTIONS, generateToken } from "../../utils/auth.utils.js";
+import { authUtils } from "../../utils/auth.utils.js";
+import { validateSchema } from "../../utils/validate.utils.js";
 
 const authController = {
   login: async (req, res, next) => {
-    const { email, password } = req.body;
     try {
-      const validate = await loginSchema.safeParseAsync({ email, password });
-      if (!validate.success)
-        throw new AppError(validate.error.issues[0].message, 400, {
-          message: validate.error.issues[0].message,
-        });
+      const validate = await validateSchema(loginSchema, req.body);
 
-      const credentials = await authService.getCredentials({ email });
-
+      const credentials = await authService.getCredentials({
+        email: validate.email,
+      });
       if (!credentials)
         throw new AppError("Usuario y/o contraseña incorrectos", 400, {
           message: "Usuario y/o contraseña incorrectos",
         });
 
-      const isPasswordCorrect = await validatePassword(
-        password,
+      await authUtils.comparePassword(
+        validate.email,
+        validate.password,
         credentials.passwordHash,
       );
-      if (!isPasswordCorrect)
-        throw new AppError("Usuario y/o contraseña incorrectos", 400, {
-          message: "Usuario y/o contraseña incorrectos",
-        });
 
-      const token = await generateToken(credentials);
-      res.cookie("token", token, COOKIE_OPTIONS);
+      const token = await authUtils.generateToken(credentials);
+      res.cookie("token", token, authUtils.COOKIE_OPTIONS);
 
       return res.json({
         success: true,
@@ -54,7 +47,7 @@ const authController = {
           message: "Sin autorización",
         });
 
-      res.clearCookie("token", COOKIE_OPTIONS);
+      res.clearCookie("token", authUtils.COOKIE_OPTIONS);
 
       return res.json({
         success: true,

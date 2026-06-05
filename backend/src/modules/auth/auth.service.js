@@ -1,5 +1,4 @@
-
-import { prisma } from "../../config/prisma.js"
+import { prisma } from "../../config/prisma.js";
 
 const authService = {
   getCredentials: async ({ email }) => {
@@ -11,11 +10,11 @@ const authService = {
         lastname: true,
         email: true,
         passwordHash: true,
-        role: true
-      }
-    })
-    return queryResult
-  }
-}
+        role: true,
+      },
+    });
+    return queryResult;
+  },
+};
 
-export { authService }
+export { authService };

@@ -35,7 +35,9 @@ const gradeSchema = {
         })
         .default("asc"),
     })
-    .strict(),
+    .strict({
+      message: "No se permiten campos adicionales",
+    }),
 
   updateGrade: z
     .object({

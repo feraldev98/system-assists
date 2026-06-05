@@ -1,6 +1,6 @@
 import { prisma } from "./config/prisma.js";
 import { userService } from "./modules/user/user.service.js";
-import { generatePasswordHash } from "./utils/auth.utils.js";
+import { authUtils } from "./utils/auth.utils.js";
 
 const setup = async () => {
   try {
@@ -19,7 +19,7 @@ const setup = async () => {
       throw new Error("El usuario administrador ya existe");
     }
 
-    const passwordHash = await generatePasswordHash(
+    const passwordHash = await authUtils.generatePasswordHash(
       adminPassword,
       process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10,
     );

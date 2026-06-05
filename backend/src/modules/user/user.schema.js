@@ -23,7 +23,7 @@ const userCreateSchema = z
         .trim()
         .min(1, "La contraseña es requerida")
         .min(8, "La contraseña debe tener mínimo 8 caracteres")
-        .max(100, "La contraseña no puede tener más de 100 caracteres")
+        .max(32, "La contraseña no puede tener más de 32 caracteres")
         .regex(/[a-zA-Z]/, "La contraseña debe contener al menos una letra")
         .regex(/[0-9]/, "La contraseña debe contener al menos un número"),
     ),
@@ -113,7 +113,7 @@ const userUpdateSchema = z
       .string()
       .trim()
       .min(8, "La contraseña debe tener mínimo 8 caracteres")
-      .max(100, "La contraseña no puede tener más de 100 caracteres")
+      .max(32, "La contraseña no puede tener más de 32 caracteres")
       .regex(/[a-zA-Z]/, "La contraseña debe tener al menos una letra")
       .regex(/[0-9]/, "La contraseña debe tener al menos un número")
       .optional(),

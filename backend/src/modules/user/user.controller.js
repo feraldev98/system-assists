@@ -1,4 +1,3 @@
-import { generatePasswordHash } from "../../utils/auth.utils.js";
 import { userService } from "./user.service.js";
 import {
   userCreateSchema,
@@ -6,13 +5,16 @@ import {
   userUpdateSchema,
 } from "./user.schema.js";
 import { idSchema, validateSchema } from "../../utils/validate.utils.js";
+import { authUtils } from "../../utils/auth.utils.js";
 
 const userController = {
   create: async (req, res, next) => {
     try {
       const validate = await validateSchema(userCreateSchema, req.body);
 
-      const passwordHash = await generatePasswordHash(validate.password);
+      const passwordHash = await authUtils.generatePasswordHash(
+        validate.password,
+      );
 
       const queryResult = await userService.createUser({
         ...validate,
@@ -56,7 +58,7 @@ const userController = {
       const data = await validateSchema(userUpdateSchema, req.body);
 
       if (data.password) {
-        data.passwordHash = await generatePasswordHash(data.password);
+        data.passwordHash = await authUtils.generatePasswordHash(data.password);
 
         delete data.password;
         delete data.repassword;
