@@ -65,6 +65,19 @@ const gradeController = {
   },
 
   // todo: delete by id.
+  delete: async (req, res, next) => {
+    try {
+      const { id } = await validateSchema(idSchema, req.params);
+      const deletedGrade = await gradeService.delete(id);
+      return res.json({
+        success: true,
+        message: "Grado eliminado correctamente",
+        grade: deletedGrade,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 
 export { gradeController };

@@ -481,7 +481,6 @@ GET /user/1
 ### Validations
 
 - id: requerido, número entero, mayor a 0.
-- No se permiten campos adicionales.
 
 ### Validation Error Response
 
@@ -570,7 +569,6 @@ DELETE /user/1
 ### Validations
 
 - id: requerido, número entero, mayor a 0.
-- No se permiten campos adicionales.
 
 ### Validation Error Response
 
@@ -841,7 +839,6 @@ Obtiene la información de un grado específico mediante su ID. Requiere autenti
 ### Validations
 
 - id: requerido, debe ser un número entero.
-- No se permiten campos adicionales.
 
 ### Validation Error Response
 
@@ -903,7 +900,7 @@ Obtiene la información de un grado específico mediante su ID. Requiere autenti
 <details>
 <summary>ACTUALIZAR INFORMACIÓN DE UN GRADO</summary>
   
-### PATCH /grade/:id
+### PUT /grade/:id
 
 Actualiza la información de un grado existente mediante su ID. Requiere autenticación y permisos de administrador.
 
@@ -927,7 +924,7 @@ Actualiza la información de un grado existente mediante su ID. Requiere autenti
 
 ### Example Request
 
-- PATCH /grade/1
+- PUT /grade/1
 - Body
 
 ```json
@@ -984,6 +981,88 @@ Actualiza la información de un grado existente mediante su ID. Requiere autenti
       "message": "Ya existe un registro con este valor"
     }
   ]
+}
+```
+
+### Not Found Response
+
+```json
+{
+  "success": false,
+  "message": "Registro no encontrado",
+  "errors": [
+    {
+      "field": "id",
+      "message": "No existe un registro con el ID proporcionado"
+    }
+  ]
+}
+```
+
+### Unauthorized Response
+
+```json
+{
+  "success": false,
+  "message": "Sin autorización",
+  "errors": {
+    "message": "Sin autorización"
+  }
+}
+```
+
+</details>
+
+<details>
+<summary>ELIMINAR GRADO POR ID</summary>
+  
+### DELETE /grade/:id
+
+Elimina un grado existente del sistema. Requiere autenticación y permisos de administrador.
+
+### Authentication
+
+- Solo usuarios con rol ADMIN pueden acceder a este endpoint.
+
+### URL Params
+
+| Parameter | Type   | Required | Description                                                             |
+| :-------- | :----- | :------- | :---------------------------------------------------------------------- |
+| id        | number | Sí       | ID del grado que se desea eliminar. Debe ser un número entero positivo. |
+
+### Example Request
+
+- DELETE /grade/3
+
+### Validations
+
+- id: requerido, número entero positivo.
+
+### Validation Error Response
+
+```json
+{
+  "success": false,
+  "message": "Error de validación",
+  "errors": [
+    {
+      "field": "id",
+      "message": "El ID debe ser un número entero"
+    }
+  ]
+}
+```
+
+### Response
+
+```json
+{
+  "success": true,
+  "message": "Grado eliminado correctamente",
+  "grade": {
+    "idGrade": 21,
+    "level": 3
+  }
 }
 ```
 

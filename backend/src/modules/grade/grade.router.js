@@ -28,11 +28,18 @@ gradeRouter.get(
   gradeController.getById,
 );
 
-gradeRouter.patch(
+gradeRouter.put(
   "/:id",
   authMiddleware,
   authMiddlewareRole(["ADMIN"]),
   gradeController.update,
+);
+
+gradeRouter.delete(
+  "/:id",
+  authMiddleware,
+  authMiddlewareRole(["ADMIN"]),
+  gradeController.delete,
 );
 
 export { gradeRouter };

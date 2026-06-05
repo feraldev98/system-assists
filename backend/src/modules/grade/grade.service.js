@@ -63,6 +63,16 @@ const gradeService = {
     });
     return gradeUpdated;
   },
+  delete: async (id) => {
+    const deletedGrade = await prisma.grade.delete({
+      where: { idGrade: id },
+      select: {
+        idGrade: true,
+        level: true,
+      },
+    });
+    return deletedGrade;
+  },
 };
 
 export { gradeService };
