@@ -1,23 +1,36 @@
-<details>
-<summary>ACTUALIZAR INFORMACIÓN DE UN USUARIO</summary>
-  
-### PATCH /user/:id
+# ACTUALIZAR INFORMACIÓN DE UN USUARIO
 
-Obtiene una lista paginada de usuarios del sistema. Requiere autenticación y permisos de administrador.
+## PATCH /user/:id
 
-### Authentication
+- Actualiza uno o más campos de un usuario existente.
+- Requiere autenticación.
+
+## Authentication
 
 - Solo usuarios con rol ADMIN pueden acceder a este endpoint.
 
-### URL Params
+## URL Params
 
 | URL Param | Type   | Required | Description                             |
 | --------- | ------ | -------- | --------------------------------------- |
 | id        | number | Sí       | ID del usuario que se desea actualizar. |
 
-### Body
+## Body
 
-Todos los campos son opcionales, pero se debe enviar al menos uno.
+Todos los campos son opcionales. Se actualizarán únicamente los campos enviados.
+
+- firstname: nombre del usuario.
+- lastname: apellido del usuario.
+- email: correo electrónico del usuario.
+- phone: teléfono del usuario.
+- role: rol del usuario.
+- password: nueva contraseña.
+- repassword: confirmación de la nueva contraseña.
+
+## Example Request
+
+- PATCH /user/1
+- BODY:
 
 ```json
 {
@@ -31,24 +44,26 @@ Todos los campos son opcionales, pero se debe enviar al menos uno.
 }
 ```
 
-### Validations
+## Validations
 
-- firstname: opcional, trim, mínimo 2 caracteres, máximo 50 caracteres, solo letras y espacios.
-- lastname: opcional, trim, mínimo 2 caracteres, máximo 50 caracteres, solo letras y espacios.
-- email: opcional, trim, convertido a minúsculas, formato válido de email.
-- phone: opcional, trim, elimina espacios automáticamente, debe tener formato +519XXXXXXXX.
+### Params
+
+- id: requerido, número entero positivo.
+
+### Body
+
+- firstname: opcional, trim automático, mínimo 2 caracteres, máximo 50 caracteres, solo letras y espacios.
+- lastname: opcional, trim automático, mínimo 2 caracteres, máximo 50 caracteres, solo letras y espacios.
+- email: opcional, trim automático, convertido a minúsculas, formato válido de correo electrónico.
+- phone: opcional, trim automático, elimina espacios automáticamente, formato +519XXXXXXXX.
 - role: opcional, valores permitidos: ADMIN, AUXILIAR, PARENT.
-- password: opcional, trim, mínimo 8 caracteres, máximo 100 caracteres, al menos una letra y al menos un número.
-- repassword: opcional, obligatorio si se envía password, debe coincidir con password.
-- no se permiten campos adicionales.
+- password: opcional, mínimo 8 caracteres, máximo 32 caracteres, al menos una letra y un número.
+- repassword: opcional, requerida si se envía password.
+  password y repassword deben coincidir.
+- Debe enviarse al menos un campo para actualizar.
+- No se permiten campos adicionales.
 
-### Password Behavior
-
-- Si se envía password, el sistema genera automáticamente un nuevo passwordHash.
-- password y repassword no son retornados en la respuesta.
-- Si no se envía password, la contraseña actual permanece sin cambios.
-
-### Example Request
+## Example Request
 
 - PATCH /user/1
 - BODY:
@@ -60,26 +75,26 @@ Todos los campos son opcionales, pero se debe enviar al menos uno.
 }
 ```
 
-### Response
+## Response
 
 ```json
 {
   "success": true,
   "message": "Datos actualizados correctamente",
   "user": {
-    "idUser": 1,
+    "idUser": 9,
     "firstname": "Fernando",
-    "lastname": "System",
-    "email": "admin@system.com",
+    "lastname": "Von",
+    "email": "auxiliar212@gmail.com",
     "phone": "+51999888777",
-    "role": "ADMIN",
-    "createdAt": "2026-06-04T19:18:17.496Z",
-    "updatedAt": "2026-06-04T22:30:21.481Z"
+    "role": "AUXILIAR",
+    "createdAt": "2026-06-05T19:12:52.040Z",
+    "updatedAt": "2026-06-05T20:19:21.119Z"
   }
 }
 ```
 
-### Validation Error Response
+## Validation Error Response
 
 ```json
 {
@@ -98,12 +113,12 @@ Todos los campos son opcionales, pero se debe enviar al menos uno.
 }
 ```
 
-### Empty Body Error Response
+## Empty Body Error Response
 
 ```json
 {
   "success": false,
-  "message": "No se enviaron campos para actualizar",
+  "message": "Error de validación",
   "errors": [
     {
       "field": "body",
@@ -113,19 +128,7 @@ Todos los campos son opcionales, pero se debe enviar al menos uno.
 }
 ```
 
-### Unauthorized Response
-
-```json
-{
-  "success": false,
-  "message": "Sin autorización",
-  "errors": {
-    "message": "Sin autorización"
-  }
-}
-```
-
-### Not Found Response
+## Not Found User Response
 
 ```json
 {
@@ -140,4 +143,16 @@ Todos los campos son opcionales, pero se debe enviar al menos uno.
 }
 ```
 
-</details>
+## Unauthorized Response
+
+```json
+{
+  "success": false,
+  "message": "Sin autorización",
+  "errors": {
+    "message": "Sin autorización"
+  }
+}
+```
+
+- [Volver al inicio](../../README.md)

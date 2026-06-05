@@ -2,12 +2,15 @@ import { AppError } from "../../utils/AppError.js";
 import { authService } from "./auth.service.js";
 import { loginSchema } from "./auth.schema.js";
 import { authUtils } from "../../utils/auth.utils.js";
-import { validateSchema } from "../../utils/validate.utils.js";
+import { validateUtils } from "../../utils/validate.utils.js";
 
 const authController = {
   login: async (req, res, next) => {
     try {
-      const validate = await validateSchema(loginSchema, req.body);
+      const validate = await validateUtils.validateSchema({
+        schema: loginSchema,
+        data: req.body,
+      });
 
       const credentials = await authService.getCredentials({
         email: validate.email,

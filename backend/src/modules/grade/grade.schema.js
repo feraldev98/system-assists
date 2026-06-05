@@ -1,6 +1,5 @@
 import z from "zod";
-import { coerceNumber } from "../../utils/validate.utils.js";
-
+import { schemaUtils } from "../../utils/schema.utils.js";
 const gradeSchema = {
   createGrade: z
     .object({
@@ -19,8 +18,18 @@ const gradeSchema = {
 
   userParams: z
     .object({
-      page: coerceNumber("La página", 1, 1000, 1),
-      limit: coerceNumber("El límite", 1, 100, 10),
+      page: schemaUtils.numberField({
+        label: "La página",
+        min: 1,
+        max: 1000,
+        defaultValue: 1,
+      }),
+      limit: schemaUtils.numberField({
+        label: "El límite",
+        min: 1,
+        max: 10,
+        defaultValue: 10,
+      }),
       sortBy: z
         .string()
         .refine((val) => ["idGrade", "level"].includes(val), {

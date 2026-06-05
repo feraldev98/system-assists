@@ -4,11 +4,11 @@
 
 - Cierra la sesión del usuario autenticado.
 - Elimina la cookie HTTPOnly token que contiene el JWT de autenticación.
-- Requiere que exista una sesión activa.
+- Requiere autenticación.
 
 ## Authentication
 
-- Solo usuarios atenticados pueden acceder a este endpoint.
+- Solo usuarios autenticados pueden acceder a este endpoint.
 
 ## Example Request
 
@@ -17,15 +17,6 @@
 ## Validations:
 
 - cookie: si no existe token, el servidor responderá con error de autorización.
-
-## Success Response:
-
-```json
-{
-  "success": true,
-  "message": "Sesión cerrada correctamente"
-}
-```
 
 ## Validations Error Response:
 
@@ -36,6 +27,15 @@
   "errors": {
     "message": "Sin autorización"
   }
+}
+```
+
+## Success Response:
+
+```json
+{
+  "success": true,
+  "message": "Sesión cerrada correctamente"
 }
 ```
 

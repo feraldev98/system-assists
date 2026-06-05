@@ -1,19 +1,32 @@
-<details>
-<summary>CREAR NUEVO USUARIO</summary>
-  
-### POST /user
+# CREAR NUEVO USUARIO
 
-Crea un nuevo usuario en el sistema. Requiere autenticación y permisos de administrador.
+## POST /user
 
-### Authentication
+- Crea un nuevo usuario en el sistema.
+- Requiere autenticación.
+
+## Authentication
 
 - Solo usuarios con rol ADMIN pueden acceder a este endpoint.
 
-### Body:
+## Body:
+
+- firstname: nombres del usuario.
+- lastname: apellidos del usuario.
+- email: correo electrónico del usuario.
+- password: contraseña del usuario.
+- repassword: confirmación de la contraseña.
+- phone: número de teléfono del usuario (opcional).
+- role: rol asignado al usuario.
+
+## Example Request
+
+- POST /user
+- BODY:
 
 ```json
 {
-  "firstname": "Fernando",
+  "firstname": "Zoe",
   "lastname": "Pérez",
   "email": "testing@hotmail.com",
   "password": "1234567a",
@@ -23,39 +36,18 @@ Crea un nuevo usuario en el sistema. Requiere autenticación y permisos de admin
 }
 ```
 
-### Validations:
+## Validations:
 
-- firstname: requerido, trim, mínimo 2 caracteres, máximo 50 caracteres, solo letras y espacios.
-- lastname: requerido, trim, mínimo 2 caracteres, máximo 50 caracteres, solo letras y espacios.
-- email: requerido, trim, convertido a minúsculas, formato válido de email.
-- password: requerida, trim, mínimo 8 caracteres, máximo 100 caracteres, al menos una letra, al menos un número.
-- repassword: requerida, trim, debe coincidir con password.
-- phone: opcional, trim, elimina espacios automáticamente, debe tener formato +519XXXXXXXX.
-- role: requerido, valores permitidos: ADMIN, AUXILIAR, PARENT.
+- firstname: requerido, trim automático, mínimo 2 caracteres, máximo 50 caracteres, solo letras y espacios.
+- lastname: requerido, trim automático, mínimo 2 caracteres, máximo 50 caracteres, solo letras y espacios.
+- email: requerido, trim automático, convertido a minúsculas, formato válido de email.
+- password: requerida, trim automático, mínimo 8 caracteres, máximo 32 caracteres, al menos una letra y un número.
+- repassword: requerida, trim automático, debe coincidir con password.
+- phone: opcional, trim automático, elimina espacios automáticamente, formato +519XXXXXXXX.
+- role: requerido, valores permitidos: ADMIN, AUXILIAR o PARENT.
 - No se permiten campos adicionales.
 
-### Response:
-
-```json
-{
-  "success": true,
-  "message": "Usuario creado correctamente",
-  "user": {
-    "user": {
-      "idUser": 6,
-      "firstname": "qwe",
-      "lastname": "Kael",
-      "email": "auxiliar2@gmail.com",
-      "phone": "+51985988977",
-      "role": "AUXILIAR",
-      "createdAt": "2026-06-04T22:26:54.496Z",
-      "updatedAt": "2026-06-04T22:26:54.496Z"
-    }
-  }
-}
-```
-
-### Validation Error Response
+## Validation Error Response
 
 ```json
 {
@@ -63,18 +55,62 @@ Crea un nuevo usuario en el sistema. Requiere autenticación y permisos de admin
   "message": "Error de validación",
   "errors": [
     {
-      "field": "email",
-      "message": "El email no tiene un formato válido"
+      "field": "firstname",
+      "message": "El nombre es requerido"
     },
     {
-      "field": "phone",
-      "message": "El teléfono debe tener formato +519XXXXXXXX"
+      "field": "firstname",
+      "message": "El nombre debe tener mínimo 2 caracteres"
+    },
+    {
+      "field": "firstname",
+      "message": "El nombre solo puede contener letras y espacios"
+    },
+    {
+      "field": "email",
+      "message": "El correo no tiene un formato válido"
     }
   ]
 }
 ```
 
-### Unauthorized Response
+## Success Response:
+
+```json
+{
+  "success": true,
+  "message": "Usuario creado correctamente",
+  "user": {
+    "user": {
+      "idUser": 21,
+      "firstname": "qwe Jhnz",
+      "lastname": "Kael Fern d",
+      "email": "auxili1ar2@wgmail.com",
+      "phone": "+51985988977",
+      "role": "AUXILIAR",
+      "createdAt": "2026-06-05T19:25:12.454Z",
+      "updatedAt": "2026-06-05T19:25:12.454Z"
+    }
+  }
+}
+```
+
+## Duplicate User Response
+
+```json
+{
+  "success": false,
+  "message": "Valor duplicado",
+  "errors": [
+    {
+      "field": "email",
+      "message": "Ya existe un registro con este valor"
+    }
+  ]
+}
+```
+
+## Unauthorized Response
 
 ```json
 {
@@ -86,4 +122,4 @@ Crea un nuevo usuario en el sistema. Requiere autenticación y permisos de admin
 }
 ```
 
-</details>
+- [Volver al inicio](../../README.md)

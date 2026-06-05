@@ -1,30 +1,33 @@
-<details>
-<summary>LISTAR TODOS LOS USUARIOS</summary>
-  
-### GET /user
+# LISTAR TODOS LOS USUARIOS
 
-Obtiene una lista paginada de usuarios del sistema. Requiere autenticación y permisos de administrador.
+## GET /user
 
-### Authentication
+- Obtiene una lista paginada de usuarios del sistema.
+- Requiere autenticación.
+
+## Authentication
 
 - Solo usuarios con rol ADMIN pueden acceder a este endpoint.
 
-### Query Params
+## Query Params
 
 | Parameter | Type   | Required | Description                                                                                                                               |
 | --------- | ------ | -------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | page      | number | No       | Número de página. Valor mínimo: 1. Default: 1.                                                                                            |
-| limit     | number | No       | Cantidad de registros por página. Mínimo: 1. Máximo: 100. Default: 10.                                                                    |
+| limit     | number | No       | Cantidad de registros por página. Mínimo: 1. Máximo: 50. Default: 10.                                                                     |
 | role      | string | No       | Filtra usuarios por rol. Valores permitidos: ADMIN, AUXILIAR, PARENT.                                                                     |
 | search    | string | No       | Busca coincidencias por firstname, lastname, email o phone.                                                                               |
 | sortBy    | string | No       | Campo utilizado para ordenar resultados. Valores permitidos: firstname, lastname, email, phone, createdAt, updatedAt. Default: createdAt. |
 | sortOrder | string | No       | Ordenamiento ascendente o descendente. Valores permitidos: asc, desc. Default: asc.                                                       |
 
-### Example Request
+## Example Request
 
+- GET /user
+- GET /user?page=1&limit=10
+- GET /user?page=1&limit=10&role=AUXILIAR
 - GET /user?page=1&limit=10&role=AUXILIAR&search=fernando&sortBy=createdAt&sortOrder=desc
 
-### Response
+## Response
 
 ```json
 {
@@ -70,7 +73,7 @@ Obtiene una lista paginada de usuarios del sistema. Requiere autenticación y pe
 }
 ```
 
-### Search Behavior
+## Search Behavior
 
 El parámetro search realiza búsquedas insensibles a mayúsculas/minúsculas sobre los siguientes campos:
 
@@ -79,16 +82,46 @@ El parámetro search realiza búsquedas insensibles a mayúsculas/minúsculas so
 - email
 - phone
 
-### Validations
+## Example Search Query
+
+- GET /user?search=admin
+
+## Example Search Response
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "idUser": 1,
+      "firstname": "Admin",
+      "lastname": "System",
+      "email": "admin@system.com",
+      "phone": null,
+      "role": "ADMIN",
+      "createdAt": "2026-06-05T15:30:58.531Z",
+      "updatedAt": "2026-06-05T15:30:58.531Z"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 10,
+    "total": 1,
+    "totalPages": 1
+  }
+}
+```
+
+## Validations
 
 - page: opcional, número entero, mínimo 1.
-- limit: opcional, número entero, mínimo 1, máximo 100.
+- limit: opcional, número entero, mínimo 1, máximo 50.
 - role: opcional, valores permitidos: ADMIN, AUXILIAR, PARENT.
 - sortBy: opcional, valores permitidos: firstname, lastname, email, phone, createdAt, updatedAt.
 - sortOrder: opcional, valores permitidos: asc, desc.
 - search: opcional, trim automático.
 
-### Unauthorized Response
+## Unauthorized Response
 
 ```json
 {
@@ -100,4 +133,4 @@ El parámetro search realiza búsquedas insensibles a mayúsculas/minúsculas so
 }
 ```
 
-</details>
+- [Volver al inicio](../../README.md)

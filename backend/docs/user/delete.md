@@ -1,29 +1,31 @@
-<details>
-<summary>ELIMINAR USUARIO POR ID</summary>
-  
-### DELETE /user/:id
+# ELIMINAR USUARIO POR ID
 
-Elimina un usuario del sistema mediante su ID. Requiere autenticación y permisos de administrador.
+## DELETE /user/:id
 
-### Authentication
+- Elimina un usuario en el sistema.
+- Requiere autenticación.
+
+## Authentication
 
 - Solo usuarios con rol ADMIN pueden acceder a este endpoint.
 
-### URL Params
+## URL Params
 
 | URL Param | Type   | Required | Description                           |
 | --------- | ------ | -------- | ------------------------------------- |
 | id        | number | Sí       | ID del usuario que se desea eliminar. |
 
-### Example Request
+## Example Request
 
 DELETE /user/1
 
-### Validations
+## Validations
 
-- id: requerido, número entero, mayor a 0.
+- id: requerido.
+- id: debe ser un número entero.
+- No se permiten campos adicionales.
 
-### Validation Error Response
+## Validation Error Response
 
 ```json
 {
@@ -38,7 +40,7 @@ DELETE /user/1
 }
 ```
 
-### Response
+## Response
 
 ```json
 {
@@ -55,7 +57,7 @@ DELETE /user/1
 }
 ```
 
-### Not Found Response
+## Not Found Response
 
 ```json
 {
@@ -70,7 +72,7 @@ DELETE /user/1
 }
 ```
 
-### Unauthorized Response
+## Unauthorized Response
 
 ```json
 {
@@ -82,4 +84,4 @@ DELETE /user/1
 }
 ```
 
-</details>
+- [Volver al inicio](../../README.md)

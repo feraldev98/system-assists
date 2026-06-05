@@ -36,4 +36,9 @@ PARENT
 
 ### USER
 
+- [CREAR NUEVO USUARIO](docs/user/create.md)
+- [LISTAR USUARIOS](docs/user/get.md)
+- [ACTUALIZAR USUARIO](docs/user/update.md)
+- [ELIMINAR USUARIO](docs/user/delete.md)
+
 ### GRADE

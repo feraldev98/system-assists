@@ -1,16 +1,15 @@
 import { userService } from "./user.service.js";
-import {
-  userCreateSchema,
-  userParamsSchema,
-  userUpdateSchema,
-} from "./user.schema.js";
-import { idSchema, validateSchema } from "../../utils/validate.utils.js";
+import { userSchema } from "./user.schema.js";
 import { authUtils } from "../../utils/auth.utils.js";
+import { validateUtils } from "../../utils/validate.utils.js";
 
 const userController = {
   create: async (req, res, next) => {
     try {
-      const validate = await validateSchema(userCreateSchema, req.body);
+      const validate = await validateUtils.validateSchema({
+        schema: userSchema.create,
+        data: req.body,
+      });
 
       const passwordHash = await authUtils.generatePasswordHash(
         validate.password,
@@ -32,7 +31,12 @@ const userController = {
   },
   get: async (req, res, next) => {
     try {
-      const validate = await validateSchema(userParamsSchema, req.query);
+      const validate = await validateUtils.validateSchema({
+        schema: userSchema.params,
+        data: req.query,
+      });
+
+      console.log(validate);
 
       const [users, total] = await userService.getUsers(validate);
 
@@ -53,9 +57,15 @@ const userController = {
 
   update: async (req, res, next) => {
     try {
-      const { id: userId } = await validateSchema(idSchema, req.params);
+      const { id: userId } = await validateUtils.validateSchema({
+        schema: userSchema.params,
+        data: req.params,
+      });
 
-      const data = await validateSchema(userUpdateSchema, req.body);
+      const data = await validateUtils.validateSchema({
+        schema: userSchema.update,
+        data: req.body,
+      });
 
       if (data.password) {
         data.passwordHash = await authUtils.generatePasswordHash(data.password);
@@ -78,7 +88,10 @@ const userController = {
 
   getById: async (req, res, next) => {
     try {
-      const { id } = await validateSchema(idSchema, req.params);
+      const { id } = await validateUtils.validateSchema({
+        schema: userSchema.params,
+        data: req.params,
+      });
       const user = await userService.getUserById(id);
 
       return res.json({
@@ -93,7 +106,10 @@ const userController = {
 
   delete: async (req, res, next) => {
     try {
-      const { id } = await validateSchema(idSchema, req.params);
+      const { id } = await validateUtils.validateSchema({
+        schema: userSchema.params,
+        data: req.params,
+      });
       const deletedUser = await userService.deleteUser(id);
 
       return res.json({

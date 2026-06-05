@@ -1,7 +1,7 @@
-<details>
-<summary>LISTAR TODOS LOS GRADOS</summary>
-  
-### GET /grade
+# LISTAR TODOS LOS GRADOS
+
+## GET /grade
+
 Obtiene una lista paginada de grados registrados en el sistema. Requiere autenticación y permisos de administrador o auxiliar.
 
 ### Authentication

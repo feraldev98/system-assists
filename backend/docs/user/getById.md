@@ -1,29 +1,31 @@
-<details>
-<summary>LISTAR USUARIO POR ID</summary>
-  
-### GET /user/:id
+# LISTAR USUARIO POR ID
 
-Obtiene la información de un usuario específico mediante su ID. Requiere autenticación y permisos de administrador.
+## GET /user/:id
 
-### Authentication
+- Obtiene la información de un usuario del sistema mediante su ID.
+- Requiere autenticación.
+
+## Authentication
 
 - Solo usuarios con rol ADMIN pueden acceder a este endpoint.
 
-### URL Params
+## URL Params
 
 | URL Param | Type   | Required | Description                         |
 | --------- | ------ | -------- | ----------------------------------- |
 | id        | number | Sí       | ID del usuario que se desea buscar. |
 
-### Example Request
+## Example Request
 
 GET /user/1
 
-### Validations
+## Validations
 
-- id: requerido, número entero, mayor a 0.
+- id: requerido.
+- id: debe ser un número entero.
+- No se permiten campos adicionales.
 
-### Validation Error Response
+## Validation Error Response
 
 ```json
 {
@@ -32,13 +34,13 @@ GET /user/1
   "errors": [
     {
       "field": "id",
-      "message": "El ID de usuario debe ser mayor a 0"
+      "message": "El ID del usuario debe ser un número entero"
     }
   ]
 }
 ```
 
-### Response
+## Response
 
 ```json
 {
@@ -46,33 +48,33 @@ GET /user/1
   "message": "Usuario encontrado",
   "user": {
     "idUser": 1,
-    "firstname": "Fernando",
+    "firstname": "Admin",
     "lastname": "System",
     "email": "admin@system.com",
-    "phone": "+51999888777",
+    "phone": null,
     "role": "ADMIN",
-    "createdAt": "2026-06-04T19:18:17.496Z",
-    "updatedAt": "2026-06-04T22:30:21.481Z"
+    "createdAt": "2026-06-05T15:30:58.531Z",
+    "updatedAt": "2026-06-05T15:30:58.531Z"
   }
 }
 ```
 
-### Not Found Response
+## Not Found Response
 
 ```json
 {
   "success": false,
-  "message": "Usuario no encontrado",
+  "message": "Registro no encontrado",
   "errors": [
     {
       "field": "id",
-      "message": "No existe un usuario con el ID proporcionado"
+      "message": "No existe un registro con el ID proporcionado"
     }
   ]
 }
 ```
 
-### Unauthorized Response
+## Unauthorized Response
 
 ```json
 {
@@ -84,4 +86,4 @@ GET /user/1
 }
 ```
 
-</details>
+- [Volver al inicio](../../README.md)
