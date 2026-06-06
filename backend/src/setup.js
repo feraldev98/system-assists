@@ -24,7 +24,7 @@ const setup = async () => {
       process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10,
     );
 
-    const queryResult = await userService.createUser({
+    const queryResult = await userService.create({
       firstname: adminFirstname,
       lastname: adminLastname,
       email: adminEmail,

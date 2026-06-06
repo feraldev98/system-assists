@@ -61,7 +61,7 @@ const gradeController = {
 
   update: async (req, res, next) => {
     try {
-      const validate = await validateUtils.validateSchema({
+      const { id: idGrade } = await validateUtils.validateSchema({
         schema: userSchema.params,
         data: req.params,
       });
@@ -70,7 +70,8 @@ const gradeController = {
         schema: gradeSchema.update,
         data: req.body,
       });
-      const updatedGrade = await gradeService.update(validate.id, data);
+      const updatedGrade = await gradeService.update(idGrade, data);
+
       return res.json({
         success: true,
         message: "Grado actualizado correctamente",

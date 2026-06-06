@@ -76,7 +76,7 @@ Todos los campos son opcionales. Se actualizarán únicamente los campos enviado
 }
 ```
 
-## Response
+## Success Response
 
 ```json
 {

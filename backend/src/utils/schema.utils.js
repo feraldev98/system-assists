@@ -1,25 +1,35 @@
 import z from "zod";
 
 const schemaUtils = {
-  idField: ({ label, required }) =>
+  idField: ({ label, required, type = "id" }) =>
     required
-      ? z.preprocess(
-          (val) => val ?? "",
-          z
-            .string()
-            .min(1, `${label} es requerido`)
-            .regex(/^\d+$/, `${label} debe ser un número entero`)
-            .transform(Number),
-        )
-      : z.preprocess(
-          (val) => val ?? "",
-          z
-            .string()
-            .regex(/^\d+$/, `${label} debe ser un número entero`)
-            .min(1, `${label} es requerido`)
-            .transform(Number)
-            .optional(),
-        ),
+      ? type === "id"
+        ? z.preprocess(
+            (val) => val ?? "",
+            z
+              .string()
+              .min(1, `${label} es requerido`)
+              .regex(/^\d+$/, `${label} debe ser un número entero`)
+              .transform(Number),
+          )
+        : z.preprocess(
+            (val) => val ?? -1,
+            z.int().min(0, `${label} es requerido`),
+          )
+      : type === "id"
+        ? z.preprocess(
+            (val) => val ?? "",
+            z
+              .string()
+              .min(1, `${label} es requerido`)
+              .regex(/^\d+$/, `${label} debe ser un número entero`)
+              .transform(Number)
+              .optional(),
+          )
+        : z.preprocess(
+            (val) => val ?? -1,
+            z.int().min(0, `${label} es requerido`).optional(),
+          ),
 
   nameField: ({ label, min, max, required }) =>
     required
@@ -50,6 +60,36 @@ const schemaUtils = {
               `${label} solo puede contener letras y espacios`,
             )
             .transform((value) => value.replace(/\s+/g, " "))
+            .optional(),
+        ),
+
+  sectionField: ({ required }) =>
+    required
+      ? z.preprocess(
+          (val) => val ?? "",
+          z
+            .string()
+            .trim()
+            .min(1, `El nombre de sección es requerido`)
+            .max(1, `El nombre de sección solo puede ser una letra`)
+            .regex(
+              /^[A-Za-z]+$/,
+              `El nombre de sección solo puede contener letras`,
+            )
+            .transform((value) => value.toUpperCase()),
+        )
+      : z.preprocess(
+          (val) => val ?? "",
+          z
+            .string()
+            .trim()
+            .min(1, `El nombre de sección es requerido`)
+            .max(1, `El nombre de sección solo puede ser una letra`)
+            .regex(
+              /^[A-Za-z]+$/,
+              `El nombre de sección solo puede contener letras`,
+            )
+            .transform((value) => value.toUpperCase())
             .optional(),
         ),
 
@@ -205,13 +245,13 @@ const schemaUtils = {
             .transform((val) => Number(val))
             .optional(),
         ),
-  sortByField: ({ sortFields }) =>
+  sortByField: ({ sortFields, defaultValue = "createdAt" }) =>
     z
       .string()
       .refine((val) => sortFields.includes(val), {
         message: `El campo para ordenar solo puede ser ${sortFields.join(", ")}`,
       })
-      .default("createdAt"),
+      .default(defaultValue),
   sortOrderField: () =>
     z
       .string()

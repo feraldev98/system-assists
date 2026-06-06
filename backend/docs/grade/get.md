@@ -14,7 +14,7 @@
 | Parameter | Type   | Required | Description                                                                         |
 | --------- | ------ | -------- | ----------------------------------------------------------------------------------- |
 | page      | number | No       | Número de página. Valor mínimo: 1. Default: 1.                                      |
-| limit     | number | No       | Cantidad de registros por página. Mínimo: 1. Máximo: 10. Default: 10.               |
+| limit     | number | No       | Cantidad de registros por página. Mínimo: 1. Máximo: 50. Default: 10.               |
 | search    | string | No       | Busca un grado específico por nivel.                                                |
 | sortOrder | string | No       | Ordenamiento ascendente o descendente. Valores permitidos: asc, desc. Default: asc. |
 

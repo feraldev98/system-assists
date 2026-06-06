@@ -13,7 +13,7 @@ const validateUtils = {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ["body"],
-        message: "Debes enviar al menos un campo para actualizar",
+        message: "Debes enviar al menos un campo",
       });
     }
   },

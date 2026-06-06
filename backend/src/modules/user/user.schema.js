@@ -48,11 +48,6 @@ const userSchema = {
     })
     .strict({ message: "No se permiten campos adicionales" })
     .superRefine((data, ctx) => {
-      validateUtils.validateBody({
-        data,
-        ctx,
-        fields: userFields.editableFields,
-      });
       validateUtils.verifyPasswords({ data, ctx });
     }),
 
