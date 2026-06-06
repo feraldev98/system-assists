@@ -49,7 +49,7 @@ const gradeSchema = {
         label: "El grado",
         min: 0,
         max: 15,
-        required: true,
+        required: false,
       }),
     })
     .strict({

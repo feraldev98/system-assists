@@ -27,7 +27,7 @@
 - GET /user?page=1&limit=10&role=AUXILIAR
 - GET /user?page=1&limit=10&role=AUXILIAR&search=fernando&sortBy=createdAt&sortOrder=desc
 
-## Response
+## Success Response
 
 ```json
 {
