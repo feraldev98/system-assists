@@ -56,7 +56,7 @@ const userService = {
     if (!updatedUser) {
       throw new AppError("Registro no encontrado", 404, [
         {
-          field: "user",
+          field: "idUser",
           message: "No existe un registro con el ID proporcionado",
         },
       ]);
@@ -81,7 +81,7 @@ const userService = {
     if (!user) {
       throw new AppError("Registro no encontrado", 404, [
         {
-          field: "user",
+          field: "idUser",
           message: "No existe un registro con el ID proporcionado",
         },
       ]);

@@ -57,3 +57,11 @@ PARENT
 - [LISTAR SECCION POR ID](docs/section/getById.md)
 - [ACTUALIZAR SECCION](docs/section/update.md)
 - [ELIMINAR SECCION](docs/section/delete.md)
+
+### STUDENT
+
+- [CREAR NUEVO ESTUDIANTE](docs/student/create.md)
+- [LISTAR TODOS LOS ESTUDIANTES](docs/student/get.md)
+- [LISTAR ESTUDIANTE POR ID](docs/student/getById.md)
+- [ACTUALIZAR ESTUDIANTE](docs/student/update.md)
+- [ELIMINAR ESTUDIANTE](docs/student/delete.md)
