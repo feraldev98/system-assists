@@ -8,6 +8,7 @@ import { errorsMiddleware } from "./middlewares/errors.middleware.js";
 import { userRoutes } from "./modules/user/user.routes.js";
 import { gradeRoutes } from "./modules/grade/grade.routes.js";
 import { sectionRoutes } from "./modules/section/section.routes.js";
+import { studentRoutes } from "./modules/student/student.routes.js";
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use("/", authRoutes);
 app.use("/user", userRoutes);
 app.use("/grade", gradeRoutes);
 app.use("/section", sectionRoutes);
+app.use("/student", studentRoutes);
 
 app.use(errorsMiddleware);
 

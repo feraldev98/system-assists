@@ -245,6 +245,43 @@ const schemaUtils = {
             .transform((val) => Number(val))
             .optional(),
         ),
+
+  genderField: ({ required = true }) => {
+    const schema = z.preprocess(
+      (val) => val ?? "",
+      z
+        .string()
+        .min(1, "El sexo es requerido")
+        .refine((val) => ["M", "F", "O"].includes(val), {
+          message: "El sexo debe ser (M)asculino, (F)emenino u (O)tro",
+        }),
+    );
+
+    return required ? schema : schema.optional();
+  },
+
+  statusField: ({ states = [], required }) =>
+    required
+      ? z.preprocess(
+          (val) => val ?? "",
+          z
+            .string()
+            .min(1, "El estado es requerido")
+            .refine((val) => states.includes(val), {
+              message: `El estado debe ser ${states.join(", ")}`,
+            }),
+        )
+      : z.preprocess(
+          (val) => val ?? "",
+          z
+            .string()
+            .min(1, "El estado es requerido")
+            .refine((val) => states.includes(val), {
+              message: `El estado debe ser ${states.join(", ")}`,
+            })
+            .optional(),
+        ),
+
   sortByField: ({ sortFields, defaultValue = "createdAt" }) =>
     z
       .string()
