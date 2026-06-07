@@ -45,7 +45,8 @@ const schemaUtils = {
               /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/,
               `${label} solo puede contener letras y espacios`,
             )
-            .transform((value) => value.replace(/\s+/g, " ")),
+            .transform((value) => value.replace(/\s+/g, " "))
+            .transform((value) => value.toUpperCase()),
         )
       : z.preprocess(
           (val) => val ?? "",
@@ -60,6 +61,7 @@ const schemaUtils = {
               `${label} solo puede contener letras y espacios`,
             )
             .transform((value) => value.replace(/\s+/g, " "))
+            .transform((value) => value.toUpperCase())
             .optional(),
         ),
 
@@ -183,21 +185,29 @@ const schemaUtils = {
 
   phoneField: ({ label, required }) =>
     required
-      ? z
-          .string()
-          .trim()
-          .transform((val) => val.replace(/\s+/g, ""))
-          .refine((val) => !val || /^\+51\d{9}$/.test(val), {
-            message: `${label} debe tener formato +51 9XX XXX XXX`,
-          })
-      : z
-          .string()
-          .trim()
-          .transform((val) => val.replace(/\s+/g, ""))
-          .refine((val) => !val || /^\+51\d{9}$/.test(val), {
-            message: `${label} debe tener formato +51 9XX XXX XXX`,
-          })
-          .optional(),
+      ? z.preprocess(
+          (val) => val ?? "",
+          z
+            .string()
+            .trim()
+            .min(1, `${label} es requerido`)
+            .transform((val) => val.replace(/\s+/g, ""))
+            .refine((val) => !val || /^\+51\d{9}$/.test(val), {
+              message: `${label} debe tener formato +51 9XX XXX XXX`,
+            }),
+        )
+      : z.preprocess(
+          (val) => val ?? "",
+          z
+            .string()
+            .trim()
+            .min(1, `${label} es requerido`)
+            .transform((val) => val.replace(/\s+/g, ""))
+            .refine((val) => !val || /^\+51\d{9}$/.test(val), {
+              message: `${label} debe tener formato +51 9XX XXX XXX`,
+            })
+            .optional(),
+        ),
   numberField: ({ label, min, max, defaultValue, required }) =>
     required
       ? z.preprocess(
@@ -250,7 +260,7 @@ const schemaUtils = {
     const schema = z.preprocess(
       (val) => val ?? "",
       z
-        .string()
+        .string("El sexo debe ser (M)asculino, (F)emenino u (O)tro")
         .min(1, "El sexo es requerido")
         .refine((val) => ["M", "F", "O"].includes(val), {
           message: "El sexo debe ser (M)asculino, (F)emenino u (O)tro",

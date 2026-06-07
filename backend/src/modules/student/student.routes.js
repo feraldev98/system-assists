@@ -25,7 +25,7 @@ studentRoutes.get(
 studentRoutes.get(
   "/:id",
   authMiddleware,
-  authMiddlewareRole(["ADMIN"], "AUXILIAR"),
+  authMiddlewareRole(["ADMIN", "AUXILIAR"]),
   studentController.getById,
 );
 

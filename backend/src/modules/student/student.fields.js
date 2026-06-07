@@ -1,6 +1,6 @@
 const studentFields = {
   status: [
-    "ACTIVo",
+    "ACTIVO",
     "INACTIVO",
     "SUSPENDIDO",
     "EXPULSADO",
@@ -10,6 +10,7 @@ const studentFields = {
   ],
   update: ["firstname", "lastname", "gender", "phone", "email", "status"],
   select: {
+    idStudent: true,
     firstname: true,
     lastname: true,
     code: true,
@@ -20,7 +21,16 @@ const studentFields = {
     createdAt: true,
     updatedAt: true,
   },
-  sort: ["firstname", "lastname", "gender", "phone", "email", "status"],
+  sort: [
+    "firstname",
+    "lastname",
+    "gender",
+    "phone",
+    "email",
+    "status",
+    "createdAt",
+    "updatedAt",
+  ],
   search: ["firstname", "lastname", "gender", "phone", "email", "status"],
   create: {
     firstname: true,

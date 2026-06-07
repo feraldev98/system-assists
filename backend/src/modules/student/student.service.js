@@ -42,12 +42,14 @@ const studentService = {
     return queryResult;
   },
 
-  get: async ({ page, limit, status, sortBy, search, sortOrder }) => {
-    const where = searchUtils.buildWhere({
+  get: async ({ page, limit, status, sortBy, search, sortOrder, gender }) => {
+    const where = searchUtils.buildMixedWhere({
       search,
-      searchFields: studentFields.search,
+      stringFields: ["firstname", "lastname", "phone", "email"],
+      enumFields: ["gender", "status"],
       filters: {
         status,
+        gender,
       },
     });
     const students = await prisma.student.findMany({

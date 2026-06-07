@@ -1,6 +1,6 @@
 # CREAR NUEVO ESTUDIANTE
 
-## POST /user
+## POST /student
 
 - Crea un nuevo estudiante en el sistema.
 - Requiere autenticación.

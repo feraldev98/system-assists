@@ -108,6 +108,9 @@ const studentSchema = {
         states: studentFields.status,
         required: false,
       }),
+      gender: schemaUtils.genderField({
+        required: false,
+      }),
       sortBy: schemaUtils.sortByField({
         sortFields: studentFields.sort,
       }),

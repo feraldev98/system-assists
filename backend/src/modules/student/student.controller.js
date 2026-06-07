@@ -23,13 +23,23 @@ const studentController = {
 
   get: async (req, res, next) => {
     try {
-    } catch (error) {
-      next(error);
-    }
-  },
+      const validate = await validateUtils.validateSchema({
+        schema: studentSchema.params,
+        data: req.query,
+      });
 
-  getById: async (req, res, next) => {
-    try {
+      const [students, total] = await studentService.get(validate);
+
+      return res.json({
+        success: true,
+        data: students,
+        pagination: {
+          page: validate.page,
+          limit: validate.limit,
+          total,
+          totalPages: Math.ceil(total / validate.limit),
+        },
+      });
     } catch (error) {
       next(error);
     }
@@ -37,6 +47,42 @@ const studentController = {
 
   update: async (req, res, next) => {
     try {
+      const { id: idStudent } = await validateUtils.validateSchema({
+        schema: studentSchema.params,
+        data: req.params,
+      });
+
+      const data = await validateUtils.validateSchema({
+        schema: studentSchema.update,
+        data: req.body,
+      });
+
+      const updatedStudent = await studentService.update({ idStudent, data });
+
+      return res.json({
+        success: true,
+        message: "Estudiante actualizado correctamente",
+        student: updatedStudent,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  getById: async (req, res, next) => {
+    try {
+      const { id: idStudent } = await validateUtils.validateSchema({
+        schema: studentSchema.params,
+        data: req.params,
+      });
+
+      const student = await studentService.getById({ idStudent });
+
+      return res.json({
+        success: true,
+        message: "Estudiante encontrado",
+        student,
+      });
     } catch (error) {
       next(error);
     }
@@ -44,6 +90,18 @@ const studentController = {
 
   delete: async (req, res, next) => {
     try {
+      const { id: idStudent } = await validateUtils.validateSchema({
+        schema: studentSchema.params,
+        data: req.params,
+      });
+
+      const deletedStudent = await studentService.delete({ idStudent });
+
+      return res.json({
+        success: true,
+        message: "Estudiante eliminado correctamente",
+        student: deletedStudent,
+      });
     } catch (error) {
       next(error);
     }
