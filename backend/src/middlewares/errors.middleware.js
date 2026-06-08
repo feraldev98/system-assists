@@ -24,9 +24,8 @@ function errorsMiddleware(err, req, res, _next) {
       message: "No se puede eliminar el registro",
       errors: [
         {
-          field: "general",
-          message:
-            "Existen registros relacionados que dependen de este registro",
+          field: err.meta.modelName ? `id${err.meta.modelName}` : "id",
+          message: "No existe un registro con el ID proporcionado",
         },
       ],
     });
