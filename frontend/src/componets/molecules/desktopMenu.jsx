@@ -1,10 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
-import {HiBars3, HiXMark, HiChevronDown} from "react-icons/hi2";
+import React, { useRef, useEffect } from "react";
+import { HiBars3, HiXMark, HiChevronDown } from "react-icons/hi2";
 import { useLocation } from "react-router-dom";
 import { NavbarLink } from "../atoms/navbarLink";
 import { MobileMenu } from "./mobileMenu";
 import { menuByRole } from "../../config/sidebarLinks";
-//Hooks
 import { useAuth } from "../../hooks/useAuth";
 import { useNavbar } from "../../context/navbarContext";
 
@@ -13,30 +12,31 @@ function NavbarMenu() {
     mobileOpen,
     setMobileOpen,
     openDropdown,
-    setOpenDropdown
-  } = useNavbar()
+    setOpenDropdown,
+  } = useNavbar();
 
   const menuRef = useRef(null);
   const location = useLocation();
   const { role } = useAuth();
 
-  /*
-    MENU SEGÚN ROL
-  */
   const menu = menuByRole[role] || [];
 
   const toggleDropdown = (index) => {
     setOpenDropdown(openDropdown === index ? null : index);
   };
 
-  //MOBILE MENU
   const handleToggle = (e) => {
     e.preventDefault();
     setMobileOpen((prev) => !prev);
   };
 
+  // Cierra el menú al cambiar de ruta (fix principal del bug)
+  useEffect(() => {
+    setMobileOpen(false);
+    setOpenDropdown(null);
+  }, [location.pathname]);
 
-  //CERRAR MENÚ AL HACER CLICK FUERA
+  // Cierra al hacer click fuera del menú
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -46,18 +46,9 @@ function NavbarMenu() {
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener(
-        "mousedown",
-        handleClickOutside
-      );
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  /*
-    VERIFICAR SI EL ITEM ESTÁ ACTIVO
-  */
   const isItemActive = (item) => {
     if (item.submenu) {
       return item.submenu.some((subitem) =>
@@ -74,11 +65,7 @@ function NavbarMenu() {
         className="md:hidden text-white z-50 relative"
         onClick={handleToggle}
       >
-        {mobileOpen ? (
-          <HiXMark size={28} />
-        ) : (
-          <HiBars3 size={28} />
-        )}
+        {mobileOpen ? <HiXMark size={28} /> : <HiBars3 size={28} />}
       </button>
 
       {/* DESKTOP MENU */}
@@ -94,98 +81,66 @@ function NavbarMenu() {
           <li
             key={index}
             className={`
-              ${
-                isItemActive(item)
-                  ? "bg-blueT"
-                  : ""
-              }
-              h-[4em]
-              px-5 xl:px-8
-              flex items-center
-              relative
+              ${isItemActive(item) ? "bg-blueT" : ""}
+              h-[4em] px-5 xl:px-8
+              flex items-center relative
               transition-colors duration-300
               hover:bg-blueT
             `}
           >
-            {/* ITEM CON SUBMENÚ */}
             {item.submenu ? (
               <div className="relative h-full flex items-center">
                 <button
-                  onClick={() =>
-                    toggleDropdown(index)
-                  }
-                  className="
-                    flex items-center gap-1
-                    h-full
-                    text-white
-                    font-poppins
-                    text-[.9em]
-                  "
+                  onClick={() => toggleDropdown(index)}
+                  className="flex items-center gap-1 h-full text-white font-poppins text-[.9em]"
                 >
                   {item.text}
-
                   <HiChevronDown
                     size={16}
-                    className={`
-                      transition-transform duration-300
-                      ${
-                        openDropdown === index
-                          ? "rotate-180"
-                          : ""
-                      }
-                    `}
+                    className={`transition-transform duration-300 ${
+                      openDropdown === index ? "rotate-180" : ""
+                    }`}
                   />
                 </button>
-                {/* SUBMENÚ */}
+
                 {openDropdown === index && (
                   <ul
                     className="
                       absolute top-full left-0
-                      shadow-lg
-                      py-2
-                      min-w-[230px]
-                      z-50
-                      list-none
-                      overflow-hidden
+                      shadow-lg py-2
+                      min-w-[230px] z-50
+                      list-none overflow-hidden
                     "
                   >
-                    {item.submenu.map(
-                      (subitem, subindex) => (
-                        <NavbarLink
-                          key={subindex}
-                          href={subitem.href}
-                          text={subitem.text}
-                          onClick={() =>
-                            setOpenDropdown(null)
-                          }
-                          variant="submenu"
-                          className="
-                            block px-5 py-3
-                            text-white text-[.85em]
-                            hover:bg-blueT/80
-                            hover:pl-6
-                            transition-all duration-200
-                          "
-                        />
-                      )
-                    )}
+                    {item.submenu.map((subitem, subindex) => (
+                      <NavbarLink
+                        key={subindex}
+                        href={subitem.href}
+                        text={subitem.text}
+                        onClick={() => setOpenDropdown(null)}
+                        variant="submenu"
+                        className="
+                          block px-5 py-3
+                          text-white text-[.85em]
+                          hover:bg-blueT/80 hover:pl-6
+                          transition-all duration-200
+                        "
+                      />
+                    ))}
                   </ul>
                 )}
               </div>
             ) : (
-              /* ITEM NORMAL */
               <NavbarLink
                 href={item.href}
                 text={item.text}
-                className="
-                  text-white
-                  text-[.9em]
-                "
+                className="text-white text-[.9em]"
               />
             )}
           </li>
         ))}
       </ul>
+
       {/* MOBILE MENU */}
       <MobileMenu
         menu={menu}

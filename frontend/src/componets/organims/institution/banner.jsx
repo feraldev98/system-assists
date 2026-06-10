@@ -32,7 +32,7 @@ function InstitutionBanner () {
         <div className="absolute -bottom-10 right-20 w-40 h-40 rounded-full bg-white/10 z-1" />
 
         <Title
-          text={'Institución Educactiva Coronel Cortegana'}
+          text={'Institución Educactiva Publica y Emblemática JEC Coronel Cortegana'}
           weight="bold"
           variant="primary"
         />

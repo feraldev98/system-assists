@@ -15,30 +15,33 @@ export function useAttendanceControl() {
       const date = now.toISOString().split("T")[0];
 
       // ─── 1. Buscar estudiante antes del await ──────────────────
-      // Se hace antes para tener el dato original disponible
-      // tanto para mostrar la card como para el rollback.
-      const found = students.find((s) => s.code === qrCode);
+      // El QR encodea el DNI del estudiante, se busca
+      // en la lista local para tener el dato original.
+      const found = students.find((s) => s.dni === qrCode);
 
       // ─── 2. Actualización optimista en UI ─────────────────────
       // Se refleja el cambio de inmediato en la tabla
       // sin esperar respuesta del servidor.
       setStudents((prev) =>
         prev.map((s) =>
-          s.code === qrCode ? { ...s, status: newStatus, time, date } : s
+          s.dni === qrCode ? { ...s, status: newStatus, time, date } : s
         )
       );
 
       // ─── 3. Mostrar card de inmediato ──────────────────────────
+      // Si no se encuentra el DNI en la lista, se muestra
+      // un estudiante "no encontrado" en la card.
       setLastScanned(
         found
           ? { ...found, status: newStatus, time }
-          : { code: qrCode, student: "Estudiante no encontrado", status: "absent", time }
+          : { dni: qrCode, student: "Estudiante no encontrado", status: "absent", time }
       );
 
       // ─── 4. Registrar en el servidor ──────────────────────────
-      // Si apiFetch devuelve null hubo un error (ya lo loguea internamente).
+      // Se envía el DNI (leído del QR) junto con el estado
+      // calculado según la hora de escaneo.
       const result = await apiFetch("/api/attendance", "POST", {
-        code: qrCode,
+        dni: qrCode,
         status: newStatus,
         time,
         date,
@@ -46,16 +49,18 @@ export function useAttendanceControl() {
 
       if (!result) {
         // ─── 5. Rollback si la API falló ────────────────────────
-        // Se revierte la tabla al estado anterior del estudiante.
+        // Se revierte la tabla al estado anterior del estudiante
+        // para no mostrar datos incorrectos.
         setStudents((prev) =>
           prev.map((s) =>
-            s.code === qrCode
+            s.dni === qrCode
               ? { ...s, status: found?.status ?? "absent", time: found?.time ?? null }
               : s
           )
         );
 
-        // Se marca la card con error para que el componente
+        // Se marca la card con apiError para que el componente
+        // pueda mostrar un aviso visual si lo desea.
         setLastScanned((prev) => (prev ? { ...prev, apiError: true } : prev));
         return;
       }
@@ -65,7 +70,7 @@ export function useAttendanceControl() {
       // se reemplaza el dato optimista con el dato real.
       if (result.student) {
         setStudents((prev) =>
-          prev.map((s) => (s.code === qrCode ? { ...s, ...result.student } : s))
+          prev.map((s) => (s.dni === qrCode ? { ...s, ...result.student } : s))
         );
         setLastScanned({ ...result.student, time });
       }

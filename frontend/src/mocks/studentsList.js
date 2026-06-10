@@ -2,7 +2,7 @@ export const studentsMock = [
   {
     id: 1,
     img: "",
-    code: "ST001",
+    dni: "ST001",
     student: "Juan Pérez",
     grade: "1°",
     section: "A",
@@ -16,7 +16,7 @@ export const studentsMock = [
   {
     id: 2,
     img: "",
-    code: "ST002",
+    dni: "ST002",
     student: "María López",
     grade: "1°",
     section: "A",
@@ -30,7 +30,7 @@ export const studentsMock = [
   {
     id: 3,
     img: "",
-    code: "ST003",
+    dni: "80348738",
     student: "Carlos Díaz",
     grade: "1°",
     section: "B",
@@ -44,7 +44,7 @@ export const studentsMock = [
   {
     id: 4,
     img: "",
-    code: "ST004",
+    dni: "78635422",
     student: "Ana Torres",
     grade: "2°",
     section: "A",
@@ -58,7 +58,7 @@ export const studentsMock = [
   {
     id: 5,
     img: "",
-    code: "ST005",
+    dni: "76563543",
     student: "Luis Rojas",
     grade: "2°",
     section: "A",
@@ -72,7 +72,7 @@ export const studentsMock = [
   {
     id: 6,
     img: "",
-    code: "ST006",
+    dni: "77654535",
     student: "Fernanda Ruiz",
     grade: "2°",
     section: "B",
@@ -86,7 +86,7 @@ export const studentsMock = [
   {
     id: 7,
     img: "",
-    code: "ST007",
+    dni: "34567895",
     student: "Miguel Castro",
     grade: "3°",
     section: "A",
@@ -100,7 +100,7 @@ export const studentsMock = [
   {
     id: 8,
     img: "",
-    code: "ST008",
+    dni: "54234234",
     student: "Valeria Gómez",
     grade: "3°",
     section: "A",
@@ -114,7 +114,7 @@ export const studentsMock = [
   {
     id: 9,
     img: "",
-    code: "ST009",
+    dni: "34567454",
     student: "Diego Silva",
     grade: "3°",
     section: "B",
@@ -128,7 +128,7 @@ export const studentsMock = [
   {
     id: 10,
     img: "",
-    code: "ST010",
+    dni: "45678342",
     student: "Camila Mendoza",
     grade: "4°",
     section: "A",

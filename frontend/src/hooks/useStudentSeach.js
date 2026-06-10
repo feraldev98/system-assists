@@ -12,7 +12,7 @@ export function useStudentSearch(students) {
       student.student
         .toLowerCase()
         .includes(search.toLowerCase()) ||
-      student.code
+      student.dni
         .toLowerCase()
         .includes(search.toLowerCase());
 
