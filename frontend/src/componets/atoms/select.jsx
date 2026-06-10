@@ -14,6 +14,10 @@ function Select({
   const variants = {
     default :`w-full text-center
       border-b border-blue py-o px-1 text-black/50 
+    `,
+    primary : `px-3 py-1 border border-borderC rounded-md bg-blueT text-white
+      shadow shadow-blue transition-all duration-300 
+      hover:shadow-lg shadow-blue
     `
   }
 

@@ -21,6 +21,7 @@ import { NotificationsAssistantPage } from './componets/pages/notifiacitons/noti
 import { DashboardAdminPage } from './componets/pages/dashboard/dashboardAdmin'
 import { RegisterUser } from './componets/pages/admin/registerUserPage'
 import { RegisterStudent } from './componets/pages/admin/registerStudentPage'
+import { MainLayout } from './componets/layouts/mainlayout'
 
 function App() {
   const {
@@ -30,9 +31,9 @@ function App() {
   } = useAuth()
 
   const pages = [
-    { path: '/father', component: <DashboardStudentPage userData={userData}/> },
-    { path: '/assistant', component: <DashboardAssitantPage userData={userData}/> },
-    { path: '/admin', component: <DashboardAdminPage userData={userData}/> },
+    { path: '/father', component: <DashboardStudentPage userData={userData} /> },
+    { path: '/assistant', component: <DashboardAssitantPage userData={userData} /> },
+    { path: '/admin', component: <DashboardAdminPage userData={userData} /> },
     { path: '/attendance-control', component: <AttendanceControlPage /> },
     { path: '/attendance-student', component: <AttendanceStudentPage /> },
     { path: '/behavior-control', component: <BehaviorControlPage /> },
@@ -49,30 +50,27 @@ function App() {
   }
 
   return (
-    <>
-
-      <Navbar />
-      <Routes>
+    <Routes>
+      <Route element={<MainLayout />}>
         <Route
           path='/'
-          element = {
+          element={
             <Navigate
               to={dashboardRoutes[userData?.role]}
               replace
-      />
+            />
           }
         />
 
-        {pages.map((route, index) => (
+        {pages.map((page, index) => (
           <Route
             key={index}
-            path={route.path}
-            element={route.component}
+            path={page.path}
+            element={page.component}
           />
         ))}
-      </Routes>
-      <Footer/>
-    </>
+      </Route>
+    </Routes>
   )
 }
 

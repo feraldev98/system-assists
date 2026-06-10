@@ -22,7 +22,7 @@ const apiFetch = async (route, method = "GET", body) => {
     // 2. Verificamos si la respuesta fue exitosa
     if (!response.ok) {
       // Si el servidor mandó un error, lo mostramos en consola
-      console.error(`❌ Error API (${response.status}):`, text);
+      console.error(`Error API (${response.status}):`, text);
       return null;
     }
 
@@ -31,12 +31,12 @@ const apiFetch = async (route, method = "GET", body) => {
       // Si está vacío, devolvemos array vacío o objeto vacío
       return text ? JSON.parse(text) : [];
     } catch (e) {
-      console.warn("⚠️ El servidor respondió OK pero no es JSON válido:", text, e);
+      console.warn(" El servidor respondió OK pero no es JSON válido:", text, e);
       return null;
     }
 
   } catch (error) {
-    console.error("🔥 Error de conexión (Backend apagado):", error);
+    console.error(" Error de conexión (Backend apagado):", error);
     return null;
   }
 }

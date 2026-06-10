@@ -3,7 +3,6 @@ import { useAuth } from "./useAuth";
 export const useGreeting = () => {
 
   const { userData } = useAuth();
-
   const role = userData?.role || "admin";
 
   const greetingLabel = {

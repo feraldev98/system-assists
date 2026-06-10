@@ -5,43 +5,51 @@ function Table({
   emptyMessage = "No hay datos disponibles",
 }) {
   return (
-    <div className="overflow-hidden rounded-md border border-borderC bg-white">
-      <table className="w-full border-collapse">
-        {/* HEADER */}
-        <thead className="bg-blueT border-b border-borderC">
-          <tr className="text-[1.1em]">
-            {headers.map((header, index) => (
-              <th
-                key={index}
-                className="text-left px-6 py-4 text-white font-semibold"
-              >
-                {header}
-              </th>
-            ))}
-          </tr>
-        </thead>
-      </table>
-
-      {/* SCROLL */}
-      <div className="max-h-60 overflow-y-auto">
-        <table className="w-full border-collapse">
-          <tbody>
-            {data.length > 0 ? (
-              data.map((item, index) =>
-                renderRow(item, index)
-              )
-            ) : (
+    <div className="overflow-hidden rounded-xl border border-borderC bg-white shadow-sm">
+      {/* Scroll horizontal */}
+      <div className="overflow-x-auto">
+        {/* Scroll vertical */}
+        <div className="max-h-80 overflow-y-auto">
+          <table className="w-full border-collapse">
+            {/* HEADER */}
+            <thead className="sticky top-0 z-10 bg-blue">
               <tr>
-                <td
-                  colSpan={headers.length}
-                  className="text-center py-8 text-gray-500"
-                >
-                  {emptyMessage}
-                </td>
+                {headers.map((header, index) => (
+                  <th
+                    key={index}
+                    className="
+                      min-w-37
+                      px-6 py-4
+                      text-left
+                      text-white
+                      font-semibold
+                      border-b border-blue-700
+                      whitespace-nowrap
+                    "
+                  >
+                    {header}
+                  </th>
+                ))}
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+
+            {/* BODY */}
+            <tbody>
+              {data.length > 0 ? (
+                data.map((item, index) => renderRow(item, index))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={headers.length}
+                    className="py-10 text-center text-gray-500"
+                  >
+                    {emptyMessage}
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
