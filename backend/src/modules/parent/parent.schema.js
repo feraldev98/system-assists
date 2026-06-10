@@ -9,12 +9,13 @@ const parentSchema = {
       idStudent: schemaUtils.idField({
         label: "El ID del estudiante",
         required: true,
-        type: "body",
       }),
       idParent: schemaUtils.idField({
         label: "El ID del padre",
         required: true,
-        type: "body",
+      }),
+      relationship: schemaUtils.relationshipField({
+        required: true,
       }),
     })
     .strict({
@@ -25,12 +26,10 @@ const parentSchema = {
       idStudent: schemaUtils.idField({
         label: "El ID del estudiante",
         required: false,
-        type: "body",
       }),
       idParent: schemaUtils.idField({
         label: "El ID del padre",
         required: false,
-        type: "body",
       }),
     })
     .strict({

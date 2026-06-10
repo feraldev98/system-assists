@@ -12,7 +12,6 @@ const sectionSchema = {
       idGrade: schemaUtils.idField({
         label: "El ID del grado",
         required: true,
-        type: "body",
       }),
     })
     .strict({
@@ -26,7 +25,6 @@ const sectionSchema = {
       idGrade: schemaUtils.idField({
         label: "El ID del grado",
         required: false,
-        type: "body",
       }),
     })
     .strict({

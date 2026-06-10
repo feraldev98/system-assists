@@ -1,30 +1,36 @@
 const parentFields = {
-  create: ["idStudent", "idParent", "relationship"],
-  update: ["idStudent", "idParent", "relationship"],
-  select: {
+  create: {
     idStudentParent: true,
-    student: {
+    idStudent: true,
+    idParent: true,
+    relationship: true,
+    student: true,
+    parent: {
       select: {
-        idStudent: true,
+        idUser: true,
         firstname: true,
         lastname: true,
-        code: true,
-        phone: true,
         email: true,
-        gender: true,
-        status: true,
+        phone: true,
         createdAt: true,
         updatedAt: true,
       },
     },
+  },
+  update: ["idStudent", "idParent", "relationship"],
+  select: {
+    idStudentParent: true,
+    idStudent: true,
+    idParent: true,
     relationship: true,
+    student: true,
     parent: {
       select: {
-        idParent: true,
+        idUser: true,
         firstname: true,
         lastname: true,
-        phone: true,
         email: true,
+        phone: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -38,6 +44,16 @@ const parentFields = {
     "idStudentParent",
     "idParent",
     "idStudent",
+  ],
+  relationship: [
+    "PADRE",
+    "MADRE",
+    "ABUELO",
+    "ABUELA",
+    "TÍO",
+    "TÍA",
+    "APODERADO",
+    "OTRO",
   ],
 };
 

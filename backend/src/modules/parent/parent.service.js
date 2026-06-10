@@ -1,7 +1,44 @@
 import { prisma } from "../../config/prisma.js";
+import { AppError } from "../../utils/AppError.js";
+import { parentFields } from "./parent.fields.js";
 
 const parentService = {
-  create: async () => {},
+  create: async ({ data }) => {
+    const parent = await prisma.user.findUnique({
+      where: {
+        idUser: data.idParent,
+      },
+      select: {
+        idUser: true,
+        role: true,
+      },
+    });
+    console.log(parent);
+    if (!parent) {
+      throw new AppError("El padre no existe", 400, {
+        field: "idParent",
+        message: "No existe un registro con el ID proporcionado",
+      });
+    }
+
+    if (!["PARENT"].includes(parent.role)) {
+      throw new AppError("El usuario no es un padre", 400, {
+        field: "idParent",
+        message: "El usuario no es un familiar",
+      });
+    }
+
+    const queryResult = await prisma.$transaction(async (prisma) => {
+      const parent = await prisma.studentParent.create({
+        data: {
+          ...data,
+        },
+        select: parentFields.create,
+      });
+      return { parent };
+    });
+    return queryResult.parent;
+  },
 
   get: async () => {},
 

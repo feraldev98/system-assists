@@ -9,7 +9,6 @@ const studentController = {
         schema: studentSchema.create,
         data: req.body,
       });
-      console.log(validate);
       const queryResult = await studentService.create(validate);
       return res.json({
         success: true,

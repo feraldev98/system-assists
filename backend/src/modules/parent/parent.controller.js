@@ -5,6 +5,18 @@ import { validateUtils } from "../../utils/validate.utils.js";
 const parentController = {
   create: async (req, res, next) => {
     try {
+      const validate = await validateUtils.validateSchema({
+        schema: parentSchema.create,
+        data: req.body,
+      });
+      console.log(validate);
+      const newParentRelation = await parentService.create({ data: validate });
+
+      return res.json({
+        success: true,
+        message: "Padre relacionado correctamente",
+        parent: newParentRelation,
+      });
     } catch (error) {
       next(error);
     }

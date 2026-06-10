@@ -27,7 +27,7 @@ const studentService = {
           throw new AppError("Valor duplicado", 409, [
             {
               field: "firstname",
-              message: "Ya existe un registro con este valor",
+              message: "El estudiante ya esta registraado con esos nombres",
             },
           ]);
         }

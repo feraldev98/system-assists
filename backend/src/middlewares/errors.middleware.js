@@ -19,6 +19,19 @@ function errorsMiddleware(err, req, res, _next) {
 
   // Prisma foreign key
   if (err.code === "P2003") {
+    const constraint = err.meta?.constraint;
+    if (constraint.split("_")[1] === "idStudent") {
+      return res.status(409).json({
+        success: false,
+        message: "No se puede eliminar el registro",
+        errors: [
+          {
+            field: "idStudent",
+            message: "No existe un registro con el ID proporcionado",
+          },
+        ],
+      });
+    }
     return res.status(409).json({
       success: false,
       message: "No se puede eliminar el registro",
