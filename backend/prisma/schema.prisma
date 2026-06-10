@@ -21,18 +21,15 @@ enum Role {
 }
 
 model User {
-  idUser               Int                   @id @default(autoincrement())
-  firstname            String                @db.VarChar(50)
-  lastname             String                @db.VarChar(50)
-  email                String                @unique @db.VarChar(100)
-  passwordHash         String                @db.VarChar(255)
-  role                 Role
-  phone                String?               @db.VarChar(20)
-  createdAt            DateTime              @default(now())
-  updatedAt            DateTime              @updatedAt
-  attendances          Attendance[]
-  incidents            Incident[]
-  parentStudentDetails ParentStudentDetail[]
+  idUser       Int      @id @default(autoincrement())
+  firstname    String   @db.VarChar(50)
+  lastname     String   @db.VarChar(50)
+  email        String   @unique @db.VarChar(100)
+  passwordHash String   @db.VarChar(255)
+  role         Role
+  phone        String?  @db.VarChar(20)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model Grade {
@@ -42,88 +39,37 @@ model Grade {
 }
 
 model Section {
-  idSection Int       @id @default(autoincrement())
-  name      String    @db.VarChar(10)
-  grade     Grade     @relation(fields: [idGrade], references: [idGrade])
+  idSection Int    @id @default(autoincrement())
+  name      String @db.VarChar(10)
+  grade     Grade  @relation(fields: [idGrade], references: [idGrade])
   idGrade   Int
-  students  Student[]
+}
+
+enum StatusStudent {
+  ACTIVO
+  INACTIVO
+  SUSPENDIDO
+  EXPULSADO
+  TRANSFERIDO
+  GRADUADO
+  RETIRADO
+}
+
+enum Gender {
+  M
+  F
+  O
 }
 
 model Student {
-  idStudent            Int                   @id @default(autoincrement())
-  firstname            String                @db.VarChar(50)
-  lastname             String                @db.VarChar(50)
-  code                 String                @unique @default(uuid()) @db.Uuid
-  active               Boolean               @default(true)
-  section              Section               @relation(fields: [idSection], references: [idSection])
-  idSection            Int
-  parentStudentDetails ParentStudentDetail[]
-  attendances          Attendance[]
-  incidents            Incident[]
-
-  @@index([idSection])
-}
-
-model ParentStudentDetail {
-  student   Student @relation(fields: [idStudent], references: [idStudent])
-  idStudent Int
-  parent    User    @relation(fields: [idParent], references: [idUser])
-  idParent  Int
-
-  @@id([idParent, idStudent])
-}
-
-enum Status {
-  PRESENT
-  LATE
-  ABSENT
-}
-
-enum Method {
-  QR
-  NAME
-}
-
-model Attendance {
-  idAttendance Int      @id @default(autoincrement())
-  status       Status
-  method       Method
-  createdBy    User     @relation(fields: [idCreatedBy], references: [idUser])
-  idCreatedBy  Int
-  createdAt    DateTime @default(now())
-  date         DateTime @db.Date
-  student      Student  @relation(fields: [idStudent], references: [idStudent])
-  idStudent    Int
-
-  @@unique([idStudent, date])
-  @@index([date])
-}
-
-enum Severity {
-  LOW
-  MEDIUM
-  HIGH
-}
-
-enum IncidentType {
-  DISCIPLINE
-  LATE
-  UNIFORM
-  OTHER
-}
-
-model Incident {
-  idIncident  Int          @id @default(autoincrement())
-  type        IncidentType
-  points      Int
-  description String       @db.Text
-  severity    Severity
-  createdBy   User         @relation(fields: [idCreatedBy], references: [idUser])
-  idCreatedBy Int
-  createdAt   DateTime     @default(now())
-  student     Student      @relation(fields: [idStudent], references: [idStudent])
-  idStudent   Int
-
-  @@index([createdAt])
-  @@index([idStudent, createdAt])
+  idStudent Int           @id @default(autoincrement())
+  firstname String        @db.VarChar(50)
+  lastname  String        @db.VarChar(50)
+  code      String        @unique @default(uuid()) @db.Uuid
+  phone     String?       @unique @db.VarChar(20)
+  email     String?       @unique @db.VarChar(100)
+  gender    Gender
+  status    StatusStudent @default(ACTIVO)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 }

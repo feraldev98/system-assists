@@ -1,8 +1,8 @@
-# ELIMINAR USUARIO POR ID
+# ELIMINAR SECCIÓN POR ID
 
 ## DELETE /user/:id
 
-- Elimina un usuario en el sistema.
+- Elimina una sección en el sistema.
 - Requiere autenticación.
 
 ## Authentication
@@ -11,13 +11,13 @@
 
 ## URL Params
 
-| URL Param | Type   | Required | Description                           |
-| --------- | ------ | -------- | ------------------------------------- |
-| id        | number | Sí       | ID del usuario que se desea eliminar. |
+| URL Param | Type   | Required | Description                             |
+| --------- | ------ | -------- | --------------------------------------- |
+| id        | number | Sí       | ID de la sección que se desea eliminar. |
 
 ## Example Request
 
-DELETE /user/1
+DELETE /section/1
 
 ## Validations
 
@@ -34,7 +34,7 @@ DELETE /user/1
   "errors": [
     {
       "field": "id",
-      "message": "El ID de usuario debe ser mayor a 0"
+      "message": "El ID de la sección debe ser un número entero"
     }
   ]
 }
@@ -45,14 +45,14 @@ DELETE /user/1
 ```json
 {
   "success": true,
-  "message": "Usuario eliminado correctamente",
-  "user": {
-    "idUser": 6,
-    "firstname": "qwe",
-    "lastname": "Kael",
-    "email": "auxiliar2@gmail.com",
-    "role": "AUXILIAR",
-    "createdAt": "2026-06-04T22:26:54.496Z"
+  "message": "Seccion eliminada correctamente",
+  "section": {
+    "idSection": 15,
+    "name": "G",
+    "grade": {
+      "idGrade": 5,
+      "level": 5
+    }
   }
 }
 ```
@@ -65,7 +65,7 @@ DELETE /user/1
   "message": "Registro no encontrado",
   "errors": [
     {
-      "field": "id",
+      "field": "idSection",
       "message": "No existe un registro con el ID proporcionado"
     }
   ]

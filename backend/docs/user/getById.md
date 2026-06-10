@@ -2,7 +2,7 @@
 
 ## GET /user/:id
 
-- Obtiene la información de un usuario del sistema mediante su ID.
+- Obtiene la información de un usuario mediante su ID.
 - Requiere autenticación.
 
 ## Authentication
@@ -17,13 +17,12 @@
 
 ## Example Request
 
-GET /user/1
+- GET /user/1
 
 ## Validations
 
 - id: requerido.
 - id: debe ser un número entero.
-- No se permiten campos adicionales.
 
 ## Validation Error Response
 
@@ -40,7 +39,7 @@ GET /user/1
 }
 ```
 
-## Response
+## Success Response
 
 ```json
 {

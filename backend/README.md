@@ -49,3 +49,19 @@ PARENT
 - [LISTAR GRADO POR ID](docs/grade/getById.md)
 - [ACTUALIZAR GRADO](docs/grade/update.md)
 - [ELIMINAR GRADO](docs/grade/delete.md)
+
+### SECTION
+
+- [CREAR NUEVA SECCION (EJ. 1° A, 1° B, ETC)](docs/section/create.md)
+- [LISTAR TODAS LAS SECCIONES](docs/section/get.md)
+- [LISTAR SECCION POR ID](docs/section/getById.md)
+- [ACTUALIZAR SECCION](docs/section/update.md)
+- [ELIMINAR SECCION](docs/section/delete.md)
+
+### STUDENT
+
+- [CREAR NUEVO ESTUDIANTE](docs/student/create.md)
+- [LISTAR TODOS LOS ESTUDIANTES](docs/student/get.md)
+- [LISTAR ESTUDIANTE POR ID](docs/student/getById.md)
+- [ACTUALIZAR ESTUDIANTE](docs/student/update.md)
+- [ELIMINAR ESTUDIANTE](docs/student/delete.md)

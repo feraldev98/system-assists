@@ -68,6 +68,21 @@
 }
 ```
 
+## Undeleteable Response
+
+```json
+{
+  "success": false,
+  "message": "No se puede eliminar el registro",
+  "errors": [
+    {
+      "field": "id",
+      "message": "Existen registros relacionados que dependen de este registro"
+    }
+  ]
+}
+```
+
 ## Unauthorized Response
 
 ```json

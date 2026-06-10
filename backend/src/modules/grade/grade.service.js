@@ -13,6 +13,7 @@ const gradeService = {
     });
     return queryResult.grade;
   },
+
   get: async ({ page, limit, sortOrder, search }) => {
     const where = {};
     if (search && !isNaN(Number(search))) {
@@ -35,21 +36,23 @@ const gradeService = {
 
     return [grades, total];
   },
-  getById: async (id) => {
+
+  getById: async (idGrade) => {
     const grade = await prisma.grade.findUnique({
-      where: { idGrade: id },
+      where: { idGrade },
       select: gradeFields.selectFields,
     });
     if (!grade) {
       throw new AppError("Registro no encontrado", 404, [
         {
-          field: "id",
+          field: "idGrade",
           message: "No existe un registro con el ID proporcionado",
         },
       ]);
     }
     return grade;
   },
+
   update: async (id, data) => {
     const gradeUpdated = await prisma.grade.update({
       where: { idGrade: id },

@@ -4,7 +4,7 @@ import { searchUtils } from "../../utils/search.utils.js";
 import { userFields } from "./user.fields.js";
 
 const userService = {
-  createUser: async ({
+  create: async ({
     firstname,
     lastname,
     email,
@@ -21,7 +21,7 @@ const userService = {
     });
     return queryResult;
   },
-  getUsers: async ({ page, limit, role, sortBy, search, sortOrder }) => {
+  get: async ({ page, limit, role, sortBy, search, sortOrder }) => {
     const where = searchUtils.buildWhere({
       search,
       searchFields: userFields.seachFields,
@@ -45,7 +45,7 @@ const userService = {
     return [users, total];
   },
 
-  updateUser: async (idUser, data) => {
+  update: async (idUser, data) => {
     const updatedUser = await prisma.user.update({
       where: {
         idUser,
@@ -53,10 +53,18 @@ const userService = {
       data,
       select: userFields.selectFields,
     });
+    if (!updatedUser) {
+      throw new AppError("Registro no encontrado", 404, [
+        {
+          field: "idUser",
+          message: "No existe un registro con el ID proporcionado",
+        },
+      ]);
+    }
     return updatedUser;
   },
 
-  deleteUser: async (idUser) => {
+  delete: async (idUser) => {
     const deletedUser = await prisma.user.delete({
       where: { idUser },
       select: userFields.selectFields,
@@ -64,7 +72,7 @@ const userService = {
     return deletedUser;
   },
 
-  getUserById: async (idUser) => {
+  getById: async (idUser) => {
     const user = await prisma.user.findUnique({
       where: { idUser },
       select: userFields.selectFields,
@@ -73,7 +81,7 @@ const userService = {
     if (!user) {
       throw new AppError("Registro no encontrado", 404, [
         {
-          field: "id",
+          field: "idUser",
           message: "No existe un registro con el ID proporcionado",
         },
       ]);

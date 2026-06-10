@@ -17,13 +17,12 @@
 
 ## Example Request
 
-GET /grade/1
+- GET /grade/1
 
 ## Validations
 
 - id: requerido.
 - id: debe ser un número entero.
-- No se permiten campos adicionales.
 
 ## Validation Error Response
 

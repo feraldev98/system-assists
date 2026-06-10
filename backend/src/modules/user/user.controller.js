@@ -15,7 +15,7 @@ const userController = {
         validate.password,
       );
 
-      const queryResult = await userService.createUser({
+      const queryResult = await userService.create({
         ...validate,
         passwordHash,
       });
@@ -36,9 +36,7 @@ const userController = {
         data: req.query,
       });
 
-      console.log(validate);
-
-      const [users, total] = await userService.getUsers(validate);
+      const [users, total] = await userService.get(validate);
 
       return res.json({
         success: true,
@@ -74,7 +72,7 @@ const userController = {
         delete data.repassword;
       }
 
-      const updatedUser = await userService.updateUser(userId, data);
+      const updatedUser = await userService.update(userId, data);
 
       return res.json({
         success: true,
@@ -92,7 +90,7 @@ const userController = {
         schema: userSchema.params,
         data: req.params,
       });
-      const user = await userService.getUserById(id);
+      const user = await userService.getById(id);
 
       return res.json({
         success: true,
@@ -110,7 +108,7 @@ const userController = {
         schema: userSchema.params,
         data: req.params,
       });
-      const deletedUser = await userService.deleteUser(id);
+      const deletedUser = await userService.delete(id);
 
       return res.json({
         success: true,

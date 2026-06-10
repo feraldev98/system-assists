@@ -17,6 +17,39 @@ function errorsMiddleware(err, req, res, _next) {
     });
   }
 
+  // Prisma foreign key
+  if (err.code === "P2003") {
+    return res.status(409).json({
+      success: false,
+      message: "No se puede eliminar el registro",
+      errors: [
+        {
+          field: "general",
+          message:
+            "Existen registros relacionados que dependen de este registro",
+        },
+      ],
+    });
+  }
+
+  // Prisma not delete related
+  if (
+    err.name === "PrismaClientUnknownRequestError" &&
+    err.message.includes("violates RESTRICT setting")
+  ) {
+    return res.status(409).json({
+      success: false,
+      message: "No se puede eliminar el registro",
+      errors: [
+        {
+          field: "id",
+          message:
+            "Existen registros relacionados que dependen de este registro",
+        },
+      ],
+    });
+  }
+
   // Prisma not found
   if (err.code === "P2025") {
     return res.status(404).json({
@@ -24,7 +57,7 @@ function errorsMiddleware(err, req, res, _next) {
       message: "Registro no encontrado",
       errors: [
         {
-          field: "id",
+          field: err.meta.modelName ? `id${err.meta.modelName}` : "id",
           message: "No existe un registro con el ID proporcionado",
         },
       ],

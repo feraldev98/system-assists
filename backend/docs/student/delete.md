@@ -1,8 +1,8 @@
-# ELIMINAR USUARIO POR ID
+# ELIMINAR ESTUDIANTE POR ID
 
-## DELETE /user/:id
+## DELETE /student/:id
 
-- Elimina un usuario en el sistema.
+- Elimina un estudiante del sistema.
 - Requiere autenticación.
 
 ## Authentication
@@ -11,13 +11,13 @@
 
 ## URL Params
 
-| URL Param | Type   | Required | Description                           |
-| --------- | ------ | -------- | ------------------------------------- |
-| id        | number | Sí       | ID del usuario que se desea eliminar. |
+| URL Param | Type   | Required | Description                              |
+| --------- | ------ | -------- | ---------------------------------------- |
+| id        | number | Sí       | ID del estudiante que se desea eliminar. |
 
 ## Example Request
 
-DELETE /user/1
+DELETE /student/1
 
 ## Validations
 
@@ -34,7 +34,7 @@ DELETE /user/1
   "errors": [
     {
       "field": "id",
-      "message": "El ID de usuario debe ser mayor a 0"
+      "message": "El ID del estudiante debe ser un número entero"
     }
   ]
 }
@@ -45,14 +45,18 @@ DELETE /user/1
 ```json
 {
   "success": true,
-  "message": "Usuario eliminado correctamente",
-  "user": {
-    "idUser": 6,
-    "firstname": "qwe",
-    "lastname": "Kael",
-    "email": "auxiliar2@gmail.com",
-    "role": "AUXILIAR",
-    "createdAt": "2026-06-04T22:26:54.496Z"
+  "message": "Estudiante eliminado correctamente",
+  "student": {
+    "idStudent": 1,
+    "firstname": "KRAUS",
+    "lastname": "KROENEN",
+    "code": "80243d3c-4fe6-43fc-9c02-41fed75539ca",
+    "gender": "M",
+    "phone": "+51852741963",
+    "email": "admin@qwe.com",
+    "status": "EXPULSADO",
+    "createdAt": "2026-06-07T21:41:36.224Z",
+    "updatedAt": "2026-06-07T22:36:06.461Z"
   }
 }
 ```
@@ -65,7 +69,7 @@ DELETE /user/1
   "message": "Registro no encontrado",
   "errors": [
     {
-      "field": "id",
+      "field": "idStudent",
       "message": "No existe un registro con el ID proporcionado"
     }
   ]

@@ -1,9 +1,20 @@
 import { z } from "zod";
-import { validateUtils } from "../../utils/validate.utils.js";
 import { schemaUtils } from "../../utils/schema.utils.js";
-import { userFields } from "./user.fields.js";
+import { studentFields } from "./student.fields.js";
+import { validateUtils } from "../../utils/validate.utils.js";
+/*
+model Student {
+  idStudent Int     @id @default(autoincrement())
+  firstname String  @db.VarChar(50)
+  lastname  String  @db.VarChar(50)
+  code      String  @unique @default(uuid()) @db.Uuid
+  phone     String? @db.VarChar(20)
+  email     String? @unique @db.VarChar(100)
+  active    Boolean @default(true)
+}
+*/
 
-const userSchema = {
+const studentSchema = {
   create: z
     .object({
       firstname: schemaUtils.nameField({
@@ -18,38 +29,24 @@ const userSchema = {
         max: 50,
         required: true,
       }),
-
-      email: schemaUtils.emailField({
-        label: "El correo",
+      //code,
+      gender: schemaUtils.genderField({
         required: true,
       }),
-
-      password: schemaUtils.passwordField({
-        label: "La contraseña",
-        min: 8,
-        max: 32,
-        required: true,
-      }),
-
-      repassword: z.preprocess(
-        (val) => val ?? "",
-        z.string().trim().min(1, "Debes confirmar la contraseña"),
-      ),
-
-      role: schemaUtils.roleField({
-        label: "El rol",
-        required: true,
-      }),
-
       phone: schemaUtils.phoneField({
         label: "El teléfono",
-        required: true,
+        required: false,
+      }),
+      email: schemaUtils.emailField({
+        label: "El correo",
+        required: false,
+      }),
+      status: schemaUtils.statusField({
+        states: studentFields.status,
+        required: false,
       }),
     })
-    .strict({ message: "No se permiten campos adicionales" })
-    .superRefine((data, ctx) => {
-      validateUtils.verifyPasswords({ data, ctx });
-    }),
+    .strict({ message: "No se permiten campos adicionales" }),
 
   update: z
     .object({
@@ -59,53 +56,38 @@ const userSchema = {
         max: 50,
         required: false,
       }),
-
       lastname: schemaUtils.nameField({
         label: "El apellido",
         min: 2,
         max: 50,
         required: false,
       }),
-
-      email: schemaUtils.emailField({
-        label: "El correo",
+      //code,
+      gender: schemaUtils.genderField({
         required: false,
       }),
-
-      role: schemaUtils.roleField({
-        label: "El rol",
-        required: false,
-      }),
-
       phone: schemaUtils.phoneField({
         label: "El teléfono",
         required: false,
       }),
-
-      password: schemaUtils.passwordField({
-        label: "La contraseña",
-        min: 8,
-        max: 32,
+      email: schemaUtils.emailField({
+        label: "El correo",
         required: false,
       }),
-
-      repassword: z.string().trim().optional(),
+      status: schemaUtils.statusField({
+        states: studentFields.status,
+        required: false,
+      }),
     })
-    .strict({
-      message: "No se permiten campos adicionales",
-    })
+    .strict({ message: "No se permiten campos adicionales" })
     .superRefine((data, ctx) => {
-      validateUtils.validateBody({
-        data,
-        ctx,
-        fields: userFields.editableFields,
-      });
-      validateUtils.verifyPasswords({ data, ctx });
+      validateUtils.validateBody({ data, ctx, fields: studentFields.update });
     }),
+
   params: z
     .object({
       id: schemaUtils.idField({
-        label: "El ID del usuario",
+        label: "El ID del estudiante",
         required: false,
       }),
       page: schemaUtils.numberField({
@@ -115,7 +97,6 @@ const userSchema = {
         defaultValue: 1,
         required: false,
       }),
-
       limit: schemaUtils.numberField({
         label: "El límite",
         min: 1,
@@ -123,18 +104,17 @@ const userSchema = {
         defaultValue: 10,
         required: false,
       }),
-
-      role: schemaUtils.roleField({
-        label: "El rol",
+      status: schemaUtils.statusField({
+        states: studentFields.status,
         required: false,
       }),
-
-      sortBy: schemaUtils.sortByField({
-        sortFields: userFields.sortFields,
+      gender: schemaUtils.genderField({
+        required: false,
       }),
-
+      sortBy: schemaUtils.sortByField({
+        sortFields: studentFields.sort,
+      }),
       sortOrder: schemaUtils.sortOrderField(),
-
       search: schemaUtils.searchField(),
     })
     .strict({
@@ -142,4 +122,4 @@ const userSchema = {
     }),
 };
 
-export { userSchema };
+export { studentSchema };
