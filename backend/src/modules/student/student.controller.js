@@ -13,7 +13,7 @@ const studentController = {
       return res.json({
         success: true,
         message: "Estudiante creado correctamente",
-        student: queryResult,
+        student: {...queryResult},
       });
     } catch (error) {
       next(error);

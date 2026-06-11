@@ -27,11 +27,17 @@ const parentSchema = {
       idStudent: schemaUtils.idField({
         label: "El ID del estudiante",
         required: false,
-      }),
+      })
+      .optional(),
       idParent: schemaUtils.idField({
         label: "El ID del padre",
         required: false,
-      }),
+      })
+      .optional(),
+      relationship: schemaUtils.relationshipField({
+        required: false,
+      })
+      .optional(),
     })
     .strict({
       message: "No se permiten campos adicionales",

@@ -19,12 +19,16 @@ function errorsMiddleware(err, req, res, _next) {
 
   // Prisma foreign key
   if (err.code === "P2003") {
+    const constraint = err.meta?.constraint ?? "";
+    // "StudentParent_idStudent_fkey" → "idStudent"
+    const field = constraint.match(/_(\w+)_fkey/)?.[1] ?? "id";
+
     return res.status(409).json({
       success: false,
       message: "Registro no encontrado",
       errors: [
         {
-          field: err.meta.modelName ? `id${err.meta.modelName}` : "id",
+          field,
           message: "No existe un registro con el ID proporcionado",
         },
       ],

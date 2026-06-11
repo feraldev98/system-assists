@@ -66,6 +66,23 @@ const parentController = {
 
   update: async (req, res, next) => {
     try {
+      const { id: idStudentParent } = await validateUtils.validateSchema({
+        schema: parentSchema.params,
+        data: req.params
+      })
+
+      const data = await validateUtils.validateSchema({
+        schema: parentSchema.update,
+        data: req.body
+      })
+
+      const updatedParent = await parentService.update({ idStudentParent, data })
+
+      return res.json({
+        success: true,
+        message: "Relación familiar actualizada correctamente",
+        data: updatedParent
+      })
     } catch (error) {
       next(error);
     }

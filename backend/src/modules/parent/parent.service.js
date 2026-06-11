@@ -41,7 +41,7 @@ const parentService = {
     return queryResult.parent;
   },
 
-get: async ({ page, limit, sortOrder, search, sortBy, relationship }) => {
+  get: async ({ page, limit, sortOrder, search, sortBy, relationship }) => {
     const where = searchUtils.buildMixedWhere({
       search,
       numberFields: ["idStudentParent", "idStudent", "idParent"],
@@ -53,9 +53,8 @@ get: async ({ page, limit, sortOrder, search, sortBy, relationship }) => {
         { relation: "parent", field: "email" },
       ],
       filters: {
-        relationship
-      }
-      
+        relationship,
+      },
     });
 
     const relationSortMap = {
@@ -84,16 +83,15 @@ get: async ({ page, limit, sortOrder, search, sortBy, relationship }) => {
     return [parents, total];
   },
 
-
   getById: async ({ idStudentParent }) => {
     const parent = await prisma.studentParent.findUnique({
       where: {
-        idStudentParent
+        idStudentParent,
       },
       select: parentFields.select,
     });
 
-    if(!parent) {
+    if (!parent) {
       throw new AppError("Registro no encontrado", 404, [
         {
           field: "idParent",
@@ -105,7 +103,58 @@ get: async ({ page, limit, sortOrder, search, sortBy, relationship }) => {
     return parent;
   },
 
-  update: async () => {},
+  update: async ({ idStudentParent, data }) => {
+    // 1. Validar si el registro existe
+    const parent = await prisma.studentParent.findUnique({
+      where: { idStudentParent },
+    });
+
+    if (!parent) {
+      throw new AppError("Registro no encontrado", 404, [
+        {
+          field: "idStudentParent",
+          message: "No existe un registro con este ID",
+        },
+      ]);
+    }
+
+    // 2. Usar valores actuales si no se envían nuevos
+    const idParentToCheck = data.idParent ?? parent.idParent;
+    const idStudentToCheck = data.idStudent ?? parent.idStudent;
+
+    // 3. Solo validar duplicado si realmente cambió alguno de los dos valores
+    const isChanging =
+      idParentToCheck !== parent.idParent ||
+      idStudentToCheck !== parent.idStudent;
+
+    if (isChanging) {
+      const duplicate = await prisma.studentParent.findFirst({
+        where: {
+          idParent: idParentToCheck,
+          idStudent: idStudentToCheck,
+          NOT: { idStudentParent },
+        },
+      });
+
+      if (duplicate) {
+        throw new AppError("Valor duplicado", 400, [
+          {
+            field: ["idParent", "idStudent"],
+            message: "Ya existe un registro con este valor",
+          },
+        ]);
+      }
+    }
+
+    // 4. Actualizar
+    const updatedParent = await prisma.studentParent.update({
+      where: { idStudentParent },
+      data,
+      select: parentFields.select,
+    });
+
+    return updatedParent;
+  },
 
   delete: async () => {},
 };
