@@ -90,6 +90,18 @@ const parentController = {
 
   delete: async (req, res, next) => {
     try {
+      const { id: idStudentParent } = await validateUtils.validateSchema({
+        schema: parentSchema.params,
+        data: req.params
+      })
+
+      const deletedParent = await parentService.delete({idStudentParent})
+
+      return res.json({
+        success: true,
+        message: "Relación familiar eliminada correctamente",
+        data: {...deletedParent}
+      })
     } catch (error) {
       next(error);
     }

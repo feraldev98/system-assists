@@ -156,7 +156,15 @@ const parentService = {
     return updatedParent;
   },
 
-  delete: async () => {},
+  delete: async ({ idStudentParent }) => {
+    const deletedParent = await prisma.studentParent.delete({
+      where: {
+        idStudentParent,
+      },
+      select: parentFields.select,
+    })
+    return deletedParent;
+  },
 };
 
 export { parentService };
