@@ -16,7 +16,8 @@ const parentSchema = {
       }),
       relationship: schemaUtils.relationshipField({
         required: true,
-      }),
+      })
+      .optional(),
     })
     .strict({
       message: "No se permiten campos adicionales",

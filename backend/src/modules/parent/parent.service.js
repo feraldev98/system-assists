@@ -24,7 +24,7 @@ const parentService = {
     if (!["PARENT"].includes(parent.role)) {
       throw new AppError("El usuario no es un padre", 400, {
         field: "idParent",
-        message: "El usuario no es un familiar",
+        message: "El usuario no es un padre",
       });
     }
 
