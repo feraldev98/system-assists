@@ -14,7 +14,7 @@ const parentController = {
 
       return res.json({
         success: true,
-        message: "Padre relacionado correctamente",
+        message: "Relación familiar creada correctamente",
         parent: newParentRelation,
       });
     } catch (error) {
@@ -47,6 +47,18 @@ const parentController = {
 
   getById: async (req, res, next) => {
     try {
+      const { id: idStudentParent } = await validateUtils.validateSchema({
+        schema: parentSchema.params,
+        data: req.params
+      })
+
+      const parent = await parentService.getById({idStudentParent})
+
+      return res.json({
+        success: true,
+        message: "Relación familiar encontrada",
+        data: { ...parent },
+      });
     } catch (error) {
       next(error);
     }

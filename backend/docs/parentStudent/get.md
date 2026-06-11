@@ -35,20 +35,8 @@
   "success": true,
   "data": [
     {
-      "idStudentParent": 9,
+      "idStudentParent": 10,
       "relationship": "ABUELO",
-      "student": {
-        "idStudent": 1,
-        "firstname": "WEQWQ Q W QW",
-        "lastname": "VO WQQWEEN",
-        "code": "2a4fbdbf-abee-4432-8646-10fdda9aca9c",
-        "gender": "F",
-        "phone": null,
-        "email": null,
-        "status": "ACTIVO",
-        "createdAt": "2026-06-10T17:39:30.905Z",
-        "updatedAt": "2026-06-10T17:39:30.905Z"
-      },
       "parent": {
         "idUser": 2,
         "firstname": "JO JHNZ",
@@ -58,23 +46,23 @@
         "role": "PARENT",
         "createdAt": "2026-06-10T17:23:27.244Z",
         "updatedAt": "2026-06-10T17:23:27.244Z"
+      },
+      "student": {
+        "idStudent": 3,
+        "firstname": "WVIOLENCE",
+        "lastname": "VO WQQWEEN",
+        "code": "4f62d579-bb5f-4144-88cf-d0e2cfbae102",
+        "gender": "F",
+        "phone": null,
+        "email": null,
+        "status": "ACTIVO",
+        "createdAt": "2026-06-10T17:56:29.704Z",
+        "updatedAt": "2026-06-10T17:56:29.704Z"
       }
     },
     {
-      "idStudentParent": 6,
-      "relationship": "APODERADO",
-      "student": {
-        "idStudent": 2,
-        "firstname": "WEQWQWQ Q W QW",
-        "lastname": "VO WQQWEEN",
-        "code": "cbad1c50-1633-421a-9d12-1eef9494cccb",
-        "gender": "F",
-        "phone": null,
-        "email": null,
-        "status": "ACTIVO",
-        "createdAt": "2026-06-10T17:41:18.019Z",
-        "updatedAt": "2026-06-10T17:41:18.019Z"
-      },
+      "idStudentParent": 14,
+      "relationship": "TÍO",
       "parent": {
         "idUser": 2,
         "firstname": "JO JHNZ",
@@ -84,14 +72,52 @@
         "role": "PARENT",
         "createdAt": "2026-06-10T17:23:27.244Z",
         "updatedAt": "2026-06-10T17:23:27.244Z"
+      },
+      "student": {
+        "idStudent": 4,
+        "firstname": "VIOLENCE",
+        "lastname": "ALEX",
+        "code": "c148fc88-f420-4147-ae5f-3bf84c220d86",
+        "gender": "M",
+        "phone": null,
+        "email": null,
+        "status": "ACTIVO",
+        "createdAt": "2026-06-11T16:20:09.742Z",
+        "updatedAt": "2026-06-11T16:20:09.742Z"
+      }
+    },
+    {
+      "idStudentParent": 23,
+      "relationship": "ABUELO",
+      "parent": {
+        "idUser": 4,
+        "firstname": "JO JHNZ",
+        "lastname": "KAELWWW FEREWN D",
+        "email": "auxili11qar2w232@gmail.com",
+        "phone": "+51985988977",
+        "role": "PARENT",
+        "createdAt": "2026-06-11T16:29:06.658Z",
+        "updatedAt": "2026-06-11T16:29:06.658Z"
+      },
+      "student": {
+        "idStudent": 4,
+        "firstname": "VIOLENCE",
+        "lastname": "ALEX",
+        "code": "c148fc88-f420-4147-ae5f-3bf84c220d86",
+        "gender": "M",
+        "phone": null,
+        "email": null,
+        "status": "ACTIVO",
+        "createdAt": "2026-06-11T16:20:09.742Z",
+        "updatedAt": "2026-06-11T16:20:09.742Z"
       }
     }
   ],
   "pagination": {
     "page": 1,
-    "limit": 2,
-    "total": 7,
-    "totalPages": 4
+    "limit": 10,
+    "total": 3,
+    "totalPages": 1
   }
 }
 ```
@@ -122,6 +148,16 @@ El parámetro search busca coincidencias sobre los campos:
     {
       "idStudentParent": 15,
       "relationship": "ABUELO",
+      "parent": {
+        "idUser": 2,
+        "firstname": "JO JHNZ",
+        "lastname": "KAELWWW FEREWN D",
+        "email": "auxili11ar2w232@gmail.com",
+        "phone": "+51985988977",
+        "role": "PARENT",
+        "createdAt": "2026-06-10T17:23:27.244Z",
+        "updatedAt": "2026-06-10T17:23:27.244Z"
+      },
       "student": {
         "idStudent": 5,
         "firstname": "ALEX",
@@ -133,23 +169,39 @@ El parámetro search busca coincidencias sobre los campos:
         "status": "ACTIVO",
         "createdAt": "2026-06-11T16:20:36.513Z",
         "updatedAt": "2026-06-11T16:20:36.513Z"
-      },
+      }
+    },
+    {
+      "idStudentParent": 27,
+      "relationship": "ABUELO",
       "parent": {
-        "idUser": 2,
+        "idUser": 4,
         "firstname": "JO JHNZ",
         "lastname": "KAELWWW FEREWN D",
-        "email": "auxili11ar2w232@gmail.com",
+        "email": "auxili11qar2w232@gmail.com",
         "phone": "+51985988977",
         "role": "PARENT",
-        "createdAt": "2026-06-10T17:23:27.244Z",
-        "updatedAt": "2026-06-10T17:23:27.244Z"
+        "createdAt": "2026-06-11T16:29:06.658Z",
+        "updatedAt": "2026-06-11T16:29:06.658Z"
+      },
+      "student": {
+        "idStudent": 5,
+        "firstname": "ALEX",
+        "lastname": "DELARGE",
+        "code": "ea6584a3-22ac-4111-a79f-f3738ba3e447",
+        "gender": "M",
+        "phone": null,
+        "email": null,
+        "status": "ACTIVO",
+        "createdAt": "2026-06-11T16:20:36.513Z",
+        "updatedAt": "2026-06-11T16:20:36.513Z"
       }
     }
   ],
   "pagination": {
     "page": 1,
     "limit": 10,
-    "total": 1,
+    "total": 2,
     "totalPages": 1
   }
 }

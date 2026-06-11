@@ -23,21 +23,21 @@ parentRoutes.get(
 );
 
 parentRoutes.get(
-  "/",
+  "/:id",
   authMiddleware,
-  authMiddlewareRole(["ADMIN"]),
+  authMiddlewareRole(["ADMIN", "AUXILIAR"]),
   parentController.getById,
 );
 
 parentRoutes.patch(
-  "/",
+  "/:id",
   authMiddleware,
   authMiddlewareRole(["ADMIN"]),
   parentController.update,
 );
 
 parentRoutes.delete(
-  "/",
+  "/:id",
   authMiddleware,
   authMiddlewareRole(["ADMIN"]),
   parentController.delete,

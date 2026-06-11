@@ -4,31 +4,23 @@ import { userFields } from "../user/user.fields.js";
 const parentFields = {
   create: {
     idStudentParent: true,
-    idStudent: true,
-    idParent: true,
     relationship: true,
-    student: true,
     parent: {
-      select: {
-        idUser: true,
-        firstname: true,
-        lastname: true,
-        email: true,
-        phone: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      select: userFields.selectFields,
+    },
+    student: {
+      select: studentFields.select,
     },
   },
   update: ["idStudent", "idParent", "relationship"],
   select: {
     idStudentParent: true,
     relationship: true,
-    student: {
-      select: studentFields.select,
-    },
     parent: {
       select: userFields.selectFields,
+    },
+    student: {
+      select: studentFields.select,
     },
   },
   sort: ["idStudentParent", "student", "relationship", "parent"],

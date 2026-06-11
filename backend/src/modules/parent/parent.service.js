@@ -84,7 +84,26 @@ get: async ({ page, limit, sortOrder, search, sortBy, relationship }) => {
     return [parents, total];
   },
 
-  getById: async () => {},
+
+  getById: async ({ idStudentParent }) => {
+    const parent = await prisma.studentParent.findUnique({
+      where: {
+        idStudentParent
+      },
+      select: parentFields.select,
+    });
+
+    if(!parent) {
+      throw new AppError("Registro no encontrado", 404, [
+        {
+          field: "idParent",
+          message: "No existe un registro con el ID proporcionado",
+        },
+      ]);
+    }
+
+    return parent;
+  },
 
   update: async () => {},
 
