@@ -18,7 +18,7 @@ parentRoutes.post(
 parentRoutes.get(
   "/",
   authMiddleware,
-  authMiddlewareRole(["ADMIN"]),
+  authMiddlewareRole(["ADMIN", "AUXILIAR"]),
   parentController.get,
 );
 

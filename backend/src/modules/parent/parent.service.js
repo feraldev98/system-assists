@@ -1,5 +1,6 @@
 import { prisma } from "../../config/prisma.js";
 import { AppError } from "../../utils/AppError.js";
+import { searchUtils } from "../../utils/search.utils.js";
 import { parentFields } from "./parent.fields.js";
 
 const parentService = {
@@ -40,7 +41,48 @@ const parentService = {
     return queryResult.parent;
   },
 
-  get: async () => {},
+get: async ({ page, limit, sortOrder, search, sortBy, relationship }) => {
+    const where = searchUtils.buildMixedWhere({
+      search,
+      numberFields: ["idStudentParent", "idStudent", "idParent"],
+      relationStringFields: [
+        { relation: "student", field: "firstname" },
+        { relation: "student", field: "lastname" },
+        { relation: "parent", field: "firstname" },
+        { relation: "parent", field: "lastname" },
+        { relation: "parent", field: "email" },
+      ],
+      filters: {
+        relationship
+      }
+      
+    });
+
+    const relationSortMap = {
+      student: [
+        { student: { firstname: sortOrder } },
+        { student: { lastname: sortOrder } },
+      ],
+      parent: [
+        { parent: { firstname: sortOrder } },
+        { parent: { lastname: sortOrder } },
+      ],
+    };
+
+    const orderBy = relationSortMap[sortBy] ?? { [sortBy]: sortOrder };
+
+    const parents = await prisma.studentParent.findMany({
+      where,
+      select: parentFields.select,
+      skip: (page - 1) * limit,
+      take: limit,
+      orderBy,
+    });
+
+    const total = await prisma.studentParent.count({ where });
+
+    return [parents, total];
+  },
 
   getById: async () => {},
 

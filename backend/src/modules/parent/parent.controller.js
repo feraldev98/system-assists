@@ -24,6 +24,22 @@ const parentController = {
 
   get: async (req, res, next) => {
     try {
+      const validate = await validateUtils.validateSchema({
+        schema: parentSchema.params,
+        data: req.query
+      })
+      const [parents, total] = await parentService.get(validate);
+
+      return res.json({
+        success: true,
+        data: parents,
+        pagination: {
+          page: validate.page,
+          limit: validate.limit,
+          total,
+          totalPages: Math.ceil(total / validate.limit),
+        },
+      });
     } catch (error) {
       next(error);
     }

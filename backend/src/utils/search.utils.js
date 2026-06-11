@@ -1,13 +1,11 @@
 const searchUtils = {
   buildWhere: ({ search, searchFields = [], filters = {} }) => {
     const where = {};
-
     Object.entries(filters).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
         where[key] = value;
       }
     });
-
     if (search) {
       where.OR = searchFields.map((field) => ({
         [field]: {
@@ -16,7 +14,6 @@ const searchUtils = {
         },
       }));
     }
-
     return where;
   },
 
@@ -25,21 +22,20 @@ const searchUtils = {
     stringFields = [],
     numberFields = [],
     relationFields = [],
+    relationStringFields = [], // 👈 nuevo
     filters = {},
   }) => {
     const where = {};
-
     Object.entries(filters).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
         where[key] = value;
       }
     });
-
     if (!search) return where;
 
     const OR = [];
 
-    // campos string
+    // campos string directos
     OR.push(
       ...stringFields.map((field) => ({
         [field]: {
@@ -49,17 +45,26 @@ const searchUtils = {
       })),
     );
 
-    // campos numéricos
+    // relaciones string 👈 nuevo
+    OR.push(
+      ...relationStringFields.map(({ relation, field }) => ({
+        [relation]: {
+          [field]: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
+      })),
+    );
+
+    // campos numéricos y relaciones numéricas
     if (!isNaN(Number(search))) {
       const value = Number(search);
-
       OR.push(
         ...numberFields.map((field) => ({
           [field]: value,
         })),
       );
-
-      // relaciones
       OR.push(
         ...relationFields.map(({ relation, field }) => ({
           [relation]: {
@@ -70,7 +75,6 @@ const searchUtils = {
     }
 
     where.OR = OR;
-
     return where;
   },
 };

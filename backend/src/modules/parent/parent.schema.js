@@ -73,6 +73,10 @@ const parentSchema = {
       sortOrder: schemaUtils.sortOrderField(),
 
       search: schemaUtils.searchField(),
+
+      relationship: schemaUtils.relationshipField({
+        required: false,
+      }),
     })
     .strict({
       message: "No se permiten campos adicionales",
