@@ -89,7 +89,7 @@ function NavbarMenu() {
             `}
           >
             {item.submenu ? (
-              <div className="relative h-full flex items-center">
+              <div className="relative h-full flex items-center ">
                 <button
                   onClick={() => toggleDropdown(index)}
                   className="flex items-center gap-1 h-full text-white font-poppins text-[.9em]"
@@ -107,7 +107,7 @@ function NavbarMenu() {
                   <ul
                     className="
                       absolute top-full left-0
-                      shadow-lg py-2
+                      shadow-lg py-2 bg-blue
                       min-w-[230px] z-50
                       list-none overflow-hidden
                     "

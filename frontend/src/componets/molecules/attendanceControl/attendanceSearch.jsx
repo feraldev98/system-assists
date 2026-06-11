@@ -10,7 +10,7 @@ function AttendanceSearch ({search, setSearch}) {
 
         <input
           type="text"
-          placeholder="Buscar por nombre o código..."
+          placeholder="Buscar por nombre o dni..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="

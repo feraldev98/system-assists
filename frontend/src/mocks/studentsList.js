@@ -2,7 +2,7 @@ export const studentsMock = [
   {
     id: 1,
     img: "",
-    dni: "ST001",
+    dni: "98746352",
     student: "Juan Pérez",
     grade: "1°",
     section: "A",
@@ -16,7 +16,7 @@ export const studentsMock = [
   {
     id: 2,
     img: "",
-    dni: "ST002",
+    dni: "76465783",
     student: "María López",
     grade: "1°",
     section: "A",

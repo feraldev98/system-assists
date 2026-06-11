@@ -5,7 +5,7 @@ function Table({
   emptyMessage = "No hay datos disponibles",
 }) {
   return (
-    <div className="overflow-hidden rounded-xl border border-borderC bg-white shadow-sm">
+    <div className="overflow-hidden rounded-md border border-borderC bg-white shadow-sm">
       {/* Scroll horizontal */}
       <div className="overflow-x-auto">
         {/* Scroll vertical */}

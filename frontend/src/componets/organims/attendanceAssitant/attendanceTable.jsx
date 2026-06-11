@@ -2,7 +2,7 @@ import { useAttendanceControl } from "../../../hooks/useAttendance";
 import { useStudentSearch } from "../../../hooks/useStudentSeach";
 import { statusBadge } from "../../../mocks/statusBadge";
 import { Table } from "../tableReusable";
-import { FiltersSearch } from "./filtersAndSearch";
+import { FiltersSearchDownload } from "./filtersSearchDownload";
 
 function AttendanceTable() {
   //lista de la gestion de registros de asistencias
@@ -22,10 +22,6 @@ function AttendanceTable() {
     setSection
   } = useStudentSearch(students)
 
-  //filtros por grado y seccion
-  const grades = [...new Set(students.map(student => student.grade))];
-  const sections = [...new Set(students.map(student => student.section))];  
-
   const headers = [
     "Estudiante",
     "Código",
@@ -39,7 +35,7 @@ function AttendanceTable() {
     <div className="w-full lg:flex-1 mt-8">
 
       {/* Buscador */}
-      <FiltersSearch
+      <FiltersSearchDownload
         search={search}
         setSearch={setSearch}
         grade={grade}
@@ -47,6 +43,7 @@ function AttendanceTable() {
         section={section}
         setSection={setSection}
         students={students}
+        filtered={filtered}
       />
 
       <Table
@@ -59,7 +56,7 @@ function AttendanceTable() {
 
           const Icon = badge.icon;
           const isJustScanned =
-            lastScanned?.code === student.code;
+            lastScanned?.dni === student.dni;
 
           return (
             <tr
@@ -85,7 +82,7 @@ function AttendanceTable() {
               </td>
 
               <td className="px-6 py-4 text-gray-400 font-mono">
-                {student.code}
+                {student.dni}
               </td>
 
               <td className="px-6 py-4 text-gray-600">
