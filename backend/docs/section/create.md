@@ -83,6 +83,20 @@ BODY:
   ]
 }
 ```
+## ID not found Response
+
+```json
+{
+  "success": false,
+  "message": "Registro no encontrado",
+  "errors": [
+    {
+      "field": "idSection",
+      "message": "No existe un registro con el ID proporcionado"
+    }
+  ]
+}
+```
 
 ## Unauthorized Response
 

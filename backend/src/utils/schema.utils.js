@@ -1,35 +1,21 @@
 import z from "zod";
+import { parentFields } from "../modules/parent/parent.fields.js";
 
 const schemaUtils = {
-  idField: ({ label, required, type = "id" }) =>
-    required
-      ? type === "id"
-        ? z.preprocess(
-            (val) => val ?? "",
-            z
-              .string()
-              .min(1, `${label} es requerido`)
-              .regex(/^\d+$/, `${label} debe ser un número entero`)
-              .transform(Number),
-          )
-        : z.preprocess(
-            (val) => val ?? -1,
-            z.int().min(0, `${label} es requerido`),
-          )
-      : type === "id"
-        ? z.preprocess(
-            (val) => val ?? "",
-            z
-              .string()
-              .min(1, `${label} es requerido`)
-              .regex(/^\d+$/, `${label} debe ser un número entero`)
-              .transform(Number)
-              .optional(),
-          )
-        : z.preprocess(
-            (val) => val ?? -1,
-            z.int().min(0, `${label} es requerido`).optional(),
-          ),
+  idField: ({ label, required }) => {
+    const chain = z
+      .string({ invalid_type_error: `${label} debe ser un número entero` })
+      .min(1, `${label} es requerido`)
+      .regex(/^\d+$/, `${label} debe ser un número entero`)
+      .transform(Number);
+
+    const preprocessed = z.preprocess((val) => {
+      if (val === undefined || val === null) return "";
+      return String(val); // convierte número o string → siempre string para el pipeline
+    }, chain);
+
+    return required ? preprocessed : preprocessed.optional();
+  },
 
   nameField: ({ label, min, max, required }) =>
     required
@@ -315,6 +301,23 @@ const schemaUtils = {
       .max(100, "La búsqueda no puede tener más de 100 caracteres")
       .transform((value) => value.replace(/\s+/g, " "))
       .optional(),
+
+  relationshipField: ({ required = true }) => {
+    const schema = z.preprocess(
+      (val) => val ?? "",
+      z
+        .string(
+          "La relación solo puede ser PADRE, MADRE, ABUELO, ABUELA, TÍO, TÍA, APODERADO u OTRO",
+        )
+        .min(1, "La relación es requerido")
+        .refine((val) => parentFields.relationship.includes(val), {
+          message:
+            "La relación solo puede ser PADRE, MADRE, ABUELO, ABUELA, TÍO, TÍA, APODERADO u OTRO",
+        }),
+    );
+
+    return required ? schema : schema.optional();
+  },
 };
 
 export { schemaUtils };

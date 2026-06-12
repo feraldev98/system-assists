@@ -1,5 +1,14 @@
 const sectionFields = {
-  create: ["name", "idGrade"],
+  create: {
+    idSection: true,
+    name: true,
+    grade: {
+      select: {
+        idGrade: true,
+        level: true,
+      },
+    },
+  },
   update: ["name", "idGrade"],
   select: {
     idSection: true,

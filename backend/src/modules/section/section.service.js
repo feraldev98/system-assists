@@ -7,7 +7,7 @@ const sectionService = {
   create: async ({ name, idGrade }) => {
     const section = await prisma.section.findFirst({
       where: { idGrade, name },
-      select: sectionFields.select,
+      select: sectionFields.create,
     });
 
     if (section) {
