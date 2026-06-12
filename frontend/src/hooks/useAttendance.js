@@ -78,7 +78,29 @@ export function useAttendanceControl() {
     [students]
   );
 
+  //actualizar estado del estudinte
+  const updateStudentStatus = useCallback((dni, newStatus) => {
+    const now = new Date();
+    const time = formatTime(now);
+    const date = now.toISOString().split("T")[0];
+
+    setStudents((prev) =>
+      prev.map((student) =>
+        student.dni === dni
+          ? { ...student, status: newStatus, time, date }
+          : student
+      )
+    );
+
+    setLastScanned((prev) =>
+      prev?.dni === dni
+        ? { ...prev, status: newStatus, time, date }
+        : prev
+    );
+  }, []);
+
   return {
+    updateStudentStatus,
     students,
     lastScanned,
     handleScan,

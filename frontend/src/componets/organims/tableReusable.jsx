@@ -9,7 +9,7 @@ function Table({
       {/* Scroll horizontal */}
       <div className="overflow-x-auto">
         {/* Scroll vertical */}
-        <div className="max-h-80 overflow-y-auto">
+        <div className="max-h-100 overflow-y-auto">
           <table className="w-full border-collapse">
             {/* HEADER */}
             <thead className="sticky top-0 z-10 bg-blue">

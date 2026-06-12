@@ -3,12 +3,19 @@ import { useStudentSearch } from "../../../hooks/useStudentSeach";
 import { statusBadge } from "../../../mocks/statusBadge";
 import { Table } from "../tableReusable";
 import { FiltersSearchDownload } from "./filtersSearchDownload";
+import { useModal } from "../../../hooks/useModal";
+import { useRowToggle } from "../../../hooks/useRowToggle";
+import { ModalActionsAttendance } from "../../modals/attendanceAssitant/modalActionsAttendace";
+import { useState } from "react";
+import { FaEdit } from "react-icons/fa";
 
 function AttendanceTable() {
+  const [selectedStudent, setSelectedStudent] = useState(null);
   //lista de la gestion de registros de asistencias
   const {
     students,
-    lastScanned
+    lastScanned,
+    updateStudentStatus
   } = useAttendanceControl()
 
   //hook filtros y buscadores
@@ -22,13 +29,30 @@ function AttendanceTable() {
     setSection
   } = useStudentSearch(students)
 
+  //hook modal
+  const {
+    isOpen,
+    setIsOpen,
+    openModal,
+    closeModal,
+    toggleModal
+  } = useModal()
+
+  //controlar interaccion por fila
+  const {
+    openRowId,
+    toggleRow,
+    closeRow,
+  } = useRowToggle();
+
+  //abrir modal y ponerla activa
+  const handleEdit = (student) => {
+    setSelectedStudent(student);
+    openModal();
+  };
+
   const headers = [
-    "Estudiante",
-    "Código",
-    "Grado",
-    "Seccion",
-    "Estado",
-    "Hora",
+    "Estudiante", "Código", "Grado", "Seccion", "Estado", "Hora", "Acciones"
   ];
 
   return (
@@ -64,10 +88,9 @@ function AttendanceTable() {
               className={`
                 border-b border-gray-100
                 transition-colors
-                ${
-                  isJustScanned
-                    ? "bg-blue/5"
-                    : "hover:bg-gray-50"
+                ${isJustScanned
+                  ? "bg-blue/5"
+                  : "hover:bg-gray-50"
                 }
               `}
             >
@@ -86,7 +109,7 @@ function AttendanceTable() {
               </td>
 
               <td className="px-6 py-4 text-gray-600">
-                {student.grade}  
+                {student.grade}
               </td>
 
               <td className="px-6 py-4 text-gray-600">
@@ -108,6 +131,21 @@ function AttendanceTable() {
 
               <td className="px-6 py-4 text-gray-400 font-mono">
                 {student.time ?? "—"}
+              </td>
+              <td className="px-6 py-4 relative">
+                <button
+                  onClick={() => handleEdit(student)}
+                  className="text-blue-700 hover:underline text-sm"
+                >
+                  <FaEdit size={20}/>
+                </button>
+                {isOpen && selectedStudent?.id === student.id && (
+                  <ModalActionsAttendance 
+                    closeModal={closeModal}
+                    updateStudentStatus={updateStudentStatus}
+                    student={student}
+                  />
+                )}
               </td>
             </tr>
           );

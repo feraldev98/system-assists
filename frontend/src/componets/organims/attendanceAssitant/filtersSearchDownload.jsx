@@ -1,6 +1,8 @@
 import { Select } from "../../atoms/select";
 import { AttendanceSearch } from "../../molecules/attendanceControl/attendanceSearch"
-import { DownloadButtons } from "./downloadButtons";
+import { DownloadButtons } from "../downloadButtons";
+import { exportAttendanceExcel } from "../../../services/export/exportAttendanceExcel";
+import { exportAttendancePdf } from "../../../services/export/exportAttendancePdf";
 
 function FiltersSearchDownload({
   search,
@@ -35,7 +37,7 @@ function FiltersSearchDownload({
     })),
   ];
   return (
-    <div className="grid sm:grid-cols-2 gap-5 my-5">
+    <div className="grid lg:grid-cols-2 gap-5 my-5">
       {/*boton de buscar por nombre y/o código */}
       <AttendanceSearch
         search={search}
@@ -61,9 +63,8 @@ function FiltersSearchDownload({
           />
         </div>
         <DownloadButtons
-          filtered={filtered}
-          grade={grade}
-          section={section}
+          onExcel={() => exportAttendanceExcel(students)}
+          onPdf={() => exportAttendancePdf(students)}
         />
       </div>
 
