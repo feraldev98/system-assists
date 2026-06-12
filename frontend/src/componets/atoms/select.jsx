@@ -16,8 +16,8 @@ function Select({
       border-b border-blue py-o px-1 text-black/50 
     `,
     primary : `px-3 py-1 border border-borderC rounded-md bg-blueT text-white
-      shadow shadow-blue transition-all duration-300 
-      hover:shadow-lg shadow-blue
+      shadow shadow-blue transition-shadow duration-300 appearance-none
+      hover:shadow-lg shadow-blue 
     `
   }
 
@@ -43,7 +43,7 @@ function Select({
       {
         options.map((opt, o) =>{
           return(
-            <option key={o} value={opt.value} className="text-left">
+            <option key={o} value={opt.value} className="text-left ">
               {opt.text}
             </option>
           )
