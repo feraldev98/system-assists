@@ -9,12 +9,11 @@ const studentController = {
         schema: studentSchema.create,
         data: req.body,
       });
-      console.log(validate);
       const queryResult = await studentService.create(validate);
       return res.json({
         success: true,
         message: "Estudiante creado correctamente",
-        student: queryResult,
+        student: {...queryResult},
       });
     } catch (error) {
       next(error);
