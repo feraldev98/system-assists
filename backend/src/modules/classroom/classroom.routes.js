@@ -18,7 +18,7 @@ classroomRoutes.post(
 classroomRoutes.get(
   "/",
   authMiddleware,
-  authMiddlewareRole(["ADMIN"]),
+  authMiddlewareRole(["ADMIN", "AUXILIAR"]),
   classroomController.get,
 );
 
