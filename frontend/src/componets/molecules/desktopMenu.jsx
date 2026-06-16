@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { NavbarLink } from "../atoms/navbarLink";
 import { MobileMenu } from "./mobileMenu";
 import { menuByRole } from "../../config/sidebarLinks";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../hooks/hookGlobals/useAuth";
 import { useNavbar } from "../../context/navbarContext";
 
 function NavbarMenu() {

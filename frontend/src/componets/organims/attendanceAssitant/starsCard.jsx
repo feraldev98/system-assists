@@ -1,6 +1,6 @@
 import { Paragraph } from "../../atoms/paragraph";
 import { Small } from "../../atoms/small";
-import { useVisible } from "../../../hooks/useVisible";
+import { useVisible } from "../../../hooks/hookGlobals/useVisible";
 import { statusBadge } from "../../../mocks/statusBadge";
 
 function StatsCardControl({ stats }) {

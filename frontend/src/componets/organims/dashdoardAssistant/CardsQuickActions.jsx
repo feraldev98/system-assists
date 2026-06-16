@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { useVisible } from "../../../hooks/useVisible"
+import { useVisible } from "../../../hooks/hookGlobals/useVisible"
 import { Title } from "../../atoms/title"
 import { Small } from "../../atoms/small"
 import { Paragraph } from "../../atoms/paragraph"

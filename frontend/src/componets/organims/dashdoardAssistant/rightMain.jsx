@@ -4,7 +4,7 @@ import {
   HiOutlineBookOpen
 } from "react-icons/hi2"
 import { FaUserCheck } from "react-icons/fa";
-import { useVisible } from "../../../hooks/useVisible"
+import { useVisible } from "../../../hooks/hookGlobals/useVisible";
 import { TitleIconLink } from "../../molecules/titleIconLink"
 import { CardQuickAccess } from "./CardsQuickActions"
 import { BehaviorPorcentage } from "./behaviorPorcentage";

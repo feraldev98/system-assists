@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { authStorage } from '../services/authStorage'
+import { authStorage } from '../../services/authStorage'
 
 export function useInactivityTimer(
   isAuthenticated,

@@ -1,7 +1,11 @@
 import { Paragraph } from "../../atoms/paragraph"
 import { Small } from "../../atoms/small"
+import { useVisible } from "../../../hooks/hookGlobals/useVisible"
 
-function AttendanceCards({ visible, attendanceStats }) {
+function AttendanceCards({attendanceStats }) {
+
+  const {visible} = useVisible()
+  
   return (
     <div className="
       w-full

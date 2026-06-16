@@ -2,7 +2,7 @@ import { Paragraph } from "../../atoms/paragraph"
 import { Small } from "../../atoms/small"
 import { CgClose } from "react-icons/cg";
 import { GiCheckMark } from "react-icons/gi";
-import { useVisible } from "../../../hooks/useVisible";
+import { useVisible } from "../../../hooks/hookGlobals/useVisible";
 
 
 function CardStats({ stats }) {

@@ -1,7 +1,7 @@
 import { Title } from "../../atoms/title"
 import { Paragraph } from "../../atoms/paragraph"
-import { useVisible } from "../../../hooks/useVisible"
-import { useGreeting } from "../../../hooks/useGreeting"
+import { useVisible } from "../../../hooks/hookGlobals/useVisible"
+import { useGreeting } from "../../../hooks/hookGlobals/useGreeting"
 
 function Article () {
 

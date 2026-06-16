@@ -1,13 +1,10 @@
 // Utilidades para el control de asistencia.
-// Contiene funciones auxiliares relacionadas con
-// horarios y formato de horas.
 
 // Configuración del horario de ingreso
 const CLASS_START = {
   hour: 7,
   minute: 30,
 };
-
 // Minutos de tolerancia permitidos
 const LATE_TOLERANCE = 10;
 

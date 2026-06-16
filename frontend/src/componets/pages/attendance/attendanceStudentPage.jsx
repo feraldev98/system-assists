@@ -6,12 +6,7 @@ import { FiltersAttendancesSection } from "../../organims/attendanceStudent/filt
 
 function AttendanceStudentPage() {
   const [selectedStudent, setSelectedStudent] = useState(1);
-  const [visible, setVisible] = useState(false);
 
-  useEffect(() => {
-    const t = setTimeout(() => setVisible(true), 80);
-    return () => clearTimeout(t);
-  }, []); 
     const currentStudent = students.find(
     (student) => student.id === selectedStudent
   );
@@ -20,7 +15,6 @@ function AttendanceStudentPage() {
     <MyTemplate>
       <BannerAttendances
         students={students}
-        visible={visible}
         currentStudent={currentStudent}
         setSelectedStudent={setSelectedStudent}
         selectedStudent={selectedStudent}

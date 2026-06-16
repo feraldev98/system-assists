@@ -3,7 +3,7 @@ import { Paragraph } from "../../atoms/paragraph"
 import { Small } from "../../atoms/small"
 import { Title } from "../../atoms/title"
 import { activityConfig } from "../../../mocks/recentActivity"
-import { useVisible } from "../../../hooks/useVisible"
+import { useVisible } from "../../../hooks/hookGlobals/useVisible"
 
 function RecentAssists() {
 

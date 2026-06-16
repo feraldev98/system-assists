@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react'
 import { authStorage } from '../services/authStorage'
-import { useInactivityTimer } from '../hooks/useInactivityTimer'
+import { useInactivityTimer } from '../hooks/hookGlobals/useInactivityTimer'
 
 const AuthContext = createContext(null)
 

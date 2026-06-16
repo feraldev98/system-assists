@@ -3,9 +3,8 @@ import { IoEye, IoEyeOff  } from "react-icons/io5";
 import { Button } from "../../atoms/button";
 import { FormItem } from "../../molecules/formItems";
 import { Title } from "../../atoms/title";
-import { useToggle } from "../../../hooks/useToggle";
-import { useModal } from "../../../hooks/useModal";
-import { useLoading } from "../../../hooks/useLoading";
+import { useToggle } from "../../../hooks/hookModal/useToggle";
+import { useLoading } from "../../../hooks/hookGlobals/useLoading";
 import { useState } from "react";
 
 function ChangePasswordModal({closeModal}) {

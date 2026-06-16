@@ -4,8 +4,8 @@ import { UserNavbar } from '../molecules/userNavbar';
 import { NavbarMenu } from '../molecules/desktopMenu';
 import { Link } from 'react-router-dom';
 //HOOKS
-import { useModal } from '../../hooks/useModal';
-import { useAuth } from "../../hooks/useAuth";
+import { useModal } from "../../hooks/hookModal/useModal";
+import { useAuth } from "../../hooks/hookGlobals/useAuth";
 import { useNavbar } from "../../context/navbarContext";
 //MODALES
 import { UserMenuModal } from '../modals/modalsUser/userMenuModal';

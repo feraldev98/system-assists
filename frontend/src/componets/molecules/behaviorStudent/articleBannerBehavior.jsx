@@ -1,7 +1,7 @@
 import { Title } from "../../atoms/title"
 import { Paragraph } from "../../atoms/paragraph"
 import { FilterStudents } from "../filterStudents"
-import { useVisible } from "../../../hooks/useVisible"
+import { useVisible } from "../../../hooks/hookGlobals/useVisible"
 
 function ArticleBannerBehavior ({ 
   currentStudent,

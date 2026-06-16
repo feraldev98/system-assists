@@ -1,10 +1,10 @@
 import { Button } from "../../atoms/button"
 import { TitleAndDescaription } from "../../molecules/titleandDescription"
 import { MdOutlineQrCode2 } from "react-icons/md";
-import { useModal } from "../../../hooks/useModal";
+import { useModal } from "../../../hooks/hookModal/useModal";
 import { ModalScanner } from "../../modals/attendanceAssitant/modalScanner";
 
-function BannerAttendanceAssitant () {
+function BannerAttendanceAssitant ({handleScan}) {
 
   const {
     isOpen,
@@ -44,6 +44,8 @@ function BannerAttendanceAssitant () {
         isOpen && (
           <ModalScanner
             closeModal = {closeModal}
+            onScan={handleScan}
+
           />
         )
       }

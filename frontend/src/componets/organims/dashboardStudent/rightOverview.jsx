@@ -4,7 +4,7 @@ import { TitleIconLink } from "../../molecules/titleIconLink";
 import { Link } from "../../atoms/link"
 import { CoursesPorsentages } from "./coursesPorcentageRight"
 import { href } from "react-router-dom";
-import { useVisible } from "../../../hooks/useVisible";
+import { useVisible } from "../../../hooks/hookGlobals/useVisible";
 
 function RightOverview ({ averageAttendances   }) {
   const title = 'ACCESOS RÁPIDOS'

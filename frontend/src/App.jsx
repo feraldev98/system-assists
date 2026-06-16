@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import { Navbar } from './componets/organims/navbar'
 import { Footer } from './componets/organims/footer'
-import { useAuth } from './hooks/useAuth'
+import { useAuth } from './hooks/hookGlobals/useAuth'
 import { Navigate } from 'react-router-dom'
 import { dashboardRoutes } from './config/dashboardRutes'
 // PAGES

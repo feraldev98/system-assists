@@ -1,7 +1,7 @@
 import { FiX } from "react-icons/fi";
 import { Title } from "../../atoms/title";
-import { useClickOutside } from "../../../hooks/useClickOutside";
-import { useAttendanceControl } from "../../../hooks/useAttendance";
+import { useClickOutside } from "../../../hooks/hookModal/useClickOutside";
+import { useAttendanceControl } from "../../../hooks/hooksAssistant/useAttendance";
 
 function ModalActionsAttendance({
   closeModal,

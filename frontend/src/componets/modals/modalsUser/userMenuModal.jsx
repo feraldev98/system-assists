@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Title } from "../../atoms/title";
 import { Paragraph } from "../../atoms/paragraph";
-import { useAuth } from "../../../hooks/useAuth";
+import { useAuth } from "../../../hooks/hookGlobals/useAuth";
 import { menuUserItems } from "../../../mocks/menuModalUser";
 
 function UserMenuModal({ closeModal, openPasswordModal, }) {

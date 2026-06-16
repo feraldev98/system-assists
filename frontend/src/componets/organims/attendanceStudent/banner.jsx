@@ -8,7 +8,6 @@ import { FilterStudents } from "../../molecules/filterStudents";
 
 function BannerAttendances({
   students,
-  visible,
   currentStudent,
   setSelectedStudent,
   selectedStudent
@@ -66,7 +65,6 @@ function BannerAttendances({
       {/* CARDS */}
       <AttendanceCards
         attendanceStats={attendanceStats}
-        visible={visible}
       />
     </section>
   );

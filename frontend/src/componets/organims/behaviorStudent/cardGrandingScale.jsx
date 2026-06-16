@@ -1,4 +1,4 @@
-import { useVisible } from "../../../hooks/useVisible";
+import { useVisible } from "../../../hooks/hookGlobals/useVisible";
 import { Small } from "../../atoms/small"
 import { Title } from "../../atoms/title";
 import { grandingScale } from "../../../mocks/grandingScale";

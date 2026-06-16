@@ -3,7 +3,7 @@ import { AnimatePresence } from "framer-motion";
 import { Navbar } from "../organims/navbar";
 import { Footer } from "../organims/footer";
 import { TransitionPage } from "./transitionPage";
-import { useScrollTop } from "../../hooks/useScrollTop";
+import { useScrollTop } from "../../hooks/hookGlobals/useScrollTop";
 
 function MainLayout() {
   const location = useLocation()

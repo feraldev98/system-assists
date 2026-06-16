@@ -1,22 +1,20 @@
-import { useAttendanceControl } from "../../../hooks/useAttendance";
-import { useStudentSearch } from "../../../hooks/useStudentSeach";
 import { statusBadge } from "../../../mocks/statusBadge";
 import { Table } from "../tableReusable";
 import { FiltersSearchDownload } from "./filtersSearchDownload";
-import { useModal } from "../../../hooks/useModal";
-import { useRowToggle } from "../../../hooks/useRowToggle";
 import { ModalActionsAttendance } from "../../modals/attendanceAssitant/modalActionsAttendace";
-import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
+//HOOKS
+import { useModal } from "../../../hooks/hookModal/useModal";
+import { useState } from "react";
+import { useRowToggle } from "../../../hooks/hooksAssistant/useRowToggle";
+import { useStudentSearch } from "../../../hooks/hooksAssistant/useStudentSeach";
 
-function AttendanceTable() {
+function AttendanceTable({
+  students,
+  lastScanned,
+  updateStudentStatus,
+}) {
   const [selectedStudent, setSelectedStudent] = useState(null);
-  //lista de la gestion de registros de asistencias
-  const {
-    students,
-    lastScanned,
-    updateStudentStatus
-  } = useAttendanceControl()
 
   //hook filtros y buscadores
   const {
