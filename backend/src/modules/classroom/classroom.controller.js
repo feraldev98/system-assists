@@ -62,7 +62,7 @@ const classroomController = {
 
       return res.json({
         success: true,
-        message: "Aula encontrada",
+        message: "Salón de clase encontrado",
         classroom: { ...classroom },
       });
     } catch (error) {
@@ -89,7 +89,7 @@ const classroomController = {
 
       return res.json({
         success: true,
-        message: "Aula actualizada correctamente",
+        message: "Salón de clase actualizado correctamente",
         classroom: { ...updatedClassroom },
       });
     } catch (error) {
@@ -108,7 +108,7 @@ const classroomController = {
 
       return res.json({
         success: true,
-        message: "Aula eliminada correctamente",
+        message: "Salón de clase eliminado correctamente",
         classroom: { ...deletedClassroom },
       });
     } catch (error) {
