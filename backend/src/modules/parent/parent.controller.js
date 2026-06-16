@@ -9,7 +9,6 @@ const parentController = {
         schema: parentSchema.create,
         data: req.body,
       });
-      console.log(validate);
       const newParentRelation = await parentService.create({ data: validate });
 
       return res.json({
@@ -26,8 +25,8 @@ const parentController = {
     try {
       const validate = await validateUtils.validateSchema({
         schema: parentSchema.params,
-        data: req.query
-      })
+        data: req.query,
+      });
       const [parents, total] = await parentService.get(validate);
 
       return res.json({
@@ -49,10 +48,10 @@ const parentController = {
     try {
       const { id: idStudentParent } = await validateUtils.validateSchema({
         schema: parentSchema.params,
-        data: req.params
-      })
+        data: req.params,
+      });
 
-      const parent = await parentService.getById({idStudentParent})
+      const parent = await parentService.getById({ idStudentParent });
 
       return res.json({
         success: true,
@@ -68,21 +67,24 @@ const parentController = {
     try {
       const { id: idStudentParent } = await validateUtils.validateSchema({
         schema: parentSchema.params,
-        data: req.params
-      })
+        data: req.params,
+      });
 
       const data = await validateUtils.validateSchema({
         schema: parentSchema.update,
-        data: req.body
-      })
+        data: req.body,
+      });
 
-      const updatedParent = await parentService.update({ idStudentParent, data })
+      const updatedParent = await parentService.update({
+        idStudentParent,
+        data,
+      });
 
       return res.json({
         success: true,
         message: "Relación familiar actualizada correctamente",
-        data: updatedParent
-      })
+        data: { ...updatedParent },
+      });
     } catch (error) {
       next(error);
     }
@@ -92,16 +94,16 @@ const parentController = {
     try {
       const { id: idStudentParent } = await validateUtils.validateSchema({
         schema: parentSchema.params,
-        data: req.params
-      })
+        data: req.params,
+      });
 
-      const deletedParent = await parentService.delete({idStudentParent})
+      const deletedParent = await parentService.delete({ idStudentParent });
 
       return res.json({
         success: true,
         message: "Relación familiar eliminada correctamente",
-        data: {...deletedParent}
-      })
+        data: { ...deletedParent },
+      });
     } catch (error) {
       next(error);
     }

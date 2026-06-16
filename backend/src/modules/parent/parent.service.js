@@ -14,7 +14,6 @@ const parentService = {
         role: true,
       },
     });
-    console.log(parent);
     if (!parent) {
       throw new AppError("El padre no existe", 400, {
         field: "idParent",
@@ -42,7 +41,7 @@ const parentService = {
   },
 
   get: async ({ page, limit, sortOrder, search, sortBy, relationship }) => {
-    const where = searchUtils.buildMixedWhere({
+    const where = searchUtils.buildSearchWhere({
       search,
       numberFields: ["idStudentParent", "idStudent", "idParent"],
       relationStringFields: [
@@ -70,15 +69,16 @@ const parentService = {
 
     const orderBy = relationSortMap[sortBy] ?? { [sortBy]: sortOrder };
 
-    const parents = await prisma.studentParent.findMany({
-      where,
-      select: parentFields.select,
-      skip: (page - 1) * limit,
-      take: limit,
-      orderBy,
-    });
-
-    const total = await prisma.studentParent.count({ where });
+    const [parents, total] = await Promise.all([
+      prisma.studentParent.findMany({
+        where,
+        select: parentFields.select,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy,
+      }),
+      prisma.studentParent.count({ where }),
+    ]);
 
     return [parents, total];
   },
@@ -113,7 +113,7 @@ const parentService = {
       throw new AppError("Registro no encontrado", 404, [
         {
           field: "idStudentParent",
-          message: "No existe un registro con este ID",
+          message: "No existe un registro con el ID proporcionado",
         },
       ]);
     }
@@ -162,7 +162,7 @@ const parentService = {
         idStudentParent,
       },
       select: parentFields.select,
-    })
+    });
     return deletedParent;
   },
 };

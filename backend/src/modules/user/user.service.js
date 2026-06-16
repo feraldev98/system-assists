@@ -22,26 +22,23 @@ const userService = {
     return queryResult;
   },
   get: async ({ page, limit, role, sortBy, search, sortOrder }) => {
-    const where = searchUtils.buildWhere({
+    const where = searchUtils.buildSearchWhere({
       search,
-      searchFields: userFields.seachFields,
+      stringFields: userFields.search,
       filters: {
         role,
       },
     });
-    const users = await prisma.user.findMany({
-      where,
-      select: userFields.selectFields,
-      skip: (page - 1) * limit,
-      take: limit,
-      orderBy: {
-        [sortBy]: sortOrder,
-      },
-    });
-
-    const total = await prisma.user.count({
-      where,
-    });
+    const [users, total] = await Promise.all([
+      prisma.user.findMany({
+        where,
+        select: userFields.selectFields,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { [sortBy]: sortOrder },
+      }),
+      prisma.user.count({ where }),
+    ]);
     return [users, total];
   },
 

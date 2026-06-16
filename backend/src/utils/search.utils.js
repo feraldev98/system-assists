@@ -1,41 +1,26 @@
 const searchUtils = {
-  buildWhere: ({ search, searchFields = [], filters = {} }) => {
-    const where = {};
-    Object.entries(filters).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
-        where[key] = value;
-      }
-    });
-    if (search) {
-      where.OR = searchFields.map((field) => ({
-        [field]: {
-          contains: search,
-          mode: "insensitive",
-        },
-      }));
-    }
-    return where;
-  },
-
-  buildMixedWhere: ({
+  buildSearchWhere: ({
     search,
     stringFields = [],
     numberFields = [],
     relationFields = [],
-    relationStringFields = [], // 👈 nuevo
+    relationStringFields = [],
+    relationNestedFields = [],
     filters = {},
   }) => {
     const where = {};
+
     Object.entries(filters).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
         where[key] = value;
       }
     });
+
     if (!search) return where;
 
     const OR = [];
 
-    // campos string directos
+    // strings directos
     OR.push(
       ...stringFields.map((field) => ({
         [field]: {
@@ -45,7 +30,7 @@ const searchUtils = {
       })),
     );
 
-    // relaciones string 👈 nuevo
+    // relaciones string
     OR.push(
       ...relationStringFields.map(({ relation, field }) => ({
         [relation]: {
@@ -57,14 +42,17 @@ const searchUtils = {
       })),
     );
 
-    // campos numéricos y relaciones numéricas
     if (!isNaN(Number(search))) {
       const value = Number(search);
+
+      // números directos
       OR.push(
         ...numberFields.map((field) => ({
           [field]: value,
         })),
       );
+
+      // relaciones numéricas simples
       OR.push(
         ...relationFields.map(({ relation, field }) => ({
           [relation]: {
@@ -72,9 +60,21 @@ const searchUtils = {
           },
         })),
       );
+
+      // relaciones anidadas
+      OR.push(
+        ...relationNestedFields.map(({ relation, nestedRelation, field }) => ({
+          [relation]: {
+            [nestedRelation]: {
+              [field]: value,
+            },
+          },
+        })),
+      );
     }
 
     where.OR = OR;
+
     return where;
   },
 };

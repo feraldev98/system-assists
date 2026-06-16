@@ -29,7 +29,7 @@ const userFields = {
     updatedAt: true,
   },
 
-  seachFields: ["firstname", "lastname", "email", "phone"],
+  search: ["firstname", "lastname", "email", "phone"],
 };
 
 export { userFields };

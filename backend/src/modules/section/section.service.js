@@ -30,7 +30,7 @@ const sectionService = {
   },
 
   get: async ({ page, limit, sortOrder, search, sortBy }) => {
-    const where = searchUtils.buildMixedWhere({
+    const where = searchUtils.buildSearchWhere({
       search,
       stringFields: ["name"],
       numberFields: ["idSection", "idGrade"],

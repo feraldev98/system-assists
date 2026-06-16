@@ -1,15 +1,26 @@
-import { studentFields } from "../student/student.fields.js";
-import { userFields } from "../user/user.fields.js";
-
 const parentFields = {
   create: {
     idStudentParent: true,
     relationship: true,
     parent: {
-      select: userFields.selectFields,
+      select: {
+        idUser: true,
+        firstname: true,
+        lastname: true,
+        email: true,
+        phone: true,
+      }
     },
     student: {
-      select: studentFields.select,
+      select: {
+        idStudent: true,
+        firstname: true,
+        lastname: true,
+        phone: true,
+        email: true,
+        code: true,
+        status: true
+      }
     },
   },
   update: ["idStudent", "idParent", "relationship"],
@@ -17,10 +28,24 @@ const parentFields = {
     idStudentParent: true,
     relationship: true,
     parent: {
-      select: userFields.selectFields,
+      select: {
+        idUser: true,
+        firstname: true,
+        lastname: true,
+        email: true,
+        phone: true,
+      }
     },
     student: {
-      select: studentFields.select,
+      select: {
+        idStudent: true,
+        firstname: true,
+        lastname: true,
+        phone: true,
+        email: true,
+        code: true,
+        status: true
+      }
     },
   },
   sort: ["idStudentParent", "student", "relationship", "parent"],
