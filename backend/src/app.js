@@ -10,6 +10,7 @@ import { gradeRoutes } from "./modules/grade/grade.routes.js";
 import { sectionRoutes } from "./modules/section/section.routes.js";
 import { studentRoutes } from "./modules/student/student.routes.js";
 import { parentRoutes } from "./modules/parent/parent.routes.js";
+import { classroomRoutes } from "./modules/classroom/classroom.routes.js";
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use("/grade", gradeRoutes);
 app.use("/section", sectionRoutes);
 app.use("/student", studentRoutes);
 app.use("/parent", parentRoutes);
+app.use("/classroom", classroomRoutes);
 
 app.use(errorsMiddleware);
 
