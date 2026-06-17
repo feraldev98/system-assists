@@ -18,14 +18,14 @@ classroomStudentRoutes.post(
 classroomStudentRoutes.get(
   "/",
   authMiddleware,
-  authMiddlewareRole(["ADMIN"]),
+  authMiddlewareRole(["ADMIN", "AUXILIAR"]),
   classroomStudentController.get,
 );
 
 classroomStudentRoutes.get(
   "/:id",
   authMiddleware,
-  authMiddlewareRole(["ADMIN"]),
+  authMiddlewareRole(["ADMIN", "AUXILIAR", "PARENT"]),
   classroomStudentController.getById,
 );
 

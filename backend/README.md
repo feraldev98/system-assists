@@ -73,3 +73,11 @@ PARENT
 - [LISTAR ESTUDIANTE POR ID](docs/student/getById.md)
 - [ACTUALIZAR ESTUDIANTE](docs/student/update.md)
 - [ELIMINAR ESTUDIANTE](docs/student/delete.md)
+
+### CLASSROOM_STUDENT
+
+- [ASIGNAR ESTUDIANTE A SALÓN DE CLASE](docs/classroomStudent/create.md)
+- [LISTAR ESTUDIANTES POR SALÓN DE CLASE](docs/classroomStudent/get.md)
+- [LISTAR ESTUDIANTES POR SALÓN DE CLASE POR ID](docs/classroomStudent/getById.md)
+- [CAMBIAR ESTUDIANTE DE SALÓN DE CLASE](docs/classroomStudent/update.md)
+- [ELIMINAR ESTUDIANTE DE SALÓN DE CLASE](docs/classroomStudent/delete.md)

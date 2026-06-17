@@ -14,7 +14,7 @@ const classroomStudentController = {
 
       return res.json({
         success: true,
-        message: "Estudiante creado correctamente",
+        message: "Estudiante asignado correctamente",
         classroomStudent: queryResult,
       });
     } catch (error) {
