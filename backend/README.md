@@ -58,6 +58,14 @@ PARENT
 - [ACTUALIZAR SECCION](docs/section/update.md)
 - [ELIMINAR SECCION](docs/section/delete.md)
 
+### CLASSROOM
+
+- [CREAR SALÓN DE CLASE](docs/classroom/create.md)
+- [LISTAR TODAS LAS SALONES DE CLASE](docs/classroom/get.md)
+- [LISTAR SALÓN DE CLASE POR ID](docs/classroom/getById.md)
+- [ACTUALIZAR SALÓN DE CLASE](docs/classroom/update.md)
+- [ELIMINAR SALÓN DE CLASE](docs/classroom/delete.md)
+
 ### STUDENT
 
 - [CREAR NUEVO ESTUDIANTE](docs/student/create.md)

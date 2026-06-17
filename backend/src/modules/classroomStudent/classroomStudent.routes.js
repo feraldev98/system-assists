@@ -1,0 +1,46 @@
+import { Router } from "express";
+import {
+  authMiddleware,
+  authMiddlewareRole,
+} from "../../middlewares/auth.middleware.js";
+
+import { classroomStudentController } from "./classroomStudent.controller.js";
+
+const classroomStudentRoutes = Router();
+
+classroomStudentRoutes.post(
+  "/",
+  authMiddleware,
+  authMiddlewareRole(["ADMIN"]),
+  classroomStudentController.create,
+);
+
+classroomStudentRoutes.get(
+  "/",
+  authMiddleware,
+  authMiddlewareRole(["ADMIN"]),
+  classroomStudentController.get,
+);
+
+classroomStudentRoutes.get(
+  "/:id",
+  authMiddleware,
+  authMiddlewareRole(["ADMIN"]),
+  classroomStudentController.getById,
+);
+
+classroomStudentRoutes.patch(
+  "/:id",
+  authMiddleware,
+  authMiddlewareRole(["ADMIN"]),
+  classroomStudentController.update,
+);
+
+classroomStudentRoutes.delete(
+  "/:id",
+  authMiddleware,
+  authMiddlewareRole(["ADMIN"]),
+  classroomStudentController.delete,
+);
+
+export { classroomStudentRoutes };
