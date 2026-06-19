@@ -64,6 +64,13 @@ const validateUtils = {
     }
     return validate.data;
   },
+  buildOrderBy: (sortBy, sortOrder) => {
+    const nested = {
+      grade: { section: { grade: { level: sortOrder } } },
+      section: { section: { name: sortOrder } },
+    };
+    return nested[sortBy] ?? { [sortBy]: sortOrder };
+  },
 };
 
 export { validateUtils };

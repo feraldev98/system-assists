@@ -1,5 +1,6 @@
 import { prisma } from "../../config/prisma.js";
 import { AppError } from "../../utils/AppError.js";
+import { searchUtils } from "../../utils/search.utils.js";
 import { gradeFields } from "./grade.fields.js";
 
 const gradeService = {
@@ -15,25 +16,20 @@ const gradeService = {
   },
 
   get: async ({ page, limit, sortOrder, search }) => {
-    const where = {};
-    if (search && !isNaN(Number(search))) {
-      where.level = Number(search);
-    }
-
-    const grades = await prisma.grade.findMany({
-      where,
-      select: gradeFields.selectFields,
-      skip: (page - 1) * limit,
-      take: limit,
-      orderBy: {
-        ["level"]: sortOrder,
-      },
+    const where = searchUtils.buildSearchWhere({
+      search,
+      numberFields: ["level"],
     });
-
-    const total = await prisma.grade.count({
-      where,
-    });
-
+    const [grades, total] = await Promise.all([
+      prisma.grade.findMany({
+        where,
+        select: gradeFields.selectFields,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { level: sortOrder },
+      }),
+      prisma.grade.count({ where }),
+    ]);
     return [grades, total];
   },
 
