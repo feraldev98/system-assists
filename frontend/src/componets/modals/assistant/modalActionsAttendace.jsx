@@ -9,12 +9,11 @@ function ModalActionsAttendance({
   updateStudentStatus
 }) {
 
-  //hook para cerrar al hacer click afuera del modal
+  //hook para cerrar al hacer click fuera del modal
   const modalRef = useClickOutside(closeModal);
 
   // Identifica al estudiante por su DNI y cambia su estado de asistencia
   const handleChangeStatus = (status) => {
-    console.log(status);
     updateStudentStatus(student.dni, status);
     closeModal();
   };

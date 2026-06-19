@@ -6,15 +6,15 @@ export function useAttendanceStats(students) {
   const stats = {
     total: students.length,
     present: students.filter(
-      student => student.status === "present"
+      student => student.attendance.status === "present"
     ).length,
 
     late: students.filter(
-      student => student.status === "late"
+      student => student.attendance.status === "late"
     ).length,
 
     absent: students.filter(
-      student => student.status === "absent"
+      student => student.attendance.status === "absent"
     ).length,
   };
 

@@ -1,30 +1,34 @@
-import { studentsMock } from "../../../mocks/studentsList"
 import { Paragraph } from "../../atoms/paragraph"
 import { Small } from "../../atoms/small"
 import { Title } from "../../atoms/title"
 import { activityConfig } from "../../../mocks/recentActivity"
 import { useVisible } from "../../../hooks/hookGlobals/useVisible"
+import { useStudents } from "../../../hooks/hooksAssistant/useStudent"
 
 function RecentAssists() {
 
   const {visible} = useVisible(90)
+  const {students} = useStudents()
 
   //filtrar los mas receintes por hora y fecha
-  const recentActivities = [...studentsMock]
-    .sort((a, b) => {
-      const dateA = new Date(`${a.date} ${a.time || "08:00"}`);
-      const dateB = new Date(`${b.date} ${b.time || "08:00"}`);
-
-      return dateB - dateA;
-    })
-    .slice(0, 5);
+  const recentActivities = [...students]
+  .sort((a, b) => {
+    const dateA = new Date(
+      `${a.attendance.date} ${a.attendance.time || "08:00"}`
+    );
+    const dateB = new Date(
+      `${b.attendance.date} ${b.attendance.time || "08:00"}`
+    );
+    return dateB - dateA;
+  })
+  .slice(0, 5);
 
   return (
     <div className="flex flex-col gap-2 font-hani">
       {
         recentActivities.map((assist) => {
            //asignamos valor y color al estado para mostrarlo 
-          const config = activityConfig[assist.status];
+          const config = activityConfig[assist.attendance.status];
           return (
             <div key={assist.id} className= {`
               flex items-center justify-between py-2 px-3 bg-white border 
@@ -53,12 +57,12 @@ function RecentAssists() {
                     size="small"
                   />
                   <Small
-                    text={assist.date}
+                    text={assist.attendance.date}
                   />
                 </div>
               </div>
               <Small
-                text={` ${assist.time || "Sin registro"}`}
+                text={` ${assist.attendance.time || "Sin registro"}`}
                 size="large"
                 variant="secondary"
               />

@@ -1,13 +1,11 @@
 import { exportPdf } from "../../utils/exports/exportPdf";
 
-export function exportAttendancePdf(
+export function exportBehaviorPdf(
   students,
   grade = "",
   section = ""
 ) {
-
-  let title = "Consolidado de Asistencias del Día";
-
+  let title = 'Consolidado de Comportaminetos del Día'
   if (grade && section) {
     title += ` - ${grade} "${section}"`;
   }
@@ -21,16 +19,13 @@ export function exportAttendancePdf(
   exportPdf({
 
     title,
-
-    fileName: "Consolidado_Asistencia",
-
+    fileName: 'CONSOLIDADO_COMPORTAMIENTO',
     headers: [
       "Estudiante",
       "DNI",
       "Grado",
       "Sección",
-      "Estado",
-      "Hora",
+      "Calificación",
     ],
 
     body: students.map(student => [
@@ -38,19 +33,17 @@ export function exportAttendancePdf(
       student.dni,
       student.grade,
       student.section,
-      student.attendance.status,
-      student.attendance.time ?? "-"
+      student.behavior.behaviorGrade
     ]),
 
     totalRecords: students.length,
 
     columnStyles: {
-      0: { cellWidth: 50 },
-      1: { cellWidth: 25 },
+      0: { cellWidth: 60 },
+      1: { cellWidth: 30 },
       2: { cellWidth: 20 },
       3: { cellWidth: 20 },
       4: { cellWidth: 30 },
-      5: { cellWidth: 20 },
     },
 
     didParseCell(data) {
@@ -83,5 +76,4 @@ export function exportAttendancePdf(
     }
 
   });
-
 }

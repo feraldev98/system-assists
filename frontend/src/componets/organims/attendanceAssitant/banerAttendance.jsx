@@ -2,7 +2,7 @@ import { Button } from "../../atoms/button"
 import { TitleAndDescaription } from "../../molecules/titleandDescription"
 import { MdOutlineQrCode2 } from "react-icons/md";
 import { useModal } from "../../../hooks/hookModal/useModal";
-import { ModalScanner } from "../../modals/attendanceAssitant/modalScanner";
+import { ModalScanner } from "../../modals/assistant/modalScanner";
 
 function BannerAttendanceAssitant ({handleScan}) {
 

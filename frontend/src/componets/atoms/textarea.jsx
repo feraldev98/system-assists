@@ -26,7 +26,7 @@ function Textarea({
 
   const sizes = {
     small: 'text-[.9em]',
-    medium: 'text-[1.2em]',
+    medium: 'text-[1em]',
     large: 'text-[1.5em]'
   }
 

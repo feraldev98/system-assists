@@ -22,7 +22,7 @@ function StudentCard({ student }) {
     color: "text-red-700",
     bg: "bg-red-50 border-red-200",
     bar: "bg-red-500",
-    icon: <HiXCircle size={22} className="text-red-500" />,
+    icon: <HiXCircle size={22} className="text-red-500" />,x
   },
 };
 

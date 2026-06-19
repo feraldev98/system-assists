@@ -20,8 +20,8 @@ export async function exportAttendanceExcel(students) {
       student.dni,
       student.grade,
       student.section,
-      student.status,
-      student.time ?? "-",
+      student.attendance.status,
+      student.attendance.time ?? "-",
     ]),
 
     //Estilos del estado

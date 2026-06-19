@@ -6,12 +6,6 @@ export const studentsMock = [
     student: "Juan Pérez",
     grade: "1°",
     section: "A",
-    date: "2025-08-07",
-    time: "07:25",
-    status: "present",
-    behaviorGrade: "AD",
-    behaviorDescription:
-      "Participa activamente en clase y fomenta el respeto entre sus compañeros.",
   },
   {
     id: 2,
@@ -20,12 +14,6 @@ export const studentsMock = [
     student: "María López",
     grade: "1°",
     section: "A",
-    date: "2025-08-07",
-    time: "07:00",
-    status: "present",
-    behaviorGrade: "A",
-    behaviorDescription:
-      "Mantiene una conducta adecuada y cumple con las normas establecidas.",
   },
   {
     id: 3,
@@ -34,12 +22,6 @@ export const studentsMock = [
     student: "Carlos Díaz",
     grade: "1°",
     section: "B",
-    date: "2025-08-07",
-    time: null,
-    status: "absent",
-    behaviorGrade: "B",
-    behaviorDescription:
-      "Presenta distracciones ocasionales y requiere mayor atención en clase.",
   },
   {
     id: 4,
@@ -48,12 +30,6 @@ export const studentsMock = [
     student: "Ana Torres",
     grade: "2°",
     section: "A",
-    date: "2025-08-07",
-    time: "07:20",
-    status: "present",
-    behaviorGrade: "AD",
-    behaviorDescription:
-      "Demuestra liderazgo positivo y apoyo constante a sus compañeros.",
   },
   {
     id: 5,
@@ -62,12 +38,6 @@ export const studentsMock = [
     student: "Luis Rojas",
     grade: "2°",
     section: "A",
-    date: "2025-08-07",
-    time: "07:28",
-    status: "present",
-    behaviorGrade: "A",
-    behaviorDescription:
-      "Respeta las normas y participa de manera adecuada en las actividades.",
   },
   {
     id: 6,
@@ -76,12 +46,6 @@ export const studentsMock = [
     student: "Fernanda Ruiz",
     grade: "2°",
     section: "B",
-    date: "2025-08-07",
-    time: "07:42",
-    status: "late",
-    behaviorGrade: "B",
-    behaviorDescription:
-      "Necesita mejorar su puntualidad y mantener una participación constante.",
   },
   {
     id: 7,
@@ -90,12 +54,6 @@ export const studentsMock = [
     student: "Miguel Castro",
     grade: "3°",
     section: "A",
-    date: "2025-08-07",
-    time: "07:18",
-    status: "present",
-    behaviorGrade: "AD",
-    behaviorDescription:
-      "Mantiene una excelente actitud y demuestra responsabilidad ejemplar.",
   },
   {
     id: 8,
@@ -104,12 +62,6 @@ export const studentsMock = [
     student: "Valeria Gómez",
     grade: "3°",
     section: "A",
-    date: "2025-08-07",
-    time: "08:00",
-    status: "late",
-    behaviorGrade: "C",
-    behaviorDescription:
-      "Presentó conductas que afectaron la convivencia y requiere seguimiento.",
   },
   {
     id: 9,
@@ -118,12 +70,6 @@ export const studentsMock = [
     student: "Diego Silva",
     grade: "3°",
     section: "B",
-    date: "2025-08-07",
-    time: "07:00",
-    status: "present",
-    behaviorGrade: "A",
-    behaviorDescription:
-      "Cumple con las normas institucionales y muestra respeto constante.",
   },
   {
     id: 10,
@@ -132,11 +78,5 @@ export const studentsMock = [
     student: "Camila Mendoza",
     grade: "4°",
     section: "A",
-    date: "2025-08-07",
-    time: "09:03",
-    status: "late",
-    behaviorGrade: "B",
-    behaviorDescription:
-      "Debe mejorar su puntualidad y organización de actividades académicas.",
   },
 ];

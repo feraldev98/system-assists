@@ -10,6 +10,7 @@ function Paragraph ({
 }) {
 
   const variants ={
+    base: 'text-white',
     default: 'text-black',
     primary: 'text-cyan-700',
     secondary: 'text-white/70  ',

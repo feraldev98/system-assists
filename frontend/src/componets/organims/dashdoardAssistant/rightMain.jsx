@@ -8,54 +8,21 @@ import { useVisible } from "../../../hooks/hookGlobals/useVisible";
 import { TitleIconLink } from "../../molecules/titleIconLink"
 import { CardQuickAccess } from "./CardsQuickActions"
 import { BehaviorPorcentage } from "./behaviorPorcentage";
-import { studentsMock } from "../../../mocks/studentsList";
+import { useStudents } from "../../../hooks/hooksAssistant/useStudent";
+import { useBehaviorStats } from "../../../hooks/hooksAssistant/useBehaviorStats";
 
 function RightMain () {
   const title = 'ACCESOS RÁPIDOS'
   const title2 = 'COMPORTAMINETO'
 
+  //hook de los estudiantes relacionado con asistencia y comportamiento
+  const {students} = useStudents()
+  //hook para animacion leve
   const {visible} = useVisible(90)
-  const totalStudents = studentsMock.length;
 
-  const behaviorGradePorcentage = [
-    {
-      name: "AD",
-      description: "Excelente",
-      progress: Math.round(
-        (studentsMock.filter(
-          student => student.behaviorGrade === "AD"
-        ).length / totalStudents) * 100
-      ),
-    },
-    {
-      name: "A",
-      description: "Bueno",
-      progress: Math.round(
-        (studentsMock.filter(
-          student => student.behaviorGrade === "A"
-        ).length / totalStudents) * 100
-      ),
-    },
-    {
-      name: "B",
-      description: "Regular",
-      progress: Math.round(
-        (studentsMock.filter(
-          student => student.behaviorGrade === "B"
-        ).length / totalStudents) * 100
-      ),
-    },
-    {
-      name: "C",
-      description: "Malo",
-      progress: Math.round(
-        (studentsMock.filter(
-          student => student.behaviorGrade === "C"
-        ).length / totalStudents) * 100
-      ),
-    },
-  ];
-  
+  //Calcular las estadísticas del comportamiento de los estudiantes
+  const behaviorGradePorcentage = useBehaviorStats(students)
+
   const quickActions = [
     {
       label: "CONTROL DE INGRESO",

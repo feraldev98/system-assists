@@ -1,8 +1,9 @@
 import { Input } from "../atoms/input";
 import { Label } from "../atoms/label";
 import { Select } from "../atoms/select";
+import { Textarea } from "../atoms/textarea";
 
-function FormItem({ 
+function FormItem({
   formFields,
   inputVariant = 'default',
   inputAlign = 'left',
@@ -19,8 +20,8 @@ function FormItem({
         // GRUPOS (como celular/personas, fecha/hora...)
         if (Array.isArray(item)) {
           return (
-            <div 
-              key={i} 
+            <div
+              key={i}
               className="
                 grid 
                 grid-cols-1 
@@ -78,7 +79,7 @@ function FormItem({
               size={labelSize}
             />
 
-            {item.type === 'select' ? (
+            {item.type === "select" ? (
               <Select
                 name={item.name}
                 value={item.value}
@@ -86,6 +87,14 @@ function FormItem({
                 onChange={item.onChange}
                 variant={selectVariant}
                 size={selectSize}
+              />
+            ) : item.type === "textarea" ? (
+              <Textarea
+                name={item.name}
+                value={item.value}
+                placeholder={item.placeholder}
+                onChange={item.onChange}
+                rows={item.rows}
               />
             ) : (
               <Input

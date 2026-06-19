@@ -1,22 +1,25 @@
-import { statusBadge } from "../../../mocks/statusBadge";
-import { Table } from "../tableReusable";
-import { FiltersSearchDownload } from "./filtersSearchDownload";
-import { ModalActionsAttendance } from "../../modals/attendanceAssitant/modalActionsAttendace";
-import { FaEdit } from "react-icons/fa";
-//HOOKS
-import { useModal } from "../../../hooks/hookModal/useModal";
 import { useState } from "react";
-import { useRowToggle } from "../../../hooks/hooksAssistant/useRowToggle";
+import { FaEdit } from "react-icons/fa";
+
+import { Table } from "../tableReusable";
+import { FiltersSearchDownload } from "./filtersSerchDowldAttendance";
+import { ModalActionsAttendance } from "../../modals/assistant/modalActionsAttendace";
+
+import { statusBadge } from "../../../mocks/statusBadge";
+
+import { useModal } from "../../../hooks/hookModal/useModal";
 import { useStudentSearch } from "../../../hooks/hooksAssistant/useStudentSeach";
+import { useRowToggle } from "../../../hooks/hooksAssistant/useRowToggle";
 
 function AttendanceTable({
   students,
   lastScanned,
   updateStudentStatus,
 }) {
+
   const [selectedStudent, setSelectedStudent] = useState(null);
 
-  //hook filtros y buscadores
+  // filtros
   const {
     search,
     setSearch,
@@ -24,39 +27,45 @@ function AttendanceTable({
     grade,
     setGrade,
     section,
-    setSection
-  } = useStudentSearch(students)
+    setSection,
+  } = useStudentSearch(students);
 
-  //hook modal
+  // modal
   const {
     isOpen,
-    setIsOpen,
     openModal,
     closeModal,
-    toggleModal
-  } = useModal()
+  } = useModal();
 
-  //controlar interaccion por fila
+  // fila activa
   const {
     openRowId,
-    toggleRow,
+    openRow,
     closeRow,
   } = useRowToggle();
 
-  //abrir modal y ponerla activa
+  // abrir modal
   const handleEdit = (student) => {
     setSelectedStudent(student);
+    // activar fila
+    openRow(student.id);
+    // abrir modal
     openModal();
   };
 
   const headers = [
-    "Estudiante", "Código", "Grado", "Seccion", "Estado", "Hora", "Acciones"
+    "Estudiante",
+    "DNI",
+    "Grado",
+    "Sección",
+    "Estado",
+    "Hora",
+    "Acciones",
   ];
 
   return (
     <div className="w-full lg:flex-1 mt-8">
 
-      {/* Buscador */}
       <FiltersSearchDownload
         search={search}
         setSearch={setSearch}
@@ -73,12 +82,16 @@ function AttendanceTable({
         data={filtered}
         emptyMessage="No se encontraron estudiantes"
         renderRow={(student) => {
-          const badge =
-            statusBadge[student.status] ?? statusBadge.absent;
 
+          const badge =
+            statusBadge[student.attendance.status]
+            ?? statusBadge.absent;
           const Icon = badge.icon;
           const isJustScanned =
             lastScanned?.dni === student.dni;
+          // fila activa
+          const isActive =
+            openRowId === student.id;
 
           return (
             <tr
@@ -86,31 +99,37 @@ function AttendanceTable({
               className={`
                 border-b border-gray-100
                 transition-colors
-                ${isJustScanned
-                  ? "bg-blue/5"
+                ${isActive
+                  ? "bg-blue-100"
                   : "hover:bg-gray-50"
                 }
               `}
             >
               <td className="px-6 py-4">
-                <div className="flex items-center gap-2 font-medium text-gray-800">
-                  {isJustScanned && (
-                    <span className="w-2 h-2 rounded-full bg-blue animate-pulse" />
-                  )}
-
+                <div className="flex items-center gap-2 font-medium">
+                  {
+                    isJustScanned && (
+                      <span
+                        className="
+                        w-2 h-2 rounded-full
+                        bg-blue animate-pulse
+                      "
+                      />
+                    )
+                  }
                   {student.student}
                 </div>
               </td>
 
-              <td className="px-6 py-4 text-gray-400 font-mono">
+              <td className="px-6 py-4">
                 {student.dni}
               </td>
 
-              <td className="px-6 py-4 text-gray-600">
+              <td className="px-6 py-4">
                 {student.grade}
               </td>
 
-              <td className="px-6 py-4 text-gray-600">
+              <td className="px-6 py-4">
                 {student.section}
               </td>
 
@@ -118,7 +137,7 @@ function AttendanceTable({
                 <span
                   className={`
                     inline-flex items-center gap-1
-                    px-3 py-1 rounded-full text-xs font-semibold
+                    px-3 py-1 rounded-full text-xs
                     ${badge.className}
                   `}
                 >
@@ -126,22 +145,24 @@ function AttendanceTable({
                   {badge.label}
                 </span>
               </td>
-
-              <td className="px-6 py-4 text-gray-400 font-mono">
-                {student.time ?? "—"}
+              <td className="px-6 py-4">
+                {student.attendance.time ?? "—"}
               </td>
               <td className="px-6 py-4 relative">
                 <button
                   onClick={() => handleEdit(student)}
-                  className="text-blue-700 hover:underline text-sm"
+                  className="
+                    text-blue-700
+                    hover:underline
+                  "
                 >
-                  <FaEdit size={20}/>
+                  <FaEdit size={20} />
                 </button>
-                {isOpen && selectedStudent?.id === student.id && (
-                  <ModalActionsAttendance 
-                    closeModal={closeModal}
-                    updateStudentStatus={updateStudentStatus}
+                {openRowId === student.id && (
+                  <ModalActionsAttendance
+                    closeModal={closeRow}
                     student={student}
+                    updateStudentStatus={updateStudentStatus}
                   />
                 )}
               </td>

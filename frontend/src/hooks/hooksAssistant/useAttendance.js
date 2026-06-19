@@ -5,26 +5,42 @@ import { apiFetch } from "../../helpers/apiFetch";
 export function useAttendanceControl(students, setStudents) {
 
   const [lastScanned, setLastScanned] = useState(null);
-
+  //ACtualizar estado de la asistencia
   const updateStudentStatus = useCallback((dni, newStatus) => {
-    const now = new Date();
-    const time = formatTime(now);
-    const date = now.toISOString().split("T")[0];
+  const now = new Date();
+  const time = formatTime(now);
+  const date = now.toISOString().split("T")[0];
 
-    setStudents((prev) =>
-      prev.map((student) =>
-        student.dni === dni
-          ? { ...student, status: newStatus, time, date }
-          : student
-      )
-    );
+  setStudents((prev) =>
+    prev.map((student) =>
+      student.dni === dni
+        ? {
+            ...student,
+            attendance: {
+              ...student.attendance,
+              status: newStatus,
+              time,
+              date,
+            },
+          }
+        : student
+    )
+  );
 
-    setLastScanned((prev) =>
-      prev?.dni === dni
-        ? { ...prev, status: newStatus, time, date }
-        : prev
-    );
-  }, [setStudents]);
+  setLastScanned((prev) =>
+    prev?.dni === dni
+      ? {
+          ...prev,
+          attendance: {
+            ...prev.attendance,
+            status: newStatus,
+            time,
+            date,
+          },
+        }
+      : prev
+  );
+}, [setStudents]);
 
   const handleScan = useCallback(async (qrCode) => {
     const now = new Date();
