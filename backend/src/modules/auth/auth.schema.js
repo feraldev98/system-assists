@@ -1,12 +1,14 @@
 import { z } from "zod";
-import { schemaUtils } from "../../utils/schema.utils.js";
 import { validateUtils } from "../../utils/validate.utils.js";
 import { authFields } from "./auth.fields.js";
+import { alphanumericField } from "../../utils/schemas/alphanumericField.js";
+import { emailField } from "../../utils/schemas/emailField.js";
+import { passwordField } from "../../utils/schemas/passwordField.js";
 
 const authSchema = {
   login: z
     .object({
-      email: schemaUtils.emailField({
+      email: emailField({
         label: "El correo",
         required: true,
       }),
@@ -42,13 +44,13 @@ const authSchema = {
     }),
   changePassword: z
     .object({
-      oldPassword: schemaUtils.alphanumericField({
+      oldPassword: alphanumericField({
         label: "La contraseña actual",
         min: 8,
         max: 32,
         required: true,
       }),
-      password: schemaUtils.passwordField({
+      password: passwordField({
         label: "La nueva contraseña",
         min: 8,
         max: 32,

@@ -1,16 +1,20 @@
 import { z } from "zod";
-import { schemaUtils } from "../../utils/schema.utils.js";
 import { classroomStudentFields } from "./classroomStudent.fields.js";
 import { validateUtils } from "../../utils/validate.utils.js";
+import { idField } from "../../utils/schemas/idField.js";
+import { numericField } from "../../utils/schemas/numericField.js";
+import { sortByField } from "../../utils/schemas/sortByField.js";
+import { sortOrderField } from "../../utils/schemas/sortOrderField.js";
+import { searchField } from "../../utils/schemas/searchField.js";
 
 const classroomStudentSchema = {
   create: z
     .object({
-      idClassroom: schemaUtils.idField({
+      idClassroom: idField({
         label: "El ID del salon de clase",
         required: true,
       }),
-      idStudent: schemaUtils.idField({
+      idStudent: idField({
         label: "El ID del estudiante",
         required: true,
       }),
@@ -20,11 +24,11 @@ const classroomStudentSchema = {
     }),
   update: z
     .object({
-      idClassroom: schemaUtils.idField({
+      idClassroom: idField({
         label: "El ID del salon de clase",
         required: false,
       }),
-      idStudent: schemaUtils.idField({
+      idStudent: idField({
         label: "El ID del estudiante",
         required: false,
       }),
@@ -41,38 +45,38 @@ const classroomStudentSchema = {
     }),
   params: z
     .object({
-      id: schemaUtils.idField({
+      id: idField({
         label: "El ID del registro",
         required: false,
       }),
-      page: schemaUtils.numberField({
+      page: numericField({
         label: "La página",
         min: 1,
         max: 1000,
         defaultValue: 1,
         required: false,
       }),
-      limit: schemaUtils.numberField({
+      limit: numericField({
         label: "El límite",
         min: 1,
         max: 50,
         defaultValue: 10,
         required: false,
       }),
-      idClassroom: schemaUtils.idField({
+      idClassroom: idField({
         label: "El ID del salon de clase",
         required: false,
       }),
-      idStudent: schemaUtils.idField({
+      idStudent: idField({
         label: "El ID del estudiante",
         required: false,
       }),
-      sortBy: schemaUtils.sortByField({
+      sortBy: sortByField({
         sortFields: classroomStudentFields.sort,
         defaultValue: "idClassroom",
       }),
-      sortOrder: schemaUtils.sortOrderField(),
-      search: schemaUtils.searchField(),
+      sortOrder: sortOrderField(),
+      search: searchField(),
     })
     .strict({
       message: "No se permiten campos adicionales",

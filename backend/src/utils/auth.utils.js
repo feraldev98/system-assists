@@ -26,13 +26,28 @@ const authUtils = {
         message: "Usuario y/o contraseña incorrectos",
       });
   },
-  comparePasswordChange: async ({ oldPassword, passwordHash }) => {
-    const isPasswordCorrect = await bcrypt.compare(oldPassword, passwordHash);
-    if (!isPasswordCorrect)
-      throw new AppError("Contraseña incorrecta", 400, {
-        field: "oldPassword",
-        message: "Contraseña incorrecta",
-      });
+  comparePasswordChange: async ({
+    oldPassword,
+    passwordHash,
+    msg,
+    equals = true,
+  }) => {
+    if (!equals) {
+      const isPasswordCorrect = await bcrypt.compare(oldPassword, passwordHash);
+      console.log(isPasswordCorrect);
+      if (isPasswordCorrect)
+        throw new AppError(msg, 400, {
+          field: "oldPassword",
+          message: msg,
+        });
+    } else {
+      const isPasswordCorrect = await bcrypt.compare(oldPassword, passwordHash);
+      if (!isPasswordCorrect)
+        throw new AppError(msg, 400, {
+          field: "oldPassword",
+          message: msg,
+        });
+    }
   },
 };
 

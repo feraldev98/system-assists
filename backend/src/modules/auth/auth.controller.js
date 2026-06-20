@@ -60,6 +60,7 @@ const authController = {
       next(error);
     }
   },
+
   changePassword: async (req, res, next) => {
     try {
       const validate = await validateUtils.validateSchema({
@@ -85,6 +86,14 @@ const authController = {
       await authUtils.comparePasswordChange({
         oldPassword: validate.oldPassword,
         passwordHash: userCredentials.passwordHash,
+        msg: "Contraseña incorrecta",
+      });
+
+      await authUtils.comparePasswordChange({
+        equals: false,
+        oldPassword: validate.password,
+        passwordHash: userCredentials.passwordHash,
+        msg: "La nueva contraseña no puede ser igual a la anterior",
       });
 
       const newPasswordHash = await authUtils.generatePasswordHash({
@@ -96,7 +105,13 @@ const authController = {
         passwordHash: newPasswordHash,
       });
 
-      return res.json(updatedUser);
+      return res.json({
+        success: true,
+        message: "Contraseña actualizada correctamente",
+        user: {
+          ...updatedUser,
+        },
+      });
     } catch (error) {
       next(error);
     }
