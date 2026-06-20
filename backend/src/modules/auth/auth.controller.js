@@ -3,6 +3,7 @@ import { authService } from "./auth.service.js";
 import { authUtils } from "../../utils/auth.utils.js";
 import { validateUtils } from "../../utils/validate.utils.js";
 import { authSchema } from "./auth.schema.js";
+import { authFields } from "./auth.fields.js";
 
 const authController = {
   login: async (req, res, next) => {
@@ -26,8 +27,8 @@ const authController = {
         credentials.passwordHash,
       );
 
-      const token = await authUtils.generateToken(credentials);
-      res.cookie("token", token, authUtils.COOKIE_OPTIONS);
+      const token = await authUtils.generateToken({ credentials });
+      res.cookie("token", token, authFields.COOKIE_OPTIONS);
 
       return res.json({
         success: true,
@@ -49,12 +50,53 @@ const authController = {
         throw new AppError("Sin autorización", 401, {
           message: "Sin autorización",
         });
-      res.clearCookie("token", authUtils.COOKIE_OPTIONS);
+      res.clearCookie("token", authFields.COOKIE_OPTIONS);
 
       return res.json({
         success: true,
         message: "Sesión cerrada correctamente",
       });
+    } catch (error) {
+      next(error);
+    }
+  },
+  changePassword: async (req, res, next) => {
+    try {
+      const validate = await validateUtils.validateSchema({
+        schema: authSchema.changePassword,
+        data: req.body,
+      });
+      const user = req.user;
+      if (!user) {
+        throw new AppError("Sin autorización", 401, {
+          message: "Sin autorización",
+        });
+      }
+
+      const userCredentials = await authService.getCredentials({
+        email: user.email,
+      });
+      if (!userCredentials) {
+        throw new AppError("Sin autorización", 401, {
+          message: "Sin autorización",
+        });
+      }
+
+      await authUtils.comparePasswordChange({
+        oldPassword: validate.oldPassword,
+        passwordHash: userCredentials.passwordHash,
+      });
+
+      const newPasswordHash = await authUtils.generatePasswordHash({
+        password: validate.password,
+      });
+
+      const updatedUser = await authService.changePassword({
+        idUser: userCredentials.idUser,
+        passwordHash: newPasswordHash,
+      });
+
+      return res.json(updatedUser);
     } catch (error) {
       next(error);
     }

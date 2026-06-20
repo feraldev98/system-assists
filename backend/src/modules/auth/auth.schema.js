@@ -1,5 +1,7 @@
 import { z } from "zod";
 import { schemaUtils } from "../../utils/schema.utils.js";
+import { validateUtils } from "../../utils/validate.utils.js";
+import { authFields } from "./auth.fields.js";
 
 const authSchema = {
   login: z
@@ -30,6 +32,41 @@ const authSchema = {
     })
     .strict({
       message: "No se permiten campos adicionales",
+    })
+    .superRefine((data, ctx) => {
+      validateUtils.validateBody({
+        data,
+        ctx,
+        fields: authFields.login,
+      });
+    }),
+  changePassword: z
+    .object({
+      oldPassword: schemaUtils.alphanumericField({
+        label: "La contraseña actual",
+        min: 8,
+        max: 32,
+        required: true,
+      }),
+      password: schemaUtils.passwordField({
+        label: "La nueva contraseña",
+        min: 8,
+        max: 32,
+        required: true,
+      }),
+      repassword: z.preprocess(
+        (val) => val ?? "",
+        z.string().trim().min(1, "Debes confirmar la contraseña"),
+      ),
+    })
+    .strict({ message: "No se permiten campos adicionales" })
+    .superRefine((data, ctx) => {
+      validateUtils.validateBody({
+        data,
+        ctx,
+        fields: authFields.changePassword,
+      });
+      validateUtils.verifyPasswords({ data, ctx });
     }),
 };
 
