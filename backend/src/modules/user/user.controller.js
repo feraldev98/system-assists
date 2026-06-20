@@ -11,9 +11,9 @@ const userController = {
         data: req.body,
       });
 
-      const passwordHash = await authUtils.generatePasswordHash(
-        validate.password,
-      );
+      const passwordHash = await authUtils.generatePasswordHash({
+        password: validate.password,
+      });
 
       const queryResult = await userService.create({
         ...validate,
@@ -66,7 +66,9 @@ const userController = {
       });
 
       if (data.password) {
-        data.passwordHash = await authUtils.generatePasswordHash(data.password);
+        data.passwordHash = await authUtils.generatePasswordHash({
+          password: data.password,
+        });
 
         delete data.password;
         delete data.repassword;

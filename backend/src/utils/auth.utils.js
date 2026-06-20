@@ -3,14 +3,15 @@ import bcrypt from "bcrypt";
 import { AppError } from "./AppError.js";
 
 const authUtils = {
-  generatePasswordHash: async (password) => {
+  generatePasswordHash: async ({ password }) => {
     const SALT_ROUNDS = Number(process.env.SALT_ROUNDS) || 10;
     const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
     return passwordHash;
   },
-  generateToken: async (credentials) => {
+  generateToken: async ({ credentials }) => {
     const payload = {
       sub: credentials.idUser,
+      email: credentials.email,
       role: credentials.role,
     };
 
@@ -25,11 +26,28 @@ const authUtils = {
         message: "Usuario y/o contraseña incorrectos",
       });
   },
-  COOKIE_OPTIONS: {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    maxAge: 1000 * 60 * 60 * 8, // 8 horas
+  comparePasswordChange: async ({
+    oldPassword,
+    passwordHash,
+    msg,
+    equals = true,
+  }) => {
+    if (!equals) {
+      const isPasswordCorrect = await bcrypt.compare(oldPassword, passwordHash);
+      console.log(isPasswordCorrect);
+      if (isPasswordCorrect)
+        throw new AppError(msg, 400, {
+          field: "oldPassword",
+          message: msg,
+        });
+    } else {
+      const isPasswordCorrect = await bcrypt.compare(oldPassword, passwordHash);
+      if (!isPasswordCorrect)
+        throw new AppError(msg, 400, {
+          field: "oldPassword",
+          message: msg,
+        });
+    }
   },
 };
 

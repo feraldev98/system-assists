@@ -1,30 +1,39 @@
 import { z } from "zod";
 import { validateUtils } from "../../utils/validate.utils.js";
-import { schemaUtils } from "../../utils/schema.utils.js";
 import { userFields } from "./user.fields.js";
+import { idField } from "../../utils/schemas/idField.js";
+import { nameField } from "../../utils/schemas/nameField.js";
+import { emailField } from "../../utils/schemas/emailField.js";
+import { passwordField } from "../../utils/schemas/passwordField.js";
+import { roleField } from "../../utils/schemas/roleField.js";
+import { phoneField } from "../../utils/schemas/phoneField.js";
+import { numericField } from "../../utils/schemas/numericField.js";
+import { sortByField } from "../../utils/schemas/sortByField.js";
+import { sortOrderField } from "../../utils/schemas/sortOrderField.js";
+import { searchField } from "../../utils/schemas/searchField.js";
 
 const userSchema = {
   create: z
     .object({
-      firstname: schemaUtils.nameField({
+      firstname: nameField({
         label: "El nombre",
         min: 2,
         max: 50,
         required: true,
       }),
-      lastname: schemaUtils.nameField({
+      lastname: nameField({
         label: "El apellido",
         min: 2,
         max: 50,
         required: true,
       }),
 
-      email: schemaUtils.emailField({
+      email: emailField({
         label: "El correo",
         required: true,
       }),
 
-      password: schemaUtils.passwordField({
+      password: passwordField({
         label: "La contraseña",
         min: 8,
         max: 32,
@@ -36,12 +45,12 @@ const userSchema = {
         z.string().trim().min(1, "Debes confirmar la contraseña"),
       ),
 
-      role: schemaUtils.roleField({
+      role: roleField({
         label: "El rol",
         required: true,
       }),
 
-      phone: schemaUtils.phoneField({
+      phone: phoneField({
         label: "El teléfono",
         required: true,
       }),
@@ -53,36 +62,36 @@ const userSchema = {
 
   update: z
     .object({
-      firstname: schemaUtils.nameField({
+      firstname: nameField({
         label: "El nombre",
         min: 2,
         max: 50,
         required: false,
       }),
 
-      lastname: schemaUtils.nameField({
+      lastname: nameField({
         label: "El apellido",
         min: 2,
         max: 50,
         required: false,
       }),
 
-      email: schemaUtils.emailField({
+      email: emailField({
         label: "El correo",
         required: false,
       }),
 
-      role: schemaUtils.roleField({
+      role: roleField({
         label: "El rol",
         required: false,
       }),
 
-      phone: schemaUtils.phoneField({
+      phone: phoneField({
         label: "El teléfono",
         required: false,
       }),
 
-      password: schemaUtils.passwordField({
+      password: passwordField({
         label: "La contraseña",
         min: 8,
         max: 32,
@@ -104,11 +113,11 @@ const userSchema = {
     }),
   params: z
     .object({
-      id: schemaUtils.idField({
+      id: idField({
         label: "El ID del usuario",
         required: false,
       }),
-      page: schemaUtils.numberField({
+      page: numericField({
         label: "La página",
         min: 1,
         max: 1000,
@@ -116,7 +125,7 @@ const userSchema = {
         required: false,
       }),
 
-      limit: schemaUtils.numberField({
+      limit: numericField({
         label: "El límite",
         min: 1,
         max: 50,
@@ -124,18 +133,18 @@ const userSchema = {
         required: false,
       }),
 
-      role: schemaUtils.roleField({
+      role: roleField({
         label: "El rol",
         required: false,
       }),
 
-      sortBy: schemaUtils.sortByField({
+      sortBy: sortByField({
         sortFields: userFields.sortFields,
       }),
 
-      sortOrder: schemaUtils.sortOrderField(),
+      sortOrder: sortOrderField(),
 
-      search: schemaUtils.searchField(),
+      search: searchField(),
     })
     .strict({
       message: "No se permiten campos adicionales",
