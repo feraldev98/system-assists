@@ -1,18 +1,10 @@
 import { Button } from "../../atoms/button";
-import { Paragraph } from "../../atoms/paragraph";
-import { Title } from "../../atoms/title";
 import { TitleAndDescaription } from "../../molecules/titleandDescription";
-import { CardStatsNotifications } from "./cardStatsNotifications";
 
-function BannerNotifications({ 
-  unreadCount ,
-  total,
-  today,
-  onMarkAllAsRead, 
-  notifications 
+function NotificationHeader({
+  unreadCount,
+  markAllRead
 }) {
-
-
   const title = 'Mis Notificaciones'
   const description =
     unreadCount > 0
@@ -20,8 +12,7 @@ function BannerNotifications({
       : "No tienes notificaciones recientes";
 
   return (
-    <section
-      className=" flex flex-col gap-5
+    <section className=" flex flex-col gap-5
         mt-6
         py-4
         md:mt-6
@@ -29,8 +20,7 @@ function BannerNotifications({
         md:w-[90%]
         md:max-w-6xl
         mx-auto
-      "
-    >
+      ">
       <div className="flex justify-between">
         <TitleAndDescaription
           title={title}
@@ -43,19 +33,13 @@ function BannerNotifications({
             <Button
               text='Marcar como leídas'
               variant="danger"
-              onClick={onMarkAllAsRead}
+              onClick={markAllRead}
             />
           )
         }
       </div>
-      <CardStatsNotifications
-        notifications={notifications}
-        unread={unreadCount}
-        total={total}
-        today={today}
-      />
     </section>
   );
 }
 
-export { BannerNotifications };
+export { NotificationHeader };

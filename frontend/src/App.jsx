@@ -4,6 +4,7 @@ import { Footer } from './componets/organims/footer'
 import { useAuth } from './hooks/hookGlobals/useAuth'
 import { Navigate } from 'react-router-dom'
 import { dashboardRoutes } from './config/dashboardRutes'
+import { Profils } from './componets/pages/profils/profiles'
 // PAGES
 import { LoginPage } from './componets/pages/auth/loginPage'
 import { InstitutionPage } from './componets/pages/institution/institutionPage'
@@ -43,6 +44,7 @@ function App() {
     { path: '/notifications-assistant', component: <NotificationsAssistantPage /> },
     { path: '/admin/register-student', component: <RegisterStudent /> },
     { path: '/admin/register-user', component: <RegisterUser /> },
+    { path: '/profile', component: <Profils /> },
   ]
 
   if (!isAuthenticated) {

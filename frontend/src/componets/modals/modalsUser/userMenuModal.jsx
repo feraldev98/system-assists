@@ -3,6 +3,7 @@ import { Title } from "../../atoms/title";
 import { Paragraph } from "../../atoms/paragraph";
 import { useAuth } from "../../../hooks/hookGlobals/useAuth";
 import { menuUserItems } from "../../../mocks/menuModalUser";
+import { Link } from "react-router-dom";
 
 function UserMenuModal({ closeModal, openPasswordModal, }) {
 
@@ -22,19 +23,24 @@ function UserMenuModal({ closeModal, openPasswordModal, }) {
   const CLOSE_DURATION = 300
 
   const handleClick = (action) => {
-    if (action === "password") {
-      handleClose();
-      setTimeout(() => {
-        openPasswordModal();
-      }, CLOSE_DURATION);
-    }
+    // Cerrar siempre el modal
+    handleClose();
 
-    //LOGOUT
-    if (action === "logout") {
-      handleClose();
-      setTimeout(() => {
-        logout();
-      }, CLOSE_DURATION);
+    switch (action) {
+      case "password":
+        setTimeout(() => {
+          openPasswordModal();
+        }, CLOSE_DURATION);
+        break;
+
+      case "logout":
+        setTimeout(() => {
+          logout();
+        }, CLOSE_DURATION);
+        break;
+
+      default:
+        break;
     }
   };
 
@@ -80,7 +86,7 @@ function UserMenuModal({ closeModal, openPasswordModal, }) {
       `}
     >
       {/* USER INFO */}
-      <div className="p-4 bg-white/10 border-b border-white">
+      <div className="px-4 py-1 bg-white/10 border-b border-white">
         <div>
           <Title
             level="h4"
@@ -93,7 +99,6 @@ function UserMenuModal({ closeModal, openPasswordModal, }) {
             text={user.email}
           />
         </div>
-
       </div>
 
       <div className="h-px bg-white/20"></div>
@@ -104,23 +109,32 @@ function UserMenuModal({ closeModal, openPasswordModal, }) {
 
           return (
             <li key={index}>
-              <button
-                onClick={() => handleClick(item.action)}
-                className="
-                  w-full
-                  flex items-center gap-3
-                  px-4 py-3
-                  text-white
-                  hover:bg-blueT/80
-                  transition-colors duration-200
-                "
-              >
-                <Icon size={18} />
-
-                <span className="text-sm">
-                  {item.text}
-                </span>
-              </button>
+              {item.href ? (
+                <Link
+                  to={item.href}
+                  onClick={handleClose}
+                  className="
+              w-full flex items-center gap-3
+              px-4 py-3 text-white
+              hover:bg-blueT/80 transition-colors duration-200
+            "
+                >
+                  <Icon size={18} />
+                  <span className="text-sm">{item.text}</span>
+                </Link>
+              ) : (
+                <button
+                  onClick={() => handleClick(item.action)}
+                  className="
+              w-full flex items-center gap-3
+              px-4 py-3 text-white text-left
+              hover:bg-blueT/80 transition-colors duration-200
+            "
+                >
+                  <Icon size={18} />
+                  <span className="text-sm">{item.text}</span>
+                </button>
+              )}
             </li>
           );
         })}

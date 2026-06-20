@@ -2,7 +2,7 @@ import { Paragraph } from "../../atoms/paragraph";
 import { Small } from "../../atoms/small";
 import { Title } from "../../atoms/title";
 
-function SectionNotifications({ notifications }) {
+function SectionNotifications({ notifications, markAsRead}) {
   return (
     <div
       className="
@@ -22,6 +22,7 @@ function SectionNotifications({ notifications }) {
       {notifications.map((notification) => (
         <article
           key={notification.id}
+          onClick={() => markAsRead(notification.id)}
           className={`
             rounded-lg shadow-sm border
             border-cyan-700 p-3 bg-white

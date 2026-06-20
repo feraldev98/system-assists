@@ -5,13 +5,16 @@ import { AuthProvider } from './context/AuthContext.jsx'
 import './index.css'
 import App from './App.jsx'
 import { NavbarProvider } from './context/navbarContext.jsx'
+import { NotificationsProvider } from './context/notificationsContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
         <NavbarProvider>
-          <App />
+          <NotificationsProvider>
+            <App />
+          </NotificationsProvider>
         </NavbarProvider>
       </AuthProvider>
     </BrowserRouter>

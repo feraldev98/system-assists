@@ -10,18 +10,23 @@ import { useNavbar } from "../../context/navbarContext";
 //MODALES
 import { UserMenuModal } from '../modals/modalsUser/userMenuModal';
 import { ChangePasswordModal } from '../modals/modalsUser/userPasswordModal';
+import { useNotifications } from "../../hooks/hooksAssistant/useNotifications";
+import { useStudents } from "../../hooks/hooksAssistant/useStudent";
 
 function UserMenu({ onLogout, mobile = false }) {
 
   //hook modal
-  const userMenuModal = useModal() 
+  const userMenuModal = useModal()
   const passwordModal = useModal()
 
   //hook idenfiticar rol
-  const {role} =  useAuth()
+  const { role } = useAuth()
 
   //hook mobilOpen
-  const {setMobileOpen} = useNavbar()
+  const { setMobileOpen } = useNavbar()
+
+  //hook notificasiones no leidas 
+  const { unreadCount } = useNotifications();
 
   //navegar a las notificaciones segun el rol
   const notificationsRutes = {
@@ -30,7 +35,7 @@ function UserMenu({ onLogout, mobile = false }) {
     father: '/notifications-student',
   }
   const notificationRoute =
-  notificationsRutes[role] || '/notifications-student';
+    notificationsRutes[role] || '/notifications-student';
 
 
   const user = {
@@ -42,26 +47,48 @@ function UserMenu({ onLogout, mobile = false }) {
   return (
     <div className={`
         ${mobile
-          ? "flex w-full mt-4 justify-end border-t border-white/10 pt-4"
-          : `flex-col items-end hidden 
+        ? "flex w-full mt-4 justify-end border-t border-white/10 pt-4"
+        : `flex-col items-end hidden 
             md:flex  md:flex-row md:items-center md:relative ml-auto h-full`
-        }
+      }
       
       `}
     >
       {/*icono notificaciones*/}
       <Link
-        to={notificationRoute} 
-        onClick={() => setMobileOpen (false)}
+        to={notificationRoute}
+        onClick={() => setMobileOpen(false)}
         variant=''
-        className="text-white p-[1em]  
+        className="text-white p-[1em]  relative
         transition-colors duration-400 hover:bg-blueT border-r boder-white
       ">
-        <IoNotifications size={23} className='text-white'/>
+        <IoNotifications size={23} className='text-white' />
+        {
+          unreadCount > 0 && (
+            <span
+              className="
+        absolute
+        top-1
+        right-1
+        min-w-5
+        h-5
+        px-1
+        rounded-full
+        bg-red-500
+        text-white
+        text-[10px]
+        flex items-center justify-center
+        font-bold
+      "
+            >
+              {unreadCount}
+            </span>
+          )
+        }
       </Link>
 
       {/*Usuario en el navbar */}
-      <UserNavbar 
+      <UserNavbar
         user={user}
         toggleModal={userMenuModal.toggleModal}
         isOpen={userMenuModal.isOpen}
@@ -70,7 +97,7 @@ function UserMenu({ onLogout, mobile = false }) {
       {/*Renderizado de modales menu usuario y cambiar contraseña */}
       {
         userMenuModal.isOpen && (
-          <UserMenuModal 
+          <UserMenuModal
             closeModal={userMenuModal.closeModal}
             openPasswordModal={passwordModal.openModal}
           />

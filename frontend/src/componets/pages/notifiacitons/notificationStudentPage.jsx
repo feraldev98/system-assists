@@ -1,40 +1,35 @@
 import { BannerNotifications } from "../../organims/notifications/banner";
 import { MyTemplate } from "../../templates/myTemplate";
-import { notificationsMock } from "../../../mocks/notificatios";
+import { notificationsFatherMock } from "../../../mocks/notificatiosFather";
 import { useState } from "react";
 import { SectionNotifications } from "../../organims/notifications/sectionNotifications";
+import { useNotifications } from "../../../hooks/hooksAssistant/useNotifications";
 
 
 function NotificationsStudentPage() {
 
-  const [notifications, setNotifications] =
-    useState(notificationsMock);
-
   //Verifiacmos cantida de notificaciones
-  const unreadCount = notifications.filter(
-    notification => !notification.isRead
-  ).length;
-
-  //cambiamos de estado 
-  const markAllAsRead = () => {
-    setNotifications(prev =>
-      prev.map(notification => ({
-        ...notification,
-        isRead: true,
-      }))
-    );
-  };
+  const {
+    notifications, 
+    unreadCount,
+    markAllRead, 
+    markAsRead,
+    totalCount,
+    todayCount
+  } = useNotifications()
 
   return (
     <MyTemplate>
       <BannerNotifications
         unreadCount={unreadCount}
-        onMarkAllAsRead={markAllAsRead}
-        notifications={notifications}
+        onMarkAllAsRead={markAllRead}
+        notifications={notificationsFatherMock}
+        today={todayCount}
+        total={totalCount}
       />
       <SectionNotifications
-        notifications={notifications}
-
+      notifications={notifications}
+      markAsRead={markAsRead}
       />
     </MyTemplate>
   )
