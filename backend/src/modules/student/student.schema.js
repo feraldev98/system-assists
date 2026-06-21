@@ -11,6 +11,7 @@ import { statusField } from "../../utils/schemas/statusField.js";
 import { sortByField } from "../../utils/schemas/sortByField.js";
 import { sortOrderField } from "../../utils/schemas/sortOrderField.js";
 import { searchField } from "../../utils/schemas/searchField.js";
+import { dniField } from "../../utils/schemas/dniField.js";
 
 const studentSchema = {
   create: z
@@ -27,7 +28,11 @@ const studentSchema = {
         max: 50,
         required: true,
       }),
-      //code,
+
+      dni: dniField({
+        required: true,
+      }),
+
       gender: genderField({
         required: true,
       }),
@@ -60,7 +65,11 @@ const studentSchema = {
         max: 50,
         required: false,
       }),
-      //code,
+
+      dni: dniField({
+        required: true,
+      }),
+
       gender: genderField({
         required: false,
       }),
