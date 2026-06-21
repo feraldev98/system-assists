@@ -2,6 +2,7 @@ import { attendanceService } from "./attendance.service.js";
 import { attendanceSchema } from "./attendance.schema.js";
 import { validateUtils } from "../../utils/validate.utils.js";
 import { AppError } from "../../utils/AppError.js";
+import { classroomStudentService } from "../classroomStudent/classroomStudent.service.js";
 
 const attendanceController = {
   create: async (req, res, next) => {
@@ -21,10 +22,20 @@ const attendanceController = {
 
       const queryResult = await attendanceService.create(validate, idAuxiliar);
 
+      const student = queryResult.student;
+
+      const activeClassroom =
+        await classroomStudentService.getActiveClassroomByStudentId({
+          idStudent: student.idStudent,
+        });
+
       return res.json({
         success: true,
         message: "Asistencia creada correctamente",
-        attendance: queryResult,
+        attendance: {
+          classroom: activeClassroom,
+          ...queryResult,
+        },
       });
     } catch (error) {
       next(error);
@@ -64,10 +75,18 @@ const attendanceController = {
 
       const attendance = await attendanceService.getById({ idAttendance });
 
+      const activeClassroom =
+        await classroomStudentService.getActiveClassroomByStudentId({
+          idStudent: attendance.student.idStudent,
+        });
+
       return res.json({
         success: true,
         message: "Asistencia encontrada",
-        data: attendance,
+        data: {
+          ...attendance,
+        },
+        classroom: activeClassroom,
       });
     } catch (error) {
       next(error);
@@ -112,10 +131,15 @@ const attendanceController = {
         idAttendance,
       });
 
+      const activeClassroom =
+        await classroomStudentService.getActiveClassroomByStudentId({
+          idStudent: deletedAttendance.student.idStudent,
+        });
       return res.json({
         success: true,
         message: "Asistencia eliminada correctamente",
         attendance: deletedAttendance,
+        classroom: activeClassroom,
       });
     } catch (error) {
       next(error);

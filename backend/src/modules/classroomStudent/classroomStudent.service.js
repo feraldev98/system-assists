@@ -1,5 +1,6 @@
 import { prisma } from "../../config/prisma.js";
 import { AppError } from "../../utils/AppError.js";
+import { mappersUtils } from "../../utils/mappers.utils.js";
 import { searchUtils } from "../../utils/search.utils.js";
 import { validateUtils } from "../../utils/validate.utils.js";
 import { classroomStudentFields } from "./classroomStudent.fields.js";
@@ -117,6 +118,36 @@ const classroomStudentService = {
       select: classroomStudentFields.select,
     });
     return deletedClassroomStudent;
+  },
+
+  getActiveClassroomByStudentId: async ({ idStudent }) => {
+    const activeClassroom = await prisma.classroomStudent.findFirst({
+      where: {
+        idStudent,
+        classroom: {
+          status: "ACTIVO",
+        },
+      },
+      select: {
+        idClassroomStudent: true,
+        classroom: {
+          select: {
+            section: {
+              select: {
+                name: true,
+                grade: {
+                  select: {
+                    level: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return mappersUtils.formatClassroom(activeClassroom);
   },
 };
 
