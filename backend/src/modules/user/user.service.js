@@ -15,7 +15,7 @@ const userService = {
     const queryResult = await prisma.$transaction(async (prisma) => {
       const user = await prisma.user.create({
         data: { firstname, lastname, email, passwordHash, phone, role },
-        select: userFields.selectFields,
+        select: userFields.select,
       });
       return { user };
     });
@@ -32,7 +32,7 @@ const userService = {
     const [users, total] = await Promise.all([
       prisma.user.findMany({
         where,
-        select: userFields.selectFields,
+        select: userFields.select,
         skip: (page - 1) * limit,
         take: limit,
         orderBy: { [sortBy]: sortOrder },
@@ -48,7 +48,7 @@ const userService = {
         idUser,
       },
       data,
-      select: userFields.selectFields,
+      select: userFields.select,
     });
     if (!updatedUser) {
       throw new AppError("Registro no encontrado", 404, [
@@ -64,7 +64,7 @@ const userService = {
   delete: async (idUser) => {
     const deletedUser = await prisma.user.delete({
       where: { idUser },
-      select: userFields.selectFields,
+      select: userFields.select,
     });
     return deletedUser;
   },
@@ -72,7 +72,7 @@ const userService = {
   getById: async (idUser) => {
     const user = await prisma.user.findUnique({
       where: { idUser },
-      select: userFields.selectFields,
+      select: userFields.select,
     });
 
     if (!user) {

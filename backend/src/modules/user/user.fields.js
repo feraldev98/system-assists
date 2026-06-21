@@ -1,5 +1,14 @@
 const userFields = {
-  editableFields: [
+  create: [
+    "firstname",
+    "lastname",
+    "email",
+    "password",
+    "repassword",
+    "role",
+    "phone",
+  ],
+  update: [
     "firstname",
     "lastname",
     "email",
@@ -9,16 +18,9 @@ const userFields = {
     "repassword",
   ],
 
-  sortFields: [
-    "firstname",
-    "lastname",
-    "email",
-    "phone",
-    "createdAt",
-    "updatedAt",
-  ],
+  sort: ["firstname", "lastname", "email", "phone", "createdAt", "updatedAt"],
 
-  selectFields: {
+  select: {
     idUser: true,
     firstname: true,
     lastname: true,
