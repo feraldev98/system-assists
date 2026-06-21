@@ -12,7 +12,6 @@ const attendanceController = {
       });
 
       const idAuxiliar = await req.user.sub;
-      console.log(idAuxiliar);
 
       if (!idAuxiliar) {
         throw new AppError("Sin autorización", 401, {
@@ -34,9 +33,23 @@ const attendanceController = {
 
   get: async (req, res, next) => {
     try {
-      // TODO: validar query con attendanceSchema.params
-      // TODO: llamar attendanceService.get
-      // TODO: retornar con paginación
+      const validate = await validateUtils.validateSchema({
+        schema: attendanceSchema.params,
+        data: req.query,
+      });
+
+      const { attendances, total } = await attendanceService.get(validate);
+
+      return res.json({
+        success: true,
+        data: attendances,
+        pagination: {
+          page: validate.page,
+          limit: validate.limit,
+          total,
+          totalPages: Math.ceil(total / validate.limit),
+        },
+      });
     } catch (error) {
       next(error);
     }
@@ -44,9 +57,18 @@ const attendanceController = {
 
   getById: async (req, res, next) => {
     try {
-      // TODO: validar params con attendanceSchema.params
-      // TODO: llamar attendanceService.getById
-      // TODO: retornar resultado
+      const { id: idAttendance } = await validateUtils.validateSchema({
+        schema: attendanceSchema.params,
+        data: req.params,
+      });
+
+      const attendance = await attendanceService.getById({ idAttendance });
+
+      return res.json({
+        success: true,
+        message: "Asistencia encontrada",
+        data: attendance,
+      });
     } catch (error) {
       next(error);
     }
@@ -54,10 +76,26 @@ const attendanceController = {
 
   update: async (req, res, next) => {
     try {
-      // TODO: validar params con attendanceSchema.params
-      // TODO: validar body con attendanceSchema.update
-      // TODO: llamar attendanceService.update
-      // TODO: retornar resultado
+      const { id: idAttendance } = await validateUtils.validateSchema({
+        schema: attendanceSchema.params,
+        data: req.params,
+      });
+
+      const data = await validateUtils.validateSchema({
+        schema: attendanceSchema.update,
+        data: req.body,
+      });
+
+      const updatedAttendance = await attendanceService.update({
+        idAttendance,
+        data,
+      });
+
+      return res.json({
+        success: true,
+        message: "Asistencia actualizada correctamente",
+        attendance: updatedAttendance,
+      });
     } catch (error) {
       next(error);
     }
@@ -65,9 +103,20 @@ const attendanceController = {
 
   delete: async (req, res, next) => {
     try {
-      // TODO: validar params con attendanceSchema.params
-      // TODO: llamar attendanceService.delete
-      // TODO: retornar resultado
+      const { id: idAttendance } = await validateUtils.validateSchema({
+        schema: attendanceSchema.params,
+        data: req.params,
+      });
+
+      const deletedAttendance = await attendanceService.delete({
+        idAttendance,
+      });
+
+      return res.json({
+        success: true,
+        message: "Asistencia eliminada correctamente",
+        attendance: deletedAttendance,
+      });
     } catch (error) {
       next(error);
     }

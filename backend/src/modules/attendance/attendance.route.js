@@ -28,7 +28,7 @@ attendanceRoutes.get(
 attendanceRoutes.patch(
   "/:id",
   authMiddleware,
-  authMiddlewareRole(["ADMIN"]),
+  authMiddlewareRole(["ADMIN", "AUXILIAR"]),
   attendanceController.update,
 );
 attendanceRoutes.delete(

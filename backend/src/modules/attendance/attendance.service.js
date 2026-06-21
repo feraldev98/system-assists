@@ -7,9 +7,27 @@ import { attendanceFields } from "./attendance.fields.js";
 
 const attendanceService = {
   create: async ({ status, note, idStudent }, idAuxiliar) => {
-    await studentService.getById({ idStudent });
-    console.log(status, note, idStudent, idAuxiliar);
-
+    const student = await studentService.getById({ idStudent });
+    if (
+      [
+        "SUSPENDIDO",
+        "EXPULSADO",
+        "TRANSFERIDO",
+        "RETIRADO",
+        "INACTIVO",
+      ].includes(student.status)
+    ) {
+      throw new AppError(
+        "El estudiante no tiene un estado válido para registrar asistencia",
+        400,
+        [
+          {
+            field: "idStudent",
+            message: `El estudiante tiene un estado ${student.status} que no permite registrar asistencia`,
+          },
+        ],
+      );
+    }
     const queryResult = await prisma.$transaction(async (prisma) => {
       const attendance = await prisma.attendance.create({
         data: {

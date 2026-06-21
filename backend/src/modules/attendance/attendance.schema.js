@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { validateUtils } from "../../utils/validate.utils.js";
 import { attendanceFields } from "./attendance.fields.js";
-import { dateField } from "../../utils/schemas/dateField.js";
 import { statusField } from "../../utils/schemas/statusField.js";
 import { alphanumericField } from "../../utils/schemas/alphanumericField.js";
 import { idField } from "../../utils/schemas/idField.js";
@@ -35,13 +34,22 @@ const attendanceSchema = {
       validateUtils.validateBody({
         data,
         ctx,
-        fields: attendanceFields.select,
+        fields: attendanceFields.createFields,
       });
     }),
 
   update: z
     .object({
-      // TODO: agregar campos del update
+      status: statusField({
+        required: false,
+        states: attendanceFields.status,
+      }),
+      note: alphanumericField({
+        label: "La nota",
+        min: 5,
+        max: 100,
+        required: false,
+      }).optional(),
     })
     .strict({ message: "No se permiten campos adicionales" })
     .superRefine((data, ctx) => {
@@ -83,7 +91,7 @@ export { attendanceSchema };
 model Attendance {
   idAttendance Int              @id @default(autoincrement())
   date         DateTime         @db.Date
-  registeredAt DateTime         @default(now())
+  schemas DateTime         @default(now())
   status       StatusAssistance @default(PRESENTE)
   note         String?          @db.VarChar(100)
   idStudent    Int
