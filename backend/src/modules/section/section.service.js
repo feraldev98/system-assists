@@ -1,5 +1,6 @@
 import { prisma } from "../../config/prisma.js";
 import { AppError } from "../../utils/AppError.js";
+import { mappersUtils } from "../../utils/mappers.utils.js";
 import { searchUtils } from "../../utils/search.utils.js";
 import { sectionFields } from "./section.fields.js";
 
@@ -26,7 +27,7 @@ const sectionService = {
       });
       return { section };
     });
-    return queryResult.section;
+    return mappersUtils.formatSection(queryResult.section);
   },
 
   get: async ({ page, limit, sortOrder, search, sortBy }) => {
@@ -68,7 +69,7 @@ const sectionService = {
       where,
     });
 
-    return [sections, total];
+    return [sections.map(mappersUtils.formatSection), total];
   },
 
   getById: async (idSection) => {
@@ -76,7 +77,6 @@ const sectionService = {
       where: { idSection },
       select: sectionFields.select,
     });
-
     if (!section) {
       throw new AppError("Registro no encontrado", 404, [
         {
@@ -85,8 +85,7 @@ const sectionService = {
         },
       ]);
     }
-
-    return section;
+    return mappersUtils.formatSection(section);
   },
 
   update: async (idSection, data) => {
@@ -115,7 +114,7 @@ const sectionService = {
       data,
       select: sectionFields.select,
     });
-    return updatedSection;
+    return mappersUtils.formatSection(updatedSection);
   },
 
   delete: async (idSection) => {
@@ -123,7 +122,7 @@ const sectionService = {
       where: { idSection },
       select: sectionFields.select,
     });
-    return deletedSection;
+    return mappersUtils.formatSection(deletedSection);
   },
 };
 

@@ -57,6 +57,11 @@ const userSchema = {
     })
     .strict({ message: "No se permiten campos adicionales" })
     .superRefine((data, ctx) => {
+      validateUtils.validateBody({
+        data,
+        ctx,
+        fields: userFields.create,
+      });
       validateUtils.verifyPasswords({ data, ctx });
     }),
 
@@ -107,7 +112,7 @@ const userSchema = {
       validateUtils.validateBody({
         data,
         ctx,
-        fields: userFields.editableFields,
+        fields: userFields.update,
       });
       validateUtils.verifyPasswords({ data, ctx });
     }),
@@ -139,7 +144,7 @@ const userSchema = {
       }),
 
       sortBy: sortByField({
-        sortFields: userFields.sortFields,
+        sortFields: userFields.sort,
       }),
 
       sortOrder: sortOrderField(),
