@@ -1,24 +1,30 @@
 const mappersUtils = {
+  formatSection: (row) => ({
+    idSection: row.idSection,
+    idGrade: row.grade?.idGrade ?? null,
+    grade: row.grade?.level ?? null,
+    section: row.name,
+  }),
   formatClassroom: (row) => {
     return {
       idClassroomStudent: row.idClassroomStudent,
-      section: row.classroom?.section?.name ?? null,
       grade: row.classroom?.section?.grade?.level ?? null,
+      section: row.classroom?.section?.name ?? null,
     };
   },
   formatClassroomOnly: (row) => ({
     idClassroom: row.idClassroom,
     year: row.year,
-    section: row.section?.name ?? null,
     grade: row.section?.grade?.level ?? null,
+    section: row.section?.name ?? null,
   }),
   formatClassroomStudent: (row) => {
     return {
       idClassroomStudent: row.idClassroomStudent,
       idClassroom: row.classroom?.idClassroom ?? null,
       year: row.classroom?.year ?? null,
-      section: row.classroom?.section?.name ?? null,
       grade: row.classroom?.section?.grade?.level ?? null,
+      section: row.classroom?.section?.name ?? null,
     };
   },
   formatAttendance: (row) => ({
