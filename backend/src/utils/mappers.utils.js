@@ -6,6 +6,12 @@ const mappersUtils = {
       grade: row.classroom?.section?.grade?.level ?? null,
     };
   },
+  formatClassroomOnly: (row) => ({
+    idClassroom: row.idClassroom,
+    year: row.year,
+    section: row.section?.name ?? null,
+    grade: row.section?.grade?.level ?? null,
+  }),
   formatClassroomStudent: (row) => {
     return {
       idClassroomStudent: row.idClassroomStudent,

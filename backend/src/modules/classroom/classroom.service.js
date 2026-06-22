@@ -1,5 +1,6 @@
 import { prisma } from "../../config/prisma.js";
 import { AppError } from "../../utils/AppError.js";
+import { mappersUtils } from "../../utils/mappers.utils.js";
 import { searchUtils } from "../../utils/search.utils.js";
 import { validateUtils } from "../../utils/validate.utils.js";
 import { classroomFields } from "./classroom.fields.js";
@@ -12,10 +13,10 @@ const classroomService = {
         select: classroomFields.create,
       });
 
-      return { ...classroom };
+      return { classroom };
     });
 
-    return queryResult;
+    return mappersUtils.formatClassroomOnly(queryResult.classroom);
   },
 
   get: async ({ page, limit, sortOrder, sortBy, search, year }) => {
@@ -49,7 +50,7 @@ const classroomService = {
       }),
       prisma.classroom.count({ where }),
     ]);
-    return [classrooms, total];
+    return [classrooms.map(mappersUtils.formatClassroomOnly), total];
   },
 
   getById: async ({ idClassroom }) => {
@@ -65,7 +66,7 @@ const classroomService = {
         },
       ]);
     }
-    return classroom;
+    return mappersUtils.formatClassroomOnly(classroom);
   },
 
   update: async ({ idClassroom, data }) => {
@@ -82,11 +83,9 @@ const classroomService = {
       ]);
     }
 
-    // 2. Fallback a valores actuales si no se envían
     const yearToCheck = data.year ?? classroom.year;
     const idSectionToCheck = data.idSection ?? classroom.idSection;
 
-    // 3. Solo validar duplicado si cambió algo
     const isChanging =
       yearToCheck !== classroom.year ||
       idSectionToCheck !== classroom.idSection;
@@ -109,13 +108,12 @@ const classroomService = {
       }
     }
 
-    // 4. Actualizar
     const updatedClassroom = await prisma.classroom.update({
       where: { idClassroom },
       data,
       select: classroomFields.select,
     });
-    return updatedClassroom;
+    return mappersUtils.formatClassroomOnly(updatedClassroom);
   },
 
   delete: async ({ idClassroom }) => {
@@ -123,7 +121,7 @@ const classroomService = {
       where: { idClassroom },
       select: classroomFields.select,
     });
-    return deletedClassroom;
+    return mappersUtils.formatClassroomOnly(deletedClassroom);
   },
 };
 
