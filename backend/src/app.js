@@ -36,7 +36,7 @@ app.use("/section", sectionRoutes);
 app.use("/student", studentRoutes);
 app.use("/parent", parentRoutes);
 app.use("/classroom", classroomRoutes);
-app.use("/classroomStudent", classroomStudentRoutes);
+app.use("/classroom-student", classroomStudentRoutes);
 app.use("/attendance", attendanceRoutes);
 
 app.use(errorsMiddleware);

@@ -1,5 +1,6 @@
 import { prisma } from "../../config/prisma.js";
 import { AppError } from "../../utils/AppError.js";
+import { mappersUtils } from "../../utils/mappers.utils.js";
 import { searchUtils } from "../../utils/search.utils.js";
 import { validateUtils } from "../../utils/validate.utils.js";
 import { studentService } from "../student/student.service.js";
@@ -73,7 +74,10 @@ const attendanceService = {
       prisma.attendance.count({ where }),
     ]);
 
-    return { attendances, total };
+    return {
+      attendances: attendances.map(mappersUtils.formatAttendance),
+      total,
+    };
   },
 
   getById: async ({ idAttendance }) => {

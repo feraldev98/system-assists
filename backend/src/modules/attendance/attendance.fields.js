@@ -46,6 +46,26 @@ const attendanceFields = {
         phone: true,
         email: true,
         status: true,
+        classroomStudents: {
+          select: {
+            idClassroom: true,
+            classroom: {
+              select: {
+                year: true,
+                section: {
+                  select: {
+                    name: true,
+                    grade: {
+                      select: {
+                        level: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     },
     auxiliar: {

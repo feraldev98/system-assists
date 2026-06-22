@@ -110,10 +110,18 @@ const attendanceController = {
         data,
       });
 
+      const activeClassroom =
+        await classroomStudentService.getActiveClassroomByStudentId({
+          idStudent: updatedAttendance.student.idStudent,
+        });
+
       return res.json({
         success: true,
         message: "Asistencia actualizada correctamente",
-        attendance: updatedAttendance,
+        attendance: {
+          ...updatedAttendance,
+          classroom: activeClassroom,
+        },
       });
     } catch (error) {
       next(error);
