@@ -1,4 +1,4 @@
-const incidentcatalogFields = {
+const incidentCatalogFields = {
   create: {
     idIncidentCatalog: true,
     name: true,
@@ -25,4 +25,4 @@ const incidentcatalogFields = {
   type: ["LEVE", "GRAVE", "MUY_GRAVE"],
 };
 
-export { incidentcatalogFields };
+export { incidentCatalogFields };

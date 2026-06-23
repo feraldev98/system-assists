@@ -13,6 +13,7 @@ import { parentRoutes } from "./modules/parent/parent.routes.js";
 import { classroomRoutes } from "./modules/classroom/classroom.routes.js";
 import { classroomStudentRoutes } from "./modules/classroomStudent/classroomStudent.routes.js";
 import { attendanceRoutes } from "./modules/attendance/attendance.route.js";
+import { incidentCatalogRoutes } from "./modules/incidentCatalog/incidentCatalog.route.js";
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.use("/parent", parentRoutes);
 app.use("/classroom", classroomRoutes);
 app.use("/classroom-student", classroomStudentRoutes);
 app.use("/attendance", attendanceRoutes);
+app.use("/incident-catalog", incidentCatalogRoutes);
 
 app.use(errorsMiddleware);
 
