@@ -183,10 +183,9 @@ model IncidentCatalog {
 
 model Incident {
   idIncident        Int      @id @default(autoincrement())
-  date              DateTime @db.Date
 
-  description       String   @db.VarChar(255)
-  pointsDeducted    Int
+  date              DateTime @db.Date
+  note              String?  @db.VarChar(255)
 
   idStudent         Int
   idAuxiliar        Int
@@ -200,6 +199,8 @@ model Incident {
   incidentCatalog   IncidentCatalog @relation(fields: [idIncidentCatalog], references: [idIncidentCatalog])
 
   @@index([idAuxiliar])
+  @@index([idIncidentCatalog])
   @@index([date])
   @@index([idStudent, date])
+  @@index([idAuxiliar, date])
 }
