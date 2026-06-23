@@ -3,20 +3,16 @@ import { AppError } from "../../utils/AppError.js";
 import { searchUtils } from "../../utils/search.utils.js";
 import { studentFields } from "./student.fields.js";
 
-/*
-model Student {
-  idStudent Int     @id @default(autoincrement())
-  firstname String  @db.VarChar(50)
-  lastname  String  @db.VarChar(50)
-  code      String  @unique @default(uuid()) @db.Uuid
-  phone     String? @db.VarChar(20)
-  email     String? @unique @db.VarChar(100)
-  active    Boolean @default(true)
-}
-*/
-
 const studentService = {
-  create: async ({ firstname, lastname, phone, email, gender, status }) => {
+  create: async ({
+    firstname,
+    lastname,
+    dni,
+    phone,
+    email,
+    gender,
+    status,
+  }) => {
     const queryResult = await prisma.$transaction(async (prisma) => {
       if (firstname && lastname) {
         const student = await prisma.student.findFirst({
@@ -34,7 +30,7 @@ const studentService = {
       }
 
       const student = await prisma.student.create({
-        data: { firstname, lastname, phone, email, gender, status },
+        data: { firstname, lastname, dni, phone, email, gender, status },
         select: studentFields.select,
       });
       return { student };

@@ -1,15 +1,20 @@
 import { z } from "zod";
-import { schemaUtils } from "../../utils/schema.utils.js";
 import { sectionFields } from "./section.fields.js";
 import { validateUtils } from "../../utils/validate.utils.js";
+import { idField } from "../../utils/schemas/idField.js";
+import { sectionField } from "../../utils/schemas/sectionField.js";
+import { numericField } from "../../utils/schemas/numericField.js";
+import { sortByField } from "../../utils/schemas/sortByField.js";
+import { sortOrderField } from "../../utils/schemas/sortOrderField.js";
+import { searchField } from "../../utils/schemas/searchField.js";
 
 const sectionSchema = {
   create: z
     .object({
-      name: schemaUtils.sectionField({
+      name: sectionField({
         required: true,
       }),
-      idGrade: schemaUtils.idField({
+      idGrade: idField({
         label: "El ID del grado",
         required: true,
       }),
@@ -19,10 +24,10 @@ const sectionSchema = {
     }),
   update: z
     .object({
-      name: schemaUtils.sectionField({
+      name: sectionField({
         required: false,
       }),
-      idGrade: schemaUtils.idField({
+      idGrade: idField({
         label: "El ID del grado",
         required: false,
       }),
@@ -39,11 +44,11 @@ const sectionSchema = {
     }),
   params: z
     .object({
-      id: schemaUtils.idField({
+      id: idField({
         label: "El ID de la sección",
         required: false,
       }),
-      page: schemaUtils.numberField({
+      page: numericField({
         label: "La página",
         min: 1,
         max: 1000,
@@ -51,7 +56,7 @@ const sectionSchema = {
         required: false,
       }),
 
-      limit: schemaUtils.numberField({
+      limit: numericField({
         label: "El límite",
         min: 1,
         max: 50,
@@ -59,14 +64,14 @@ const sectionSchema = {
         required: false,
       }),
 
-      sortBy: schemaUtils.sortByField({
+      sortBy: sortByField({
         sortFields: sectionFields.sort,
         defaultValue: "grade",
       }),
 
-      sortOrder: schemaUtils.sortOrderField(),
+      sortOrder: sortOrderField(),
 
-      search: schemaUtils.searchField(),
+      search: searchField(),
     })
     .strict({
       message: "No se permiten campos adicionales",

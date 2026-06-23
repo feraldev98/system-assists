@@ -1,23 +1,28 @@
 import { z } from "zod";
-import { schemaUtils } from "../../utils/schema.utils.js";
 import { validateUtils } from "../../utils/validate.utils.js";
 import { classroomFields } from "./classroom.fields.js";
 import { sectionFields } from "../section/section.fields.js";
+import { idField } from "../../utils/schemas/idField.js";
+import { numericField } from "../../utils/schemas/numericField.js";
+import { statusField } from "../../utils/schemas/statusField.js";
+import { sortByField } from "../../utils/schemas/sortByField.js";
+import { sortOrderField } from "../../utils/schemas/sortOrderField.js";
+import { searchField } from "../../utils/schemas/searchField.js";
 
 const classroomSchema = {
   create: z
     .object({
-      year: schemaUtils.numberField({
+      year: numericField({
         label: "El año",
         min: 1900,
         max: 3000,
         required: true,
       }),
-      idSection: schemaUtils.idField({
+      idSection: idField({
         label: "El ID de la sección",
         required: true,
       }),
-      status: schemaUtils.statusField({
+      status: statusField({
         states: classroomFields.status,
         required: false,
       }),
@@ -27,13 +32,13 @@ const classroomSchema = {
     }),
   update: z
     .object({
-      year: schemaUtils.numberField({
+      year: numericField({
         label: "El año",
         min: 1900,
         max: 3000,
         required: false,
       }),
-      idSection: schemaUtils.idField({
+      idSection: idField({
         label: "El ID de la sección",
         required: false,
       }),
@@ -49,11 +54,11 @@ const classroomSchema = {
       });
     }),
   params: z.object({
-    id: schemaUtils.idField({
+    id: idField({
       label: "El ID del salon de clase",
       required: false,
     }),
-    page: schemaUtils.numberField({
+    page: numericField({
       label: "La página",
       min: 1,
       max: 1000,
@@ -61,7 +66,7 @@ const classroomSchema = {
       required: false,
     }),
 
-    limit: schemaUtils.numberField({
+    limit: numericField({
       label: "El límite",
       min: 1,
       max: 50,
@@ -69,14 +74,14 @@ const classroomSchema = {
       required: false,
     }),
 
-    sortBy: schemaUtils.sortByField({
+    sortBy: sortByField({
       sortFields: sectionFields.sort,
       defaultValue: "year",
     }),
 
-    sortOrder: schemaUtils.sortOrderField(),
+    sortOrder: sortOrderField(),
 
-    search: schemaUtils.searchField(),
+    search: searchField(),
   }),
 };
 

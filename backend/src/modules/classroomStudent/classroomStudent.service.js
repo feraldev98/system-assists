@@ -1,5 +1,6 @@
 import { prisma } from "../../config/prisma.js";
 import { AppError } from "../../utils/AppError.js";
+import { mappersUtils } from "../../utils/mappers.utils.js";
 import { searchUtils } from "../../utils/search.utils.js";
 import { validateUtils } from "../../utils/validate.utils.js";
 import { classroomStudentFields } from "./classroomStudent.fields.js";
@@ -27,7 +28,7 @@ const classroomStudentService = {
       });
       return { classroomStudent };
     });
-    return queryResult.classroomStudent;
+    return mappersUtils.formatClassroomStudent(queryResult.classroomStudent);
   },
 
   get: async ({
@@ -58,7 +59,7 @@ const classroomStudentService = {
       },
     });
 
-    const [classroomStudents, count] = await Promise.all([
+    const [classroomStudents, total] = await Promise.all([
       prisma.classroomStudent.findMany({
         where,
         orderBy: validateUtils.buildOrderBy(sortBy, sortOrder),
@@ -69,7 +70,10 @@ const classroomStudentService = {
       prisma.classroomStudent.count({ where }),
     ]);
 
-    return [classroomStudents, count];
+    return [
+      classroomStudents.map(mappersUtils.formatClassroomStudent), // ✅ aquí
+      total,
+    ];
   },
 
   update: async ({ idClassroomStudent, data }) => {
@@ -90,7 +94,7 @@ const classroomStudentService = {
       ]);
     }
 
-    return updatedUser;
+    return mappersUtils.formatClassroomStudent(updatedUser);
   },
 
   getById: async ({ idClassroomStudent }) => {
@@ -108,7 +112,7 @@ const classroomStudentService = {
       ]);
     }
 
-    return classroomStudent;
+    return mappersUtils.formatClassroomStudent(classroomStudent);
   },
 
   delete: async ({ idClassroomStudent }) => {
@@ -116,7 +120,37 @@ const classroomStudentService = {
       where: { idClassroomStudent },
       select: classroomStudentFields.select,
     });
-    return deletedClassroomStudent;
+    return mappersUtils.formatClassroomStudent(deletedClassroomStudent);
+  },
+
+  getActiveClassroomByStudentId: async ({ idStudent }) => {
+    const activeClassroom = await prisma.classroomStudent.findFirst({
+      where: {
+        idStudent,
+        classroom: {
+          status: "ACTIVO",
+        },
+      },
+      select: {
+        idClassroomStudent: true,
+        classroom: {
+          select: {
+            section: {
+              select: {
+                name: true,
+                grade: {
+                  select: {
+                    level: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return mappersUtils.formatClassroom(activeClassroom);
   },
 };
 

@@ -19,10 +19,9 @@ const setup = async () => {
       throw new Error("El usuario administrador ya existe");
     }
 
-    const passwordHash = await authUtils.generatePasswordHash(
-      adminPassword,
-      process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10,
-    );
+    const passwordHash = await authUtils.generatePasswordHash({
+      password: adminPassword,
+    });
 
     const queryResult = await userService.create({
       firstname: adminFirstname,

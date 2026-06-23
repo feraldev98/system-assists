@@ -1,11 +1,14 @@
 import z from "zod";
-import { schemaUtils } from "../../utils/schema.utils.js";
 import { validateUtils } from "../../utils/validate.utils.js";
 import { gradeFields } from "./grade.fields.js";
+import { idField } from "../../utils/schemas/idField.js";
+import { numericField } from "../../utils/schemas/numericField.js";
+import { sortOrderField } from "../../utils/schemas/sortOrderField.js";
+import { searchField } from "../../utils/schemas/searchField.js";
 const gradeSchema = {
   create: z
     .object({
-      level: schemaUtils.numberField({
+      level: numericField({
         label: "El grado",
         min: 0,
         max: 15,
@@ -18,26 +21,26 @@ const gradeSchema = {
 
   params: z
     .object({
-      id: schemaUtils.idField({
+      id: idField({
         label: "El ID del grado",
         required: false,
       }),
-      page: schemaUtils.numberField({
+      page: numericField({
         label: "La página",
         min: 1,
         max: 1000,
         defaultValue: 1,
         required: false,
       }),
-      limit: schemaUtils.numberField({
+      limit: numericField({
         label: "El límite",
         min: 1,
         max: 10,
         defaultValue: 10,
         required: false,
       }),
-      sortOrder: schemaUtils.sortOrderField(),
-      search: schemaUtils.searchField(),
+      sortOrder: sortOrderField(),
+      search: searchField(),
     })
     .strict({
       message: "No se permiten campos adicionales",
@@ -45,7 +48,7 @@ const gradeSchema = {
 
   update: z
     .object({
-      level: schemaUtils.numberField({
+      level: numericField({
         label: "El grado",
         min: 0,
         max: 15,

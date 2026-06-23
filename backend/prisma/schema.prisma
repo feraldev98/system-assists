@@ -31,6 +31,7 @@ model User {
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
   studentParents StudentParent[]
+  attendances    Attendance[]
 }
 
 model Grade {
@@ -67,7 +68,7 @@ model Student {
   idStudent         Int                @id @default(autoincrement())
   firstname         String             @db.VarChar(50)
   lastname          String             @db.VarChar(50)
-  code              String             @unique @default(uuid()) @db.Uuid
+  dni               String             @unique @db.VarChar(20)
   phone             String?            @unique @db.VarChar(20)
   email             String?            @unique @db.VarChar(100)
   gender            Gender
@@ -76,6 +77,7 @@ model Student {
   updatedAt         DateTime           @updatedAt
   studentParents    StudentParent[]
   classroomStudents ClassroomStudent[]
+  attendances       Attendance[]
 }
 
 enum Relationship {
@@ -99,6 +101,8 @@ model StudentParent {
   parent  User    @relation(fields: [idParent], references: [idUser])
 
   @@unique([idStudent, idParent])
+  @@index([idStudent])
+  @@index([idParent])
 }
 
 enum StatusClassroom {
@@ -116,6 +120,8 @@ model Classroom {
   classroomStudents ClassroomStudent[]
 
   @@unique([year, idSection])
+  @@index([idSection])
+  @@index([year])
 }
 
 model ClassroomStudent {
@@ -127,4 +133,31 @@ model ClassroomStudent {
   student   Student   @relation(fields: [idStudent], references: [idStudent])
 
   @@unique([idClassroom, idStudent])
+}
+
+enum StatusAssistance {
+  PRESENTE
+  TARDANZA
+  JUSTIFICADA
+}
+
+model Attendance {
+  idAttendance Int              @id @default(autoincrement())
+  date         DateTime         @db.Date
+  status       StatusAssistance @default(PRESENTE)
+  note         String?          @db.VarChar(100)
+  idStudent    Int
+  idAuxiliar   Int
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  student  Student @relation(fields: [idStudent], references: [idStudent])
+  auxiliar User    @relation(fields: [idAuxiliar], references: [idUser])
+
+  @@unique([idStudent, date])
+
+  @@index([idStudent])
+  @@index([idAuxiliar])
+  @@index([date])
+  @@index([idStudent, date])
 }
