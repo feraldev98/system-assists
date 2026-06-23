@@ -42,7 +42,7 @@ function RightMain () {
     <section className=" flex flex-col gap-6">
       <div className="
         bg-white rounded-md border border-borderC
-        p-6 shadow-sm w-full
+        p-3 shadow-sm w-full
       ">
         <TitleIconLink
           title={title}

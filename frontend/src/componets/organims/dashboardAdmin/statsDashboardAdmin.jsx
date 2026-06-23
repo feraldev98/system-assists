@@ -1,10 +1,10 @@
 import { useVisible } from "../../../hooks/hookGlobals/useVisible"
 import { Paragraph } from "../../atoms/paragraph"
 import { Small } from "../../atoms/small"
-import { statusBadge } from "../../../mocks/statusBadge";
+import { statsAdmin } from "../../../mocks/statsAmdmin"
 
 
-function CardStatsAssitant ({stats}) {
+function CardsStatsAdmin () {
 
   const { visible } = useVisible()
 
@@ -20,44 +20,39 @@ function CardStatsAssitant ({stats}) {
         }`}
       >
         {
-          Object.entries(stats).map(([key, val]) => {
-            const config = statusBadge[key]
-            const Icon = config.icon
-
+          statsAdmin.map((item, i) => {
+            const Icon = item.icon
             return (
               <div 
-                key={key}
+                key={i}
                 className=" flex items-center justify-between
                 bg-white rounded-md p-4 
                 shadow-md shadow-blue/20 border border-borderC
                 transition-all duration-300 ease-in-out
                 hover:-translate-y-1
-                md:w-40
-                lg:w-60
               ">
                 <div>
                   <Small
-                  text={config.label}
-                  size="xlarge"
+                  text={item.label}
+                  size="large"
                 />
                 <Paragraph
-                  text={val}
+                  text={item.value}
                   weight="bold"
                   size="slogan"
                 />
                 </div>
                   <Icon
                     size={40}
-                    className={`${config.className} p-2 rounded-xl`}
+                    className={`${item.className} p-2 rounded-xl`}
                   />
               </div>
             )
           })
-        } 
-            
+        }
       </div>
     </div>
   )
 }
 
-export{CardStatsAssitant}
+export{CardsStatsAdmin}

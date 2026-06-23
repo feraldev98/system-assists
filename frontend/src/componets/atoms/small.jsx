@@ -18,7 +18,7 @@ function Small ({
     xsmall: 'text-[.7em]',
     small: 'text-[.8em]',
     medium: 'text-sm',
-    large: 'text-[.8em] ',
+    large: 'text-[.9em] ',
     xlarge: 'text-[1em]'
   }
 

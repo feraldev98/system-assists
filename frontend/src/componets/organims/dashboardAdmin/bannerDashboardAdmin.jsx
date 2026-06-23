@@ -1,10 +1,7 @@
-import { ArticleBannerAssitant } from "../../molecules/dashboardAssistant/articleBanner"
+import { ArticleBannerAdmin } from "../../molecules/dashboardAdmin/articleBannerAdmin"
 
-function BannerDashboardAssistant ({
-  userData,
-}) {
-  
-  return(
+function BannerDhasboardAdmin () {
+  return (
     <section className="
       relative
       bg-linear-to-br from-darkB to-[#054d6a] 
@@ -18,9 +15,9 @@ function BannerDashboardAssistant ({
     >
       <div className="absolute -top-16 -right-16 w-60 h-60 rounded-full bg-white/5" />
       <div className="absolute -bottom-10 right-20 w-40 h-40 rounded-full bg-white/10" />
-      <ArticleBannerAssitant/>
+      <ArticleBannerAdmin/>
     </section>
   )
 }
 
-export {BannerDashboardAssistant}
+export {BannerDhasboardAdmin}

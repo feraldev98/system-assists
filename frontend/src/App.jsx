@@ -23,6 +23,7 @@ import { DashboardAdminPage } from './componets/pages/dashboard/dashboardAdmin'
 import { RegisterUser } from './componets/pages/admin/registerUserPage'
 import { RegisterStudent } from './componets/pages/admin/registerStudentPage'
 import { MainLayout } from './componets/layouts/mainlayout'
+import { GenerateQRPage } from './componets/pages/admin/generateQRPage'
 
 function App() {
   const {
@@ -44,6 +45,7 @@ function App() {
     { path: '/notifications-assistant', component: <NotificationsAssistantPage /> },
     { path: '/admin/register-student', component: <RegisterStudent /> },
     { path: '/admin/register-user', component: <RegisterUser /> },
+    { path: '/admin/generateQR', component: <GenerateQRPage /> },
     { path: '/profile', component: <Profils /> },
   ]
 

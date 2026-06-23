@@ -5,7 +5,6 @@ import { RecentAssists } from "./resentAsssists";
 function LeftMain () {
   const title = 'ACTIVIDADES DE HOY'
   return(
-    <section >
       <div className="flex flex-col gap-6 border border-borderC p-5 
         rounded-md
       ">
@@ -19,7 +18,6 @@ function LeftMain () {
       />
       <RecentAssists/>
       </div>
-    </section>
   )
 }
 

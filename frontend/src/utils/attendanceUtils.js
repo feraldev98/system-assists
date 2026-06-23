@@ -1,5 +1,4 @@
 // Utilidades para el control de asistencia.
-
 // Configuración del horario de ingreso
 const CLASS_START = {
   hour: 7,
