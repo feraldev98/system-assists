@@ -85,8 +85,8 @@ const attendanceController = {
         message: "Asistencia encontrada",
         data: {
           ...attendance,
+          classroom: activeClassroom,
         },
-        classroom: activeClassroom,
       });
     } catch (error) {
       next(error);
