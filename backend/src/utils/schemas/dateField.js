@@ -2,29 +2,21 @@ import z from "zod";
 
 const dateField = ({ label = "La fecha", required = true }) =>
   required
-    ? z.preprocess(
-        (val) => val ?? "",
-        z
-          .date({
-            invalid_type_error: `${label} debe ser una fecha válida`,
-            required_error: `${label} es requerida`,
-          })
-          .refine((date) => !isNaN(date.getTime()), {
-            message: `${label} no es una fecha válida`,
-          }),
-      )
-    : z
-        .preprocess(
-          (val) => val ?? "",
-          z
-            .date({
-              invalid_type_error: `${label} debe ser una fecha válida`,
-              required_error: `${label} es requerida`,
-            })
-            .refine((date) => !isNaN(date.getTime()), {
-              message: `${label} no es una fecha válida`,
-            }),
-        )
+    ? z.coerce
+        .date({
+          error: (issue) =>
+            issue.input === undefined
+              ? `${label} es requerida`
+              : `${label} debe ser una fecha válida`,
+        })
+        .refine((date) => !isNaN(date.getTime()), {
+          message: `${label} no es una fecha válida`,
+        })
+    : z.coerce
+        .date()
+        .refine((date) => !isNaN(date.getTime()), {
+          message: `${label} no es una fecha válida`,
+        })
         .optional();
 
 export { dateField };

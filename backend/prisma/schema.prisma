@@ -198,6 +198,8 @@ model Incident {
   auxiliar          User @relation(fields: [idAuxiliar], references: [idUser])
   incidentCatalog   IncidentCatalog @relation(fields: [idIncidentCatalog], references: [idIncidentCatalog])
 
+  @@unique([idStudent, date, idIncidentCatalog])
+
   @@index([idAuxiliar])
   @@index([idIncidentCatalog])
   @@index([date])

@@ -3,15 +3,38 @@ import { validateUtils } from "../../utils/validate.utils.js";
 import { incidentFields } from "./incident.fields.js";
 import { idField } from "../../utils/schemas/idField.js";
 import { numericField } from "../../utils/schemas/numericField.js";
-import { statusField } from "../../utils/schemas/statusField.js";
 import { sortByField } from "../../utils/schemas/sortByField.js";
 import { sortOrderField } from "../../utils/schemas/sortOrderField.js";
 import { searchField } from "../../utils/schemas/searchField.js";
+import { dateField } from "../../utils/schemas/dateField.js";
+import { nameField } from "../../utils/schemas/nameField.js";
 
 const incidentSchema = {
   create: z
     .object({
-      // TODO: campos del create
+      date: dateField({
+        label: "La fecha del incidente",
+        required: true,
+      }),
+      note: nameField({
+        label: "La nota del incidente",
+        min: 3,
+        max: 255,
+        text: true,
+        required: false,
+      }),
+      idStudent: idField({
+        label: "El ID del estudiante",
+        required: true,
+      }),
+      idAuxiliar: idField({
+        label: "El ID del auxiliar",
+        required: true,
+      }),
+      idIncidentCatalog: idField({
+        label: "El ID del catálogo de incidentes",
+        required: true,
+      }),
     })
     .strict({
       message: "No se permiten campos adicionales",
@@ -19,7 +42,29 @@ const incidentSchema = {
 
   update: z
     .object({
-      // TODO: campos del update
+      date: dateField({
+        label: "La fecha del incidente",
+        required: false,
+      }),
+      note: nameField({
+        label: "La nota del incidente",
+        min: 3,
+        max: 255,
+        text: true,
+        required: false,
+      }),
+      idStudent: idField({
+        label: "El ID del estudiante",
+        required: false,
+      }),
+      idAuxiliar: idField({
+        label: "El ID del auxiliar",
+        required: false,
+      }),
+      idIncidentCatalog: idField({
+        label: "El ID del tipo de incidente",
+        required: false,
+      }),
     })
     .strict({
       message: "No se permiten campos adicionales",
@@ -34,7 +79,7 @@ const incidentSchema = {
 
   params: z.object({
     id: idField({
-      label: "El ID de incident",
+      label: "El ID del incidente",
       required: false,
     }),
     page: numericField({
