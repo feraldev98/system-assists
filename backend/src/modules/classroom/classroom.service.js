@@ -70,7 +70,6 @@ const classroomService = {
   },
 
   update: async ({ idClassroom, data }) => {
-    // 1. Verificar existencia
     const classroom = await prisma.classroom.findUnique({
       where: { idClassroom },
     });

@@ -104,7 +104,6 @@ const parentService = {
   },
 
   update: async ({ idStudentParent, data }) => {
-    // 1. Validar si el registro existe
     const parent = await prisma.studentParent.findUnique({
       where: { idStudentParent },
     });
@@ -118,11 +117,9 @@ const parentService = {
       ]);
     }
 
-    // 2. Usar valores actuales si no se envían nuevos
     const idParentToCheck = data.idParent ?? parent.idParent;
     const idStudentToCheck = data.idStudent ?? parent.idStudent;
 
-    // 3. Solo validar duplicado si realmente cambió alguno de los dos valores
     const isChanging =
       idParentToCheck !== parent.idParent ||
       idStudentToCheck !== parent.idStudent;
