@@ -16,13 +16,13 @@ incidentCatalogRoutes.post(
 incidentCatalogRoutes.get(
   "/",
   authMiddleware,
-  authMiddlewareRole(["ADMIN"]),
+  authMiddlewareRole(["ADMIN", "AUXILIAR"]),
   incidentCatalogController.get,
 );
 incidentCatalogRoutes.get(
   "/:id",
   authMiddleware,
-  authMiddlewareRole(["ADMIN"]),
+  authMiddlewareRole(["ADMIN", "AUXILIAR"]),
   incidentCatalogController.getById,
 );
 incidentCatalogRoutes.patch(

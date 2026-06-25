@@ -1,8 +1,8 @@
-# ELIMINAR ESTUDIANTE POR ID
+# ELIMINAR CATÁLOGO DE INCIDENTE POR ID
 
-## DELETE /student/:id
+## DELETE /incident-catalog/:id
 
-- Elimina un estudiante del sistema.
+- Elimina un catálogo de incidente del sistema.
 - Requiere autenticación.
 
 ## Authentication
@@ -11,18 +11,18 @@
 
 ## URL Params
 
-| URL Param | Type   | Required | Description                              |
-| --------- | ------ | -------- | ---------------------------------------- |
-| id        | number | Sí       | ID del estudiante que se desea eliminar. |
+| URL Param | Type   | Required | Description                                         |
+| --------- | ------ | -------- | --------------------------------------------------- |
+| id        | number | Sí       | ID del catálogo de incidente que se desea eliminar. |
 
 ## Example Request
 
-DELETE /student/1
+- DELETE /incident-catalog/1
 
 ## Validations
 
 - id: requerido.
-- id: debe ser un número entero.
+- id: debe ser un número entero positivo.
 - No se permiten campos adicionales.
 
 ## Validation Error Response
@@ -34,7 +34,7 @@ DELETE /student/1
   "errors": [
     {
       "field": "id",
-      "message": "El ID del estudiante debe ser un número entero"
+      "message": "El ID de incidentCatalog debe ser un número entero"
     }
   ]
 }
@@ -45,18 +45,13 @@ DELETE /student/1
 ```json
 {
   "success": true,
-  "message": "Estudiante eliminado correctamente",
-  "student": {
-    "idStudent": 121,
-    "firstname": "JUAN DIEGO",
-    "lastname": "FLORES A",
-    "dni": "12345678",
-    "gender": "M",
-    "phone": "+51982456753",
-    "email": null,
-    "status": "ACTIVO",
-    "createdAt": "2026-06-25T05:19:17.702Z",
-    "updatedAt": "2026-06-25T05:19:17.702Z"
+  "message": "Catálogo de incidente eliminado correctamente",
+  "incidentCatalog": {
+    "idIncidentCatalog": 8,
+    "name": "PELEA CON PROFESOR",
+    "description": "Pelea física con un profesor o personal de la institución.",
+    "type": "LEVE",
+    "pointsDeducted": 1
   }
 }
 ```
@@ -84,7 +79,7 @@ DELETE /student/1
   "message": "Registro no encontrado",
   "errors": [
     {
-      "field": "idStudent",
+      "field": "idIncidentCatalog",
       "message": "No existe un registro con el ID proporcionado"
     }
   ]

@@ -55,6 +55,21 @@ DELETE /section/1
 }
 ```
 
+## Undeletable Response
+
+```json
+{
+  "success": false,
+  "message": "No se puede eliminar el registro",
+  "errors": [
+    {
+      "field": [],
+      "message": "Existen registros relacionados que dependen de este registro"
+    }
+  ]
+}
+```
+
 ## Not Found Response
 
 ```json

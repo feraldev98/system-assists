@@ -21,7 +21,13 @@ const incidentCatalogService = {
     const where = searchUtils.buildSearchWhere({
       search,
       numberFields: ["idIncidentCatalog", "pointsDeducted"],
-      stringFields: ["name", "description", "type"],
+      stringFields: ["name", "description"],
+      enumFields: [
+        {
+          field: "type",
+          values: ["LEVE", "GRAVE", "MUY_GRAVE"],
+        },
+      ],
     });
 
     const [incidentCatalogs, total] = await Promise.all([

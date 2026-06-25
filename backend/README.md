@@ -27,12 +27,24 @@ PARENT
 
 ---
 
+## Instalación
+
+- Clonar el repositorio:
+  TODO:
+
+```bash
+git clone
+```
+
+---
+
 ## 📌 Endpoints
 
 ### AUTH
 
 - [INICIAR SESIÓN](docs/auth/login.md)
 - [CERRAR SESIÓN](docs/auth/logout.md)
+- [CAMBIAR CONTRASEÑA](docs/auth/change-password.md)
 
 ### USER
 
@@ -81,3 +93,29 @@ PARENT
 - [LISTAR ESTUDIANTES POR SALÓN DE CLASE POR ID](docs/classroomStudent/getById.md)
 - [CAMBIAR ESTUDIANTE DE SALÓN DE CLASE](docs/classroomStudent/update.md)
 - [ELIMINAR ESTUDIANTE DE SALÓN DE CLASE](docs/classroomStudent/delete.md)
+
+### ATTENDANCE
+
+- [REGISTRAR ASISTENCIA](docs/attendance/create.md)
+- [LISTAR ASISTENCIAS](docs/attendance/get.md)
+- [LISTAR ASISTENCIA POR ID](docs/attendance/getById.md)
+- [ACTUALIZAR ASISTENCIA](docs/attendance/update.md)
+- [ELIMINAR ASISTENCIA](docs/attendance/delete.md)
+
+### INCIDENT_CATALOG
+
+- [CREAR NUEVO CATALOGO DE INCIDENCIA](docs/incident-catalog/create.md)
+- [LISTAR TODOS LOS CATALOGOS DE INCIDENCIA](docs/incident-catalog/get.md)
+- [LISTAR CATALOGO DE INCIDENCIA POR ID](docs/incident-catalog/getById.md)
+- [ACTUALIZAR CATALOGO DE INCIDENCIA](docs/incident-catalog/update.md)
+- [ELIMINAR CATALOGO DE INCIDENCIA](docs/incident-catalog/delete.md)
+
+TODO:
+
+### INCIDENT
+
+- [CREAR NUEVA INCIDENCIA](docs/incident/create.md)
+- [LISTAR TODAS LAS INCIDENCIAS](docs/incident/get.md)
+- [LISTAR INCIDENCIA POR ID](docs/incident/getById.md)
+- [ACTUALIZAR INCIDENCIA](docs/incident/update.md)
+- [ELIMINAR INCIDENCIA](docs/incident/delete.md)
