@@ -44,15 +44,19 @@
   "errors": [
     {
       "field": "idStudent",
+      "message": "El ID del estudiante es requerido"
+    },
+    {
+      "field": "idStudent",
       "message": "El ID del estudiante debe ser un número entero"
     },
     {
       "field": "idParent",
-      "message": "El ID del padre debe ser un número entero"
+      "message": "El ID del padre es requerido"
     },
     {
-      "field": "relationship",
-      "message": "La relación solo puede ser PADRE, MADRE, ABUELO, ABUELA, TÍO, TÍA, APODERADO u OTRO"
+      "field": "idParent",
+      "message": "El ID del padre debe ser un número entero"
     }
   ]
 }
@@ -63,32 +67,25 @@
 ```json
 {
   "success": true,
-  "message": "Padre relacionado correctamente",
+  "message": "Relación familiar creada correctamente",
   "parent": {
-    "idStudentParent": 23,
-    "idStudent": 4,
-    "idParent": 4,
-    "relationship": "ABUELO",
-    "student": {
-      "idStudent": 4,
-      "firstname": "VIOLENCE",
-      "lastname": "ALEX",
-      "code": "c148fc88-f420-4147-ae5f-3bf84c220d86",
-      "phone": null,
-      "email": null,
-      "gender": "M",
-      "status": "ACTIVO",
-      "createdAt": "2026-06-11T16:20:09.742Z",
-      "updatedAt": "2026-06-11T16:20:09.742Z"
-    },
+    "idStudentParent": 200,
+    "relationship": "APODERADO",
     "parent": {
-      "idUser": 4,
-      "firstname": "JO JHNZ",
-      "lastname": "KAELWWW FEREWN D",
-      "email": "auxili11qar2w232@gmail.com",
-      "phone": "+51985988977",
-      "createdAt": "2026-06-11T16:29:06.658Z",
-      "updatedAt": "2026-06-11T16:29:06.658Z"
+      "idUser": 21,
+      "firstname": "Daniel",
+      "lastname": "Castro",
+      "email": "daniel.castro@school.edu.pe",
+      "phone": null
+    },
+    "student": {
+      "idStudent": 1,
+      "firstname": "Alejandro",
+      "lastname": "Herrera Ortiz",
+      "phone": "989285616",
+      "email": null,
+      "dni": "58770185",
+      "status": "ACTIVO"
     }
   }
 }
@@ -102,7 +99,7 @@
   "message": "Valor duplicado",
   "errors": [
     {
-      "field": "idStudent",
+      "field": ["idStudent", "idParent"],
       "message": "Ya existe un registro con este valor"
     }
   ]
@@ -114,10 +111,25 @@
 ```json
 {
   "success": false,
-  "message": "El padre no existe",
+  "message": "Registro no encontrado",
+  "errors": [
+    {
+      "field": "idIncidentCatalog",
+      "message": "No existe un registro con el ID proporcionado"
+    }
+  ]
+}
+```
+
+## No Parent Role Response
+
+```json
+{
+  "success": false,
+  "message": "El usuario no es un padre",
   "errors": {
     "field": "idParent",
-    "message": "No existe un registro con el ID proporcionado"
+    "message": "El usuario no es un padre"
   }
 }
 ```
