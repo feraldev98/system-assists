@@ -84,14 +84,10 @@
   "success": true,
   "message": "Salón de clase actualizado correctamente",
   "classroom": {
-    "idClassroom": 14,
-    "year": 1900,
-    "section": {
-      "name": "A",
-      "grade": {
-        "level": 2
-      }
-    }
+    "idClassroom": 4,
+    "year": 2026,
+    "grade": 1,
+    "section": "B"
   }
 }
 ```
@@ -111,7 +107,7 @@
 }
 ```
 
-## Not Found User Response
+## Not Found Response
 
 ```json
 {

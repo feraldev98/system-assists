@@ -10,7 +10,7 @@ function errorsMiddleware(err, req, res, _next) {
       message: "Valor duplicado",
       errors: [
         {
-          field: err.meta?.target?.[0],
+          field: err.meta?.target ?? [],
           message: "Ya existe un registro con este valor",
         },
       ],
@@ -45,7 +45,7 @@ function errorsMiddleware(err, req, res, _next) {
       message: "No se puede eliminar el registro",
       errors: [
         {
-          field: "id",
+          field: [],
           message:
             "Existen registros relacionados que dependen de este registro",
         },
