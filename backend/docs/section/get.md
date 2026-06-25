@@ -33,27 +33,24 @@
   "success": true,
   "data": [
     {
-      "idSection": 1,
-      "name": "A",
-      "grade": {
-        "idGrade": 1,
-        "level": 1
-      }
+      "idSection": 4,
+      "idGrade": 1,
+      "grade": 1,
+      "section": "D"
     },
+    ...,
     {
-      "idSection": 2,
-      "name": "B",
-      "grade": {
-        "idGrade": 1,
-        "level": 1
-      }
+      "idSection": 9,
+      "idGrade": 3,
+      "grade": 3,
+      "section": "A"
     }
   ],
   "pagination": {
     "page": 1,
     "limit": 10,
-    "total": 2,
-    "totalPages": 1
+    "total": 25,
+    "totalPages": 3
   }
 }
 ```
@@ -78,34 +75,23 @@ El parámetro search busca coincidencias exactas sobre el campo:
   "success": true,
   "data": [
     {
-      "idSection": 30,
-      "name": "C",
-      "grade": {
-        "idGrade": 1,
-        "level": 1
-      }
+      "idSection": 3,
+      "idGrade": 1,
+      "grade": 1,
+      "section": "C"
     },
+    ...,
     {
-      "idSection": 24,
-      "name": "C",
-      "grade": {
-        "idGrade": 2,
-        "level": 2
-      }
-    },
-    {
-      "idSection": 32,
-      "name": "C",
-      "grade": {
-        "idGrade": 4,
-        "level": 4
-      }
+      "idSection": 23,
+      "idGrade": 6,
+      "grade": 6,
+      "section": "C"
     }
   ],
   "pagination": {
     "page": 1,
     "limit": 10,
-    "total": 3,
+    "total": 6,
     "totalPages": 1
   }
 }

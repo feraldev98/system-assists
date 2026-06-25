@@ -73,12 +73,10 @@ Todos los campos son opcionales. Se actualizarán únicamente los campos enviado
   "success": true,
   "message": "Seccion actualizada correctamente",
   "section": {
-    "idSection": 15,
-    "name": "G",
-    "grade": {
-      "idGrade": 5,
-      "level": 5
-    }
+    "idSection": 1,
+    "idGrade": 1,
+    "grade": 1,
+    "section": "Z"
   }
 }
 ```

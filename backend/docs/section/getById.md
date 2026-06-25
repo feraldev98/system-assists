@@ -46,12 +46,10 @@
   "success": true,
   "message": "Seccion encontrada",
   "section": {
-    "idSection": 15,
-    "name": "A",
-    "grade": {
-      "idGrade": 5,
-      "level": 5
-    }
+    "idSection": 1,
+    "idGrade": 1,
+    "grade": 1,
+    "section": "A"
   }
 }
 ```

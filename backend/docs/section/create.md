@@ -59,12 +59,10 @@ BODY:
   "success": true,
   "message": "Seccion creada correctamente",
   "section": {
-    "idSection": 28,
-    "name": "F",
-    "grade": {
-      "idGrade": 1,
-      "level": 1
-    }
+    "idSection": 25,
+    "idGrade": 5,
+    "grade": 5,
+    "section": "Z"
   }
 }
 ```
@@ -83,6 +81,7 @@ BODY:
   ]
 }
 ```
+
 ## ID not found Response
 
 ```json
