@@ -47,16 +47,16 @@ DELETE /student/1
   "success": true,
   "message": "Estudiante eliminado correctamente",
   "student": {
-    "idStudent": 1,
-    "firstname": "KRAUS",
-    "lastname": "KROENEN",
-    "code": "80243d3c-4fe6-43fc-9c02-41fed75539ca",
+    "idStudent": 121,
+    "firstname": "JUAN DIEGO",
+    "lastname": "FLORES A",
+    "dni": "12345678",
     "gender": "M",
-    "phone": "+51852741963",
-    "email": "admin@qwe.com",
-    "status": "EXPULSADO",
-    "createdAt": "2026-06-07T21:41:36.224Z",
-    "updatedAt": "2026-06-07T22:36:06.461Z"
+    "phone": "+51982456753",
+    "email": null,
+    "status": "ACTIVO",
+    "createdAt": "2026-06-25T05:19:17.702Z",
+    "updatedAt": "2026-06-25T05:19:17.702Z"
   }
 }
 ```
