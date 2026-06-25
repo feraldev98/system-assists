@@ -47,12 +47,10 @@ DELETE /section/1
   "success": true,
   "message": "Seccion eliminada correctamente",
   "section": {
-    "idSection": 15,
-    "name": "G",
-    "grade": {
-      "idGrade": 5,
-      "level": 5
-    }
+    "idSection": 25,
+    "idGrade": 5,
+    "grade": 1,
+    "section": "Z"
   }
 }
 ```
