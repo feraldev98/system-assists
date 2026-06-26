@@ -70,6 +70,7 @@ pnpm run dev
 - [INICIAR SESIÓN](docs/auth/login.md)
 - [CERRAR SESIÓN](docs/auth/logout.md)
 - [CAMBIAR CONTRASEÑA](docs/auth/change-password.md)
+- [OBTENER INFORMACIÓN DEL USUARIO LOGUEADO](docs/auth/me.md)
 
 ### USER
 
@@ -143,6 +144,8 @@ pnpm run dev
 - [ACTUALIZAR INCIDENCIA](docs/incident/update.md)
 - [ELIMINAR INCIDENCIA](docs/incident/delete.md)
 
-```
+### CUSTOM ENDPOINTS
 
-```
+- [LISTAR ESTUDIANTES ASOCIADOS A UN PADRE](docs/custom/get-students-by-parent-auth.md)
+- [LISTAR ASISTENCIAS DE UN ESTUDIANTE](docs/custom/get-attendance-by-parent.md)
+- [LISTAR INCIDENCIAS DE UN ESTUDIANTE](docs/custom/get-incidents-by-parent.md)

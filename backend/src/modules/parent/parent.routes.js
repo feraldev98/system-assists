@@ -23,10 +23,10 @@ parentRoutes.get(
 );
 
 parentRoutes.get(
-  "/:id",
+  "/student",
   authMiddleware,
-  authMiddlewareRole(["ADMIN", "AUXILIAR"]),
-  parentController.getById,
+  authMiddlewareRole(["PARENT"]),
+  parentController.getStudents,
 );
 
 parentRoutes.patch(
@@ -34,6 +34,13 @@ parentRoutes.patch(
   authMiddleware,
   authMiddlewareRole(["ADMIN"]),
   parentController.update,
+);
+
+parentRoutes.get(
+  "/:id",
+  authMiddleware,
+  authMiddlewareRole(["ADMIN", "AUXILIAR"]),
+  parentController.getById,
 );
 
 parentRoutes.delete(
