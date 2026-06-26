@@ -33,20 +33,13 @@ Todos los campos son opcionales. Se actualizarán únicamente los campos enviado
 
 ```json
 {
-  "success": true,
-  "message": "Estudiante actualizado correctamente",
-  "student": {
-    "idStudent": 11,
-    "firstname": "KRAUS",
-    "lastname": "KROENEN",
-    "code": "8a88dca5-a51e-427e-b645-513afd75729b",
-    "gender": "M",
-    "phone": "+51852741962",
-    "email": "qweqwe@qweqwe.com",
-    "status": "ACTIVO",
-    "createdAt": "2026-06-07T22:36:21.614Z",
-    "updatedAt": "2026-06-07T22:42:03.210Z"
-  }
+  "firstname": "Juan",
+  "lastname": "Pérez",
+  "dni": "12345678",
+  "gender": "M",
+  "phone": "+51982456753",
+  "email": null,
+  "status": "EXPULSADO"
 }
 ```
 
@@ -87,16 +80,18 @@ Todos los campos son opcionales. Se actualizarán únicamente los campos enviado
 ```json
 {
   "success": true,
-  "message": "Datos actualizados correctamente",
-  "user": {
-    "idUser": 9,
-    "firstname": "Fernando",
-    "lastname": "Von",
-    "email": "auxiliar212@gmail.com",
-    "phone": "+51999888777",
-    "role": "AUXILIAR",
-    "createdAt": "2026-06-05T19:12:52.040Z",
-    "updatedAt": "2026-06-05T20:19:21.119Z"
+  "message": "Estudiante actualizado correctamente",
+  "student": {
+    "idStudent": 1,
+    "firstname": "Carmen",
+    "lastname": "Quispe Castro",
+    "dni": "12225678",
+    "gender": "F",
+    "phone": "948481636",
+    "email": null,
+    "status": "SUSPENDIDO",
+    "createdAt": "2026-06-25T05:13:49.036Z",
+    "updatedAt": "2026-06-25T05:30:55.146Z"
   }
 }
 ```

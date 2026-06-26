@@ -33,13 +33,13 @@
   "errors": [
     {
       "field": "id",
-      "message": "El ID del usuario debe ser un número entero"
+      "message": "El ID del grado debe ser un número entero"
     }
   ]
 }
 ```
 
-## Response
+## Success Response
 
 ```json
 {
@@ -49,6 +49,21 @@
     "idGrade": 3,
     "level": 2
   }
+}
+```
+
+## Duplicate Value Error Response
+
+```json
+{
+  "success": false,
+  "message": "Valor duplicado",
+  "errors": [
+    {
+      "field": ["level"],
+      "message": "Ya existe un registro con este valor"
+    }
+  ]
 }
 ```
 

@@ -82,7 +82,6 @@ const gradeController = {
     }
   },
 
-  // todo: delete by id.
   delete: async (req, res, next) => {
     try {
       const { id } = await validateUtils.validateSchema({

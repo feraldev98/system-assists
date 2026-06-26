@@ -27,12 +27,50 @@ PARENT
 
 ---
 
+## Scripts
+
+- "env": copia el archivo `.env.example` a `.env`,
+- "db:migrate": migra la base de datos de la carpeta `prisma/schema.prisma` a postgres.
+- "db:generate": genera los archivos de prisma.
+- "db:studio": prisma studio para ver la base de datos.
+- "db:reset": resetea las migraciones de base de datos.
+- "dev": ejecuta el servidor en modo desarrollo.
+- "data:seed": genera datos de prueba en la base de datos.
+- "build": en construcción.
+- "setup": inicializar proyecto con cuenta administrador.
+
+---
+
+## 🔧 Configuración inicial
+
+- Inicializar proyecto con cuenta administrador:
+
+```bash
+pnpm run setup
+```
+
+- (Opcional) Generar datos de prueba:
+
+```bash
+pnpm run data:seed
+```
+
+- ejecutar el servidor en modo desarrollo:
+
+```bash
+pnpm run dev
+```
+
+---
+
 ## 📌 Endpoints
 
 ### AUTH
 
 - [INICIAR SESIÓN](docs/auth/login.md)
 - [CERRAR SESIÓN](docs/auth/logout.md)
+- [CAMBIAR CONTRASEÑA](docs/auth/change-password.md)
+- [OBTENER INFORMACIÓN DEL USUARIO LOGUEADO](docs/auth/me.md)
 
 ### USER
 
@@ -81,3 +119,33 @@ PARENT
 - [LISTAR ESTUDIANTES POR SALÓN DE CLASE POR ID](docs/classroomStudent/getById.md)
 - [CAMBIAR ESTUDIANTE DE SALÓN DE CLASE](docs/classroomStudent/update.md)
 - [ELIMINAR ESTUDIANTE DE SALÓN DE CLASE](docs/classroomStudent/delete.md)
+
+### ATTENDANCE
+
+- [REGISTRAR ASISTENCIA](docs/attendance/create.md)
+- [LISTAR ASISTENCIAS](docs/attendance/get.md)
+- [LISTAR ASISTENCIA POR ID](docs/attendance/getById.md)
+- [ACTUALIZAR ASISTENCIA](docs/attendance/update.md)
+- [ELIMINAR ASISTENCIA](docs/attendance/delete.md)
+
+### INCIDENT_CATALOG
+
+- [CREAR NUEVO CATALOGO DE INCIDENCIA](docs/incident-catalog/create.md)
+- [LISTAR TODOS LOS CATALOGOS DE INCIDENCIA](docs/incident-catalog/get.md)
+- [LISTAR CATALOGO DE INCIDENCIA POR ID](docs/incident-catalog/getById.md)
+- [ACTUALIZAR CATALOGO DE INCIDENCIA](docs/incident-catalog/update.md)
+- [ELIMINAR CATALOGO DE INCIDENCIA](docs/incident-catalog/delete.md)
+
+### INCIDENT
+
+- [CREAR NUEVA INCIDENCIA](docs/incident/create.md)
+- [LISTAR TODAS LAS INCIDENCIAS](docs/incident/get.md)
+- [LISTAR INCIDENCIA POR ID](docs/incident/getById.md)
+- [ACTUALIZAR INCIDENCIA](docs/incident/update.md)
+- [ELIMINAR INCIDENCIA](docs/incident/delete.md)
+
+### CUSTOM ENDPOINTS
+
+- [LISTAR ESTUDIANTES ASOCIADOS A UN PADRE](docs/custom/get-students-by-parent-auth.md)
+- [LISTAR ASISTENCIAS DE UN ESTUDIANTE](docs/custom/get-attendance-by-parent.md)
+- [LISTAR INCIDENCIAS DE UN ESTUDIANTE](docs/custom/get-incidents-by-parent.md)

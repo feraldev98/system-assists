@@ -4,6 +4,7 @@ import { authUtils } from "../../utils/auth.utils.js";
 import { validateUtils } from "../../utils/validate.utils.js";
 import { authSchema } from "./auth.schema.js";
 import { authFields } from "./auth.fields.js";
+import { userService } from "../user/user.service.js";
 
 const authController = {
   login: async (req, res, next) => {
@@ -111,6 +112,32 @@ const authController = {
         user: {
           ...updatedUser,
         },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+  me: async (req, res, next) => {
+    try {
+      const user = req.user;
+      if (!user) {
+        throw new AppError("Sin autorización", 401, {
+          message: "Sin autorización",
+        });
+      }
+
+      console.log(user);
+
+      const userData = await userService.getByEmail({ email: user.email });
+      if (!userData) {
+        throw new AppError("Usuario no encontrado", 404, {
+          message: "Usuario no encontrado",
+        });
+      }
+
+      return res.json({
+        success: true,
+        user: userData,
       });
     } catch (error) {
       next(error);

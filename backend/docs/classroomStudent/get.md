@@ -1,6 +1,6 @@
 # LISTAR TODAS LAS RELACIONES ENTRE SALÓN Y ESTUDIANTE
 
-## GET /classroomStudent
+## GET /classroom-student
 
 - Obtiene una lista paginada de relaciones entre salones de clase y estudiantes.
 - Requiere autenticación.
@@ -23,10 +23,10 @@
 
 ## Example Request
 
-- GET /classroomStudent
-- GET /classroomStudent?page=1&limit=10
-- GET /classroomStudent?idClassroom=3
-- GET /classroomStudent?idStudent=5
+- GET /classroom-student
+- GET /classroom-student?page=1&limit=10
+- GET /classroom-student?idClassroom=3
+- GET /classroom-student?idStudent=5
 
 ## Success Response
 
@@ -35,34 +35,46 @@
   "success": true,
   "data": [
     {
-      "idClassroomStudent": 1,
-      "classroom": {
-        "idClassroom": 1,
-        "year": 2026,
-        "section": {
-          "grade": {
-            "level": 1
-          },
-          "name": "A"
-        }
-      },
+      "idClassroomStudent": 4,
+      "idClassroom": 2,
+      "year": 2026,
+      "grade": 1,
+      "section": "A",
       "student": {
         "idStudent": 1,
-        "firstname": "MASHIDA",
-        "lastname": "TV",
-        "code": "07ca1fd7-3185-41c6-ba46-b96bcf3f0eae",
+        "firstname": "Alejandro",
+        "lastname": "Herrera Ortiz",
+        "dni": "58770185",
         "gender": "M",
-        "phone": null,
+        "phone": "989285616",
         "email": null,
         "status": "ACTIVO"
+      }
+    },
+    ...
+    {
+      "idClassroomStudent": 8,
+      "idClassroom": 4,
+      "year": 2026,
+      "grade": 1,
+      "section": "B",
+      "student": {
+        "idStudent": 43,
+        "firstname": "Víctor",
+        "lastname": "Flores Jiménez",
+        "dni": "34347104",
+        "gender": "M",
+        "phone": "974218868",
+        "email": "victor.flores42@school.edu.pe",
+        "status": "SUSPENDIDO"
       }
     }
   ],
   "pagination": {
     "page": 1,
     "limit": 10,
-    "total": 1,
-    "totalPages": 1
+    "total": 125,
+    "totalPages": 13
   }
 }
 ```
@@ -85,7 +97,7 @@ El parámetro search realiza búsquedas sobre los siguientes campos:
 
 ## Example Search Query
 
-- GET /classroomStudent?search=MASHIDA
+- GET /classroom-student?search=herrera
 
 ## Example Search Response
 
@@ -94,24 +106,18 @@ El parámetro search realiza búsquedas sobre los siguientes campos:
   "success": true,
   "data": [
     {
-      "idClassroomStudent": 1,
-      "classroom": {
-        "idClassroom": 1,
-        "year": 2026,
-        "section": {
-          "grade": {
-            "level": 1
-          },
-          "name": "A"
-        }
-      },
+      "idClassroomStudent": 4,
+      "idClassroom": 2,
+      "year": 2026,
+      "grade": 1,
+      "section": "A",
       "student": {
         "idStudent": 1,
-        "firstname": "MASHIDA",
-        "lastname": "TV",
-        "code": "07ca1fd7-3185-41c6-ba46-b96bcf3f0eae",
+        "firstname": "Alejandro",
+        "lastname": "Herrera Ortiz",
+        "dni": "58770185",
         "gender": "M",
-        "phone": null,
+        "phone": "989285616",
         "email": null,
         "status": "ACTIVO"
       }

@@ -88,19 +88,15 @@
   "success": true,
   "message": "Aula creada correctamente",
   "classroom": {
-    "idClassroom": 15,
-    "year": 2022,
-    "section": {
-      "name": "A",
-      "grade": {
-        "level": 1
-      }
-    }
+    "idClassroom": 49,
+    "year": 2002,
+    "grade": 2,
+    "section": "A"
   }
 }
 ```
 
-## Duplicate User Response
+## Duplicate Classroom Response
 
 ```json
 {
@@ -108,7 +104,7 @@
   "message": "Valor duplicado",
   "errors": [
     {
-      "field": "year",
+      "field": ["year", "idSection"],
       "message": "Ya existe un registro con este valor"
     }
   ]

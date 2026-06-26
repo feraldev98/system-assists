@@ -11,5 +11,6 @@ authRoutes.post(
   authMiddleware,
   authController.changePassword,
 );
+authRoutes.get("/me", authMiddleware, authController.me);
 
 export { authRoutes };

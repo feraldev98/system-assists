@@ -49,7 +49,7 @@
     "idStudent": 1,
     "firstname": "KRAUS",
     "lastname": "KROENEN",
-    "code": "80243d3c-4fe6-43fc-9c02-41fed75539ca",
+    "dni": "12345678",
     "gender": "M",
     "phone": "+51852741963",
     "email": "admin@qwe.com",

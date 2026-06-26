@@ -23,6 +23,20 @@ studentRoutes.get(
 );
 
 studentRoutes.get(
+  "/:id/attendance",
+  authMiddleware,
+  authMiddlewareRole(["ADMIN", "AUXILIAR", "PARENT"]),
+  studentController.getAttendance,
+);
+
+studentRoutes.get(
+  "/:id/incidents",
+  authMiddleware,
+  authMiddlewareRole(["ADMIN", "AUXILIAR", "PARENT"]),
+  studentController.getIncidents,
+);
+
+studentRoutes.get(
   "/:id",
   authMiddleware,
   authMiddlewareRole(["ADMIN", "AUXILIAR"]),

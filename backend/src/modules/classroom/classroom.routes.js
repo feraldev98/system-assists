@@ -25,14 +25,14 @@ classroomRoutes.get(
 classroomRoutes.get(
   "/:id",
   authMiddleware,
-  authMiddlewareRole(["ADMIN"]),
+  authMiddlewareRole(["ADMIN", "AUXILIAR"]),
   classroomController.getById,
 );
 
 classroomRoutes.patch(
   "/:id",
   authMiddleware,
-  authMiddlewareRole(["ADMIN"]),
+  authMiddlewareRole(["ADMIN", "AUXILIAR"]),
   classroomController.update,
 );
 

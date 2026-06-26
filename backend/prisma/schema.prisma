@@ -32,6 +32,7 @@ model User {
   updatedAt      DateTime        @updatedAt
   studentParents StudentParent[]
   attendances    Attendance[]
+  incidents      Incident[]
 }
 
 model Grade {
@@ -46,6 +47,8 @@ model Section {
   grade      Grade       @relation(fields: [idGrade], references: [idGrade])
   idGrade    Int
   classrooms Classroom[]
+
+  @@unique([name, idGrade])
 }
 
 enum StatusStudent {
@@ -78,6 +81,7 @@ model Student {
   studentParents    StudentParent[]
   classroomStudents ClassroomStudent[]
   attendances       Attendance[]
+  incidents         Incident[]
 }
 
 enum Relationship {
@@ -155,9 +159,51 @@ model Attendance {
   auxiliar User    @relation(fields: [idAuxiliar], references: [idUser])
 
   @@unique([idStudent, date])
-
   @@index([idStudent])
   @@index([idAuxiliar])
   @@index([date])
   @@index([idStudent, date])
+}
+
+enum IncidentType {
+  LEVE
+  GRAVE
+  MUY_GRAVE
+}
+
+model IncidentCatalog {
+  idIncidentCatalog Int @id @default(autoincrement())
+
+  name          String @unique
+  description   String?
+  type          IncidentType
+  pointsDeducted Int
+
+  incidents Incident[]
+}
+
+model Incident {
+  idIncident        Int      @id @default(autoincrement())
+
+  date              DateTime @db.Date
+  note              String?  @db.VarChar(255)
+
+  idStudent         Int
+  idAuxiliar        Int
+  idIncidentCatalog Int
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  student           Student @relation(fields: [idStudent], references: [idStudent])
+  auxiliar          User @relation(fields: [idAuxiliar], references: [idUser])
+  incidentCatalog   IncidentCatalog @relation(fields: [idIncidentCatalog], references: [idIncidentCatalog])
+
+  @@unique([idStudent, date, idIncidentCatalog])
+
+  @@index([idAuxiliar])
+  @@index([idIncidentCatalog])
+  @@index([date])
+  @@index([idStudent, date])
+  @@index([idAuxiliar, date])
 }

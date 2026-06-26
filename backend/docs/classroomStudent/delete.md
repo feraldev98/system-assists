@@ -1,6 +1,6 @@
 # ELIMINAR RELACIÓN ENTRE SALÓN DE CLASE Y ESTUDIANTE
 
-## DELETE /classroomStudent/:id
+## DELETE /classroom-student/:id
 
 - Elimina una relación entre un estudiante y un salón de clase.
 - Requiere autenticación.
@@ -17,7 +17,7 @@
 
 ## Example Request
 
-- DELETE /classroomStudent/1
+- DELETE /classroom-student/1
 
 ## Validations
 
@@ -47,23 +47,17 @@
   "success": true,
   "message": "Relación estudiante salón eliminada correctamente",
   "classroomStudent": {
-    "idClassroomStudent": 4,
-    "classroom": {
-      "idClassroom": 1,
-      "year": 2026,
-      "section": {
-        "grade": {
-          "level": 1
-        },
-        "name": "A"
-      }
-    },
+    "idClassroomStudent": 1,
+    "idClassroom": 2,
+    "year": 2026,
+    "grade": 1,
+    "section": "A",
     "student": {
-      "idStudent": 3,
-      "firstname": "KICK",
-      "lastname": "PERU",
-      "code": "38eb7388-cee8-4c9e-b2aa-688f59d64960",
-      "gender": "M",
+      "idStudent": 93,
+      "firstname": "Elena",
+      "lastname": "Ramos Reyes",
+      "dni": "38397088",
+      "gender": "F",
       "phone": null,
       "email": null,
       "status": "ACTIVO"

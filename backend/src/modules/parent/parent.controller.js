@@ -1,6 +1,7 @@
 import { parentService } from "./parent.service.js";
 import { parentSchema } from "./parent.schema.js";
 import { validateUtils } from "../../utils/validate.utils.js";
+import { userService } from "../user/user.service.js";
 
 const parentController = {
   create: async (req, res, next) => {
@@ -103,6 +104,27 @@ const parentController = {
         success: true,
         message: "Relación familiar eliminada correctamente",
         data: { ...deletedParent },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  getStudents: async (req, res, next) => {
+    try {
+      const user = req.user;
+      console.log(user);
+
+      const userData = await userService.getByEmail({ email: user.email });
+
+      const students = await parentService.getStudents({
+        idParent: userData.idUser,
+      });
+
+      return res.json({
+        success: true,
+        message: "Estudiantes asociados",
+        data: students,
       });
     } catch (error) {
       next(error);

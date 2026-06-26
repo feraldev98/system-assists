@@ -103,7 +103,7 @@
   "message": "Valor duplicado",
   "errors": [
     {
-      "field": "email",
+      "field": ["email"],
       "message": "Ya existe un registro con este valor"
     }
   ]

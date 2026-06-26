@@ -104,7 +104,6 @@ const parentService = {
   },
 
   update: async ({ idStudentParent, data }) => {
-    // 1. Validar si el registro existe
     const parent = await prisma.studentParent.findUnique({
       where: { idStudentParent },
     });
@@ -118,11 +117,9 @@ const parentService = {
       ]);
     }
 
-    // 2. Usar valores actuales si no se envían nuevos
     const idParentToCheck = data.idParent ?? parent.idParent;
     const idStudentToCheck = data.idStudent ?? parent.idStudent;
 
-    // 3. Solo validar duplicado si realmente cambió alguno de los dos valores
     const isChanging =
       idParentToCheck !== parent.idParent ||
       idStudentToCheck !== parent.idStudent;
@@ -164,6 +161,66 @@ const parentService = {
       select: parentFields.select,
     });
     return deletedParent;
+  },
+
+  getStudents: async ({ idParent }) => {
+    const students = await prisma.studentParent.findMany({
+      where: {
+        idParent,
+      },
+      select: parentFields.student,
+    });
+
+    if (!students || students.length === 0) {
+      throw new AppError("Registro no encontrado", 404, [
+        {
+          field: "parent",
+          message: "No existen estudiantes asociados a este usuario",
+        },
+      ]);
+    }
+
+    return students;
+  },
+
+  getAttendanceByParent: async ({ idParent, idStudent }) => {
+    const student = await prisma.studentParent.findFirst({
+      where: {
+        idStudent,
+        idParent: idParent,
+      },
+    });
+
+    if (!student) {
+      throw new AppError("Acceso denegado", 403, [
+        {
+          field: "idStudent",
+          message: "No tiene acceso a las asistencias de este estudiante",
+        },
+      ]);
+    }
+
+    return student;
+  },
+
+  getStudentParent: async ({ idParent, idStudent }) => {
+    const student = await prisma.studentParent.findFirst({
+      where: {
+        idStudent,
+        idParent: idParent,
+      },
+    });
+
+    if (!student) {
+      throw new AppError("Acceso denegado", 403, [
+        {
+          field: "idStudent",
+          message: "No tiene acceso a los incidentes de este estudiante",
+        },
+      ]);
+    }
+
+    return student;
   },
 };
 

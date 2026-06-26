@@ -33,20 +33,23 @@
   "success": true,
   "data": [
     {
-      "firstname": "WEQWQ QW",
-      "lastname": "VO WQEN",
-      "code": "e6e54fad-8cf5-4f22-b182-a0cef743086b",
-      "gender": "F",
-      "phone": null,
+      "idStudent": 121,
+      "firstname": "JUAN DIEGO",
+      "lastname": "FLORES A",
+      "dni": "12345678",
+      "gender": "M",
+      "phone": "+51982456753",
       "email": null,
       "status": "ACTIVO",
-      "createdAt": "2026-06-07T21:52:05.758Z",
-      "updatedAt": "2026-06-07T21:52:05.758Z"
+      "createdAt": "2026-06-25T05:19:17.702Z",
+      "updatedAt": "2026-06-25T05:19:17.702Z"
     },
+    ...,
     {
+      "idStudent": 122,
       "firstname": "WEQWQ W QW",
       "lastname": "VO WQEN",
-      "code": "cf9bfdc7-2176-4a13-9b22-d93a4088702f",
+      "dni": "87654321",
       "gender": "F",
       "phone": null,
       "email": null,

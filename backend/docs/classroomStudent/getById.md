@@ -1,6 +1,6 @@
 # OBTENER RELACIÓN ENTRE SALÓN DE CLASE Y ESTUDIANTE POR ID
 
-## GET /user/:id
+## GET /classroom-student/:id
 
 - Obtiene la información de una relación entre un estudiante y un salón de clase mediante su ID.
 - Requiere autenticación.
@@ -17,7 +17,7 @@
 
 ## Example Request
 
-- GET /classroomStudent/1
+- GET /classroom-student/1
 
 ## Validations
 
@@ -48,22 +48,16 @@
   "message": "Relación estudiante salón encontrada",
   "classroomStudent": {
     "idClassroomStudent": 1,
-    "classroom": {
-      "idClassroom": 1,
-      "year": 2026,
-      "section": {
-        "grade": {
-          "level": 1
-        },
-        "name": "A"
-      }
-    },
+    "idClassroom": 2,
+    "year": 2026,
+    "grade": 1,
+    "section": "A",
     "student": {
-      "idStudent": 1,
-      "firstname": "MASHIDA",
-      "lastname": "TV",
-      "code": "07ca1fd7-3185-41c6-ba46-b96bcf3f0eae",
-      "gender": "M",
+      "idStudent": 93,
+      "firstname": "Elena",
+      "lastname": "Ramos Reyes",
+      "dni": "38397088",
+      "gender": "F",
       "phone": null,
       "email": null,
       "status": "ACTIVO"
