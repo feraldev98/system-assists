@@ -35,7 +35,7 @@ PARENT
 - "db:studio": prisma studio para ver la base de datos.
 - "db:reset": resetea las migraciones de base de datos.
 - "dev": ejecuta el servidor en modo desarrollo.
-- "data:generate": genera datos de prueba en la base de datos.
+- "data:seed": genera datos de prueba en la base de datos.
 - "build": en construcción.
 - "setup": inicializar proyecto con cuenta administrador.
 
@@ -52,7 +52,7 @@ pnpm run setup
 - (Opcional) Generar datos de prueba:
 
 ```bash
-pnpm run data:generate
+pnpm run data:seed
 ```
 
 - ejecutar el servidor en modo desarrollo:

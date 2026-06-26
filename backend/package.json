@@ -9,6 +9,7 @@
     "db:generate": "prisma generate",
     "db:studio": "prisma studio",
     "db:reset": "prisma migrate reset",
+    "data:seed": "node src/seed.js",
     "dev": "nodemon src/index.js",
     "data:generate": "node src/seed.js",
     "build": "node --check src/index.js && echo Build OK",

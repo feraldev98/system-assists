@@ -1,45 +1,40 @@
-# CAMBIAR CONTRASEÑA DEL USUARIO AUTENTICADO
+# CAMBIAR CONTRASEÑA
 
 ## POST /auth/change-password
 
-Permite al usuario autenticado cambiar su contraseña.
-Requiere autenticación.
-Valida que la contraseña actual sea correcta.
-La nueva contraseña no puede ser igual a la contraseña actual.
+- Permite al usuario autenticado cambiar su contraseña.
+- Requiere autenticación mediante un token válido.
+- La contraseña actual debe ser correcta y la nueva contraseña debe ser diferente de la anterior.
 
-## Authentication:
+## Authentication
 
-Cualquier usuario autenticado puede acceder a este endpoint.
+- Cualquier usuario autenticado puede acceder a este endpoint.
 
-## Request Body
+## Body:
 
-| campo       | tipo   | requerido | descripción                                    |
-| :---------- | :----- | :-------- | ---------------------------------------------- |
-| oldPassword | string | Sí        | Contraseña actual del usuario.                 |
-| password    | string | Sí        | Nueva contraseña del usuario.                  |
-| rePassword  | string | Sí        | Repetición de la nueva contraseña del usuario. |
+- oldPassword: contraseña actual del usuario.
+- password: nueva contraseña del usuario.
+- repassword: confirmación de la nueva contraseña del usuario.
 
-## Request Example
+## Example Request
 
-- POST /auth/change-password
+- POST /change-password
 - BODY:
 
 ```json
 {
-  "oldPassword": "admin123",
-  "password": "newpassword123",
-  "rePassword": "newpassword123"
+  "oldPassword": "currentPassword123",
+  "password": "newPassword456",
+  "repassword": "newPassword456"
 }
 ```
 
 ## Validations
 
-### Body
-
-- oldPassword: obligatorio, entre 8 y 32 caracteres, solo admite caracteres alfanuméricos y debe coincidir con la contraseña actual registrada en el sistema.
-- password: obligatorio, entre 8 y 32 caracteres, debe cumplir las reglas de seguridad de contraseñas del sistema y ser diferente de la contraseña actual.
-- rePassword: obligatorio, debe coincidir exactamente con el valor de password.
-  No se permiten campos adicionales.
+- oldPassword: requerida, obligatoria, debe coincidir con la contraseña actual del usuario.
+- password: requerida, obligatoria, máximo 32 caracteres, al menos una letra, al menos un número, debe ser diferente de la contraseña actual.
+- repassword: requerida, obligatoria, debe coincidir con la nueva contraseña.
+- No se permiten campos adicionales.
 
 ## Validation Error Response
 
@@ -48,14 +43,6 @@ Cualquier usuario autenticado puede acceder a este endpoint.
   "success": false,
   "message": "Error de validación",
   "errors": [
-    {
-      "field": "oldPassword",
-      "message": "La contraseña actual es requerida"
-    },
-    {
-      "field": "oldPassword",
-      "message": "La contraseña actual debe tener mínimo 8 caracteres"
-    },
     {
       "field": "password",
       "message": "La nueva contraseña es requerida"
@@ -84,7 +71,7 @@ Cualquier usuario autenticado puede acceder a este endpoint.
 }
 ```
 
-## Success Response
+## Success Response:
 
 ```json
 {
@@ -99,61 +86,16 @@ Cualquier usuario autenticado puede acceder a este endpoint.
 }
 ```
 
-## Empty Body Error Response
+## Bad Credentials Response
 
 ```json
 {
   "success": false,
-  "message": "Error de validación",
-  "errors": [
-    {
-      "field": "oldPassword",
-      "message": "La contraseña actual es requerida"
-    },
-    {
-      "field": "oldPassword",
-      "message": "La contraseña actual debe tener mínimo 8 caracteres"
-    },
-    {
-      "field": "password",
-      "message": "La nueva contraseña es requerida"
-    },
-    {
-      "field": "password",
-      "message": "La nueva contraseña debe tener mínimo 8 caracteres"
-    },
-    {
-      "field": "password",
-      "message": "La nueva contraseña no puede contener espacios"
-    },
-    {
-      "field": "password",
-      "message": "La nueva contraseña debe contener al menos una letra"
-    },
-    {
-      "field": "password",
-      "message": "La nueva contraseña debe contener al menos un número"
-    },
-    {
-      "field": "repassword",
-      "message": "Debes confirmar la contraseña"
-    }
-  ]
-}
-```
-
-## Bad Request Response
-
-```json
-{
-  "success": false,
-  "message": "Error de validación",
-  "errors": [
-    {
-      "field": "repassword",
-      "message": "Las contraseñas no coinciden"
-    }
-  ]
+  "message": "Contraseña incorrecta",
+  "errors": {
+    "field": "oldPassword",
+    "message": "Contraseña incorrecta"
+  }
 }
 ```
 

@@ -2,420 +2,307 @@ import { prisma } from "./config/prisma.js";
 import { userService } from "./modules/user/user.service.js";
 import { authUtils } from "./utils/auth.utils.js";
 
-// ─── Constantes ──────────────────────────────────────────────────────────────
+// ─── Helpers ────────────────────────────────────────────────────────────────
 
-const CURRENT_YEAR = new Date().getFullYear();
-const PREVIOUS_YEAR = CURRENT_YEAR - 1;
-
-const GRADE_LEVELS = [1, 2, 3, 4, 5, 6];
-const SECTION_NAMES = ["A", "B", "C", "D"];
-
-const MALE_NAMES = [
-  "Carlos",
-  "Luis",
-  "José",
-  "Miguel",
-  "Juan",
-  "Pedro",
-  "Andrés",
-  "Rafael",
-  "Sergio",
-  "Diego",
-  "Alejandro",
-  "Fernando",
-  "Ricardo",
-  "Eduardo",
-  "Manuel",
-  "Roberto",
-  "Héctor",
-  "Víctor",
-  "Daniel",
-  "Pablo",
-];
-
-const FEMALE_NAMES = [
-  "María",
-  "Ana",
-  "Lucía",
-  "Sofía",
-  "Isabella",
-  "Valentina",
-  "Camila",
-  "Natalia",
-  "Gabriela",
-  "Paola",
-  "Andrea",
-  "Patricia",
-  "Rosa",
-  "Carmen",
-  "Sandra",
-  "Mónica",
-  "Laura",
-  "Elena",
-  "Claudia",
-  "Daniela",
-];
-
-const LASTNAMES = [
-  "García",
-  "Rodríguez",
-  "López",
-  "Martínez",
-  "González",
-  "Pérez",
-  "Torres",
-  "Ramírez",
-  "Flores",
-  "Rivera",
-  "Morales",
-  "Ortiz",
-  "Herrera",
-  "Medina",
-  "Castro",
-  "Vargas",
-  "Reyes",
-  "Soto",
-  "Mendoza",
-  "Jiménez",
-  "Ramos",
-  "Alvarado",
-  "Paredes",
-  "Quispe",
-  "Huanca",
-  "Mamani",
-  "Condori",
-  "Ccopa",
-  "Apaza",
-  "Cárdenas",
-];
-
-const AUXILIAR_SEEDS = [
-  { firstname: "Elena", lastname: "Torres" },
-  { firstname: "Roberto", lastname: "Vargas" },
-  { firstname: "Patricia", lastname: "Mendoza" },
-  { firstname: "Sergio", lastname: "Quispe" },
-  { firstname: "Claudia", lastname: "Ramos" },
-  { firstname: "Marco", lastname: "Paredes" },
-  { firstname: "Liliana", lastname: "Castro" },
-  { firstname: "Javier", lastname: "Huanca" },
-];
-
-/** @type {Array<import('@prisma/client').Prisma.IncidentCatalogCreateInput>} */
-const INCIDENT_CATALOG_SEEDS = [
-  {
-    name: "Falta de respeto verbal",
-    type: "LEVE",
-    pointsDeducted: 5,
-    description: "Insultos o palabras ofensivas hacia compañeros o personal.",
-  },
-  {
-    name: "Tardanza reiterada",
-    type: "LEVE",
-    pointsDeducted: 3,
-    description: "Llegar tarde al aula en más de una ocasión en la semana.",
-  },
-  {
-    name: "Uso de celular en clase",
-    type: "LEVE",
-    pointsDeducted: 4,
-    description: "Uso de dispositivos móviles sin autorización durante clases.",
-  },
-  {
-    name: "Pelea o agresión física",
-    type: "GRAVE",
-    pointsDeducted: 20,
-    description: "Agresión física hacia otro estudiante o personal.",
-  },
-  {
-    name: "Daño a la propiedad",
-    type: "GRAVE",
-    pointsDeducted: 15,
-    description: "Daño intencional a mobiliario, equipos o bienes del colegio.",
-  },
-  {
-    name: "Acoso escolar (bullying)",
-    type: "MUY_GRAVE",
-    pointsDeducted: 30,
-    description: "Conducta sistemática de acoso, intimidación o exclusión.",
-  },
-  {
-    name: "Posesión de sustancias",
-    type: "MUY_GRAVE",
-    pointsDeducted: 50,
-    description: "Posesión o consumo de alcohol, tabaco u otras sustancias.",
-  },
-];
-
-// ─── Utilidades ──────────────────────────────────────────────────────────────
-
-/** Retorna un elemento aleatorio del arreglo. */
 const randomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-/** Genera un DNI peruano de 8 dígitos. */
-const randomDni = () =>
-  String(Math.floor(10_000_000 + Math.random() * 90_000_000));
+const randomDni = () => String(Math.floor(10000000 + Math.random() * 90000000));
 
-/** Genera un número de celular peruano (empieza en 9). */
 const randomPhone = () =>
-  "9" + String(Math.floor(10_000_000 + Math.random() * 90_000_000));
+  "9" + String(Math.floor(10000000 + Math.random() * 90000000));
 
-/** Normaliza una cadena para usarla en emails (elimina tildes y ñ). */
-const normalize = (str) =>
-  str
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/ñ/g, "n")
-    .replace(/\s+/g, ".");
-
-/** Genera un email con formato `nombre.apellido[suffix]@school.edu.pe`. */
-const buildEmail = (firstname, lastname, suffix = "") =>
-  `${normalize(firstname)}.${normalize(lastname)}${suffix}@school.edu.pe`;
-
-/**
- * Genera un valor único dentro de un Set usando una función generadora.
- * Lanza si no lo consigue en `maxAttempts` intentos.
- */
-const uniqueValue = (generator, usedSet, maxAttempts = 100) => {
-  for (let i = 0; i < maxAttempts; i++) {
-    const value = generator(i);
-    if (!usedSet.has(value)) {
-      usedSet.add(value);
-      return value;
-    }
-  }
-  throw new Error("No se pudo generar un valor único tras múltiples intentos.");
-};
-
-/**
- * Genera una fecha aleatoria entre `start` y `end`.
- * Solo días de semana (lunes-viernes).
- */
-const randomWeekday = (start, end) => {
-  let date;
-  do {
-    const ms =
-      start.getTime() + Math.random() * (end.getTime() - start.getTime());
-    date = new Date(ms);
-  } while (date.getDay() === 0 || date.getDay() === 6);
+/** Genera una fecha aleatoria dentro de los últimos N días hábiles */
+const randomRecentDate = (daysBack = 30) => {
+  const date = new Date();
+  date.setDate(date.getDate() - Math.floor(Math.random() * daysBack));
+  // Evitar fines de semana
+  const day = date.getDay();
+  if (day === 0) date.setDate(date.getDate() - 2);
+  if (day === 6) date.setDate(date.getDate() - 1);
+  date.setHours(0, 0, 0, 0);
   return date;
 };
 
-// ─── Creadores con hash de contraseña ────────────────────────────────────────
+// ─── Datos base ─────────────────────────────────────────────────────────────
 
-const createUser = async ({ firstname, lastname, email, role }) => {
-  const existing = await prisma.user.findUnique({ where: { email } });
-  if (existing) return existing;
+const MALE_NAMES = [
+  "Carlos", "Luis", "José", "Miguel", "Juan", "Pedro", "Andrés", "Rafael",
+  "Sergio", "Diego", "Alejandro", "Fernando", "Ricardo", "Eduardo", "Manuel",
+  "Roberto", "Héctor", "Víctor", "Daniel", "Pablo",
+];
 
-  const passwordHash = await authUtils.generatePasswordHash({
-    password: "password123",
-  });
-  const { user } = await userService.create({
-    firstname,
-    lastname,
-    email,
-    passwordHash,
-    role,
-  });
-  return user;
-};
+const FEMALE_NAMES = [
+  "María", "Ana", "Lucía", "Sofía", "Isabella", "Valentina", "Camila",
+  "Natalia", "Gabriela", "Paola", "Andrea", "Patricia", "Rosa", "Carmen",
+  "Sandra", "Mónica", "Laura", "Elena", "Claudia", "Daniela",
+];
 
-// ─── Secciones del seed ──────────────────────────────────────────────────────
+const LASTNAMES = [
+  "García", "Rodríguez", "López", "Martínez", "González", "Pérez", "Torres",
+  "Ramírez", "Flores", "Rivera", "Morales", "Ortiz", "Herrera", "Medina",
+  "Castro", "Vargas", "Reyes", "Soto", "Mendoza", "Jiménez", "Ramos",
+  "Alvarado", "Paredes", "Quispe", "Huanca", "Mamani", "Condori", "Ccopa",
+  "Apaza", "Cárdenas",
+];
 
-/**
- * 1. Grados
- */
-const seedGrades = async () => {
+const SECTION_NAMES = ["A", "B", "C", "D"];
+const GRADE_LEVELS = [1, 2, 3, 4, 5, 6];
+
+const RELATIONSHIPS = [
+  "PADRE", "MADRE", "ABUELO", "ABUELA", "TÍO", "TÍA", "APODERADO", "OTRO",
+];
+
+const STUDENT_STATUSES = [
+  "ACTIVO", "ACTIVO", "ACTIVO", "INACTIVO", "SUSPENDIDO",
+];
+
+const ATTENDANCE_STATUSES = [
+  "PRESENTE", "PRESENTE", "PRESENTE", "PRESENTE",
+  "TARDANZA", "TARDANZA",
+  "JUSTIFICADA",
+];
+
+// Catálogo de incidencias con sus tipos y puntos
+const INCIDENT_CATALOG_DATA = [
+  // LEVE
+  { name: "Falta de uniforme", description: "El estudiante no porta el uniforme reglamentario.", type: "LEVE", pointsDeducted: 2 },
+  { name: "Tardanza reiterada", description: "El estudiante llega tarde más de tres veces en la semana.", type: "LEVE", pointsDeducted: 3 },
+  { name: "Uso de celular en clase", description: "El estudiante usa el teléfono celular durante la clase sin autorización.", type: "LEVE", pointsDeducted: 2 },
+  { name: "Desorden en el aula", description: "El estudiante genera desorden e interrumpe el dictado de clases.", type: "LEVE", pointsDeducted: 2 },
+  { name: "No presentó tareas", description: "El estudiante no entregó las tareas asignadas.", type: "LEVE", pointsDeducted: 1 },
+  // GRAVE
+  { name: "Agresión verbal", description: "El estudiante insultó o amenazó verbalmente a un compañero o docente.", type: "GRAVE", pointsDeducted: 8 },
+  { name: "Daño a la propiedad escolar", description: "El estudiante dañó mobiliario o infraestructura del colegio.", type: "GRAVE", pointsDeducted: 10 },
+  { name: "Copia en examen", description: "El estudiante fue sorprendido copiando durante una evaluación.", type: "GRAVE", pointsDeducted: 7 },
+  { name: "Falsificación de firma", description: "El estudiante falsificó la firma de un apoderado en documentos escolares.", type: "GRAVE", pointsDeducted: 10 },
+  // MUY_GRAVE
+  { name: "Agresión física", description: "El estudiante agredió físicamente a un compañero o personal del colegio.", type: "MUY_GRAVE", pointsDeducted: 20 },
+  { name: "Posesión de sustancias prohibidas", description: "El estudiante portaba sustancias prohibidas dentro del colegio.", type: "MUY_GRAVE", pointsDeducted: 25 },
+  { name: "Acoso escolar", description: "El estudiante realizó actos de bullying de forma sistemática.", type: "MUY_GRAVE", pointsDeducted: 20 },
+];
+
+// ─── Generadores ────────────────────────────────────────────────────────────
+
+const genEmail = (firstname, lastname, suffix = "") =>
+  `${firstname
+    .toLowerCase()
+    .replace(
+      /[áéíóúñ]/g,
+      (c) => ({ á: "a", é: "e", í: "i", ó: "o", ú: "u", ñ: "n" })[c] || c,
+    )}.${lastname
+    .toLowerCase()
+    .replace(
+      /[áéíóúñ]/g,
+      (c) => ({ á: "a", é: "e", í: "i", ó: "o", ú: "u", ñ: "n" })[c] || c,
+    )}${suffix}@school.edu.pe`;
+
+// ─── Seed principal ──────────────────────────────────────────────────────────
+
+const seed = async () => {
+  console.log("🌱 Iniciando seed...\n");
+
+  // ── 1. Grados ──────────────────────────────────────────────────────────────
   console.log("📚 Creando grados...");
-  const grades = await Promise.all(
-    GRADE_LEVELS.map((level) =>
-      prisma.grade.upsert({ where: { level }, update: {}, create: { level } }),
-    ),
-  );
-  console.log(`   ✔ ${grades.length} grados`);
-  return grades;
-};
+  const grades = [];
+  for (const level of GRADE_LEVELS) {
+    const grade = await prisma.grade.upsert({
+      where: { level },
+      update: {},
+      create: { level },
+    });
+    grades.push(grade);
+    console.log(`  ✔ Grado ${level} creado (id: ${grade.idGrade})`);
+  }
 
-/**
- * 2. Secciones
- */
-const seedSections = async (grades) => {
-  console.log("🏫 Creando secciones...");
+  // ── 2. Secciones ───────────────────────────────────────────────────────────
+  console.log("\n🏫 Creando secciones...");
   const sections = [];
   for (const grade of grades) {
     for (const name of SECTION_NAMES) {
-      const section = await prisma.section.upsert({
-        where: { name_idGrade: { name, idGrade: grade.idGrade } },
-        update: {},
-        create: { name, idGrade: grade.idGrade },
+      const existing = await prisma.section.findFirst({
+        where: { name, idGrade: grade.idGrade },
       });
+      const section = existing
+        ? existing
+        : await prisma.section.create({
+            data: { name, idGrade: grade.idGrade },
+          });
       sections.push(section);
+      console.log(
+        `  ✔ Sección ${name} - Grado ${grade.level} (id: ${section.idSection})`,
+      );
     }
   }
-  console.log(`   ✔ ${sections.length} secciones`);
-  return sections;
-};
 
-/**
- * 3. Aulas (Classrooms)
- */
-const seedClassrooms = async (sections) => {
-  console.log("🚪 Creando aulas...");
+  // ── 3. Aulas (Classrooms) ──────────────────────────────────────────────────
+  console.log("\n🚪 Creando aulas...");
+  const currentYear = new Date().getFullYear();
+  const years = [currentYear - 1, currentYear];
   const classrooms = [];
+
   for (const section of sections) {
-    for (const year of [PREVIOUS_YEAR, CURRENT_YEAR]) {
-      const classroom = await prisma.classroom.upsert({
+    for (const year of years) {
+      const existing = await prisma.classroom.findUnique({
         where: { year_idSection: { year, idSection: section.idSection } },
-        update: {},
-        create: {
-          year,
-          idSection: section.idSection,
-          status: year === CURRENT_YEAR ? "ACTIVO" : "INACTIVO",
-        },
       });
+      const classroom = existing
+        ? existing
+        : await prisma.classroom.create({
+            data: {
+              year,
+              idSection: section.idSection,
+              status: year === currentYear ? "ACTIVO" : "INACTIVO",
+            },
+          });
       classrooms.push(classroom);
     }
   }
-  console.log(`   ✔ ${classrooms.length} aulas`);
-  return classrooms;
-};
+  console.log(`  ✔ ${classrooms.length} aulas creadas`);
 
-/**
- * 4. Auxiliares
- */
-const seedAuxiliares = async () => {
-  console.log("👩‍🏫 Creando auxiliares...");
-  const usedEmails = new Set();
+  // ── 4. Auxiliares ──────────────────────────────────────────────────────────
+  console.log("\n👩‍🏫 Creando auxiliares...");
+  const auxiliarData = [
+    { firstname: "Elena",    lastname: "Torres",  suffix: "" },
+    { firstname: "Roberto",  lastname: "Vargas",  suffix: "" },
+    { firstname: "Patricia", lastname: "Mendoza", suffix: "" },
+    { firstname: "Sergio",   lastname: "Quispe",  suffix: "" },
+    { firstname: "Claudia",  lastname: "Ramos",   suffix: "" },
+    { firstname: "Marco",    lastname: "Paredes", suffix: "" },
+    { firstname: "Liliana",  lastname: "Castro",  suffix: "" },
+    { firstname: "Javier",   lastname: "Huanca",  suffix: "" },
+  ];
+
   const auxiliares = [];
-
-  for (const { firstname, lastname } of AUXILIAR_SEEDS) {
-    const email = uniqueValue(
-      (i) => buildEmail(firstname, lastname, i === 0 ? "" : String(i)),
-      usedEmails,
-    );
-    const user = await createUser({
-      firstname,
-      lastname,
+  for (const aux of auxiliarData) {
+    const email = genEmail(aux.firstname, aux.lastname, aux.suffix);
+    const existing = await prisma.user.findUnique({ where: { email } });
+    if (existing) {
+      auxiliares.push(existing);
+      console.log(`  ⚠ Auxiliar ${aux.firstname} ${aux.lastname} ya existe`);
+      continue;
+    }
+    const passwordHash = await authUtils.generatePasswordHash({
+      password: "password123",
+    });
+    const result = await userService.create({
+      firstname: aux.firstname,
+      lastname: aux.lastname,
       email,
+      passwordHash,
       role: "AUXILIAR",
     });
-    auxiliares.push(user);
+    auxiliares.push(result.user);
+    console.log(`  ✔ Auxiliar creado: ${aux.firstname} ${aux.lastname}`);
   }
-  console.log(`   ✔ ${auxiliares.length} auxiliares`);
-  return auxiliares;
-};
 
-/**
- * 5. Padres / Apoderados
- */
-const seedParents = async (count = 40) => {
-  console.log("👨‍👩‍👧 Creando padres/apoderados...");
+  // ── 5. Padres ──────────────────────────────────────────────────────────────
+  console.log("\n👨‍👩‍👧 Creando padres/apoderados...");
+  const parentPool = [];
   const usedEmails = new Set();
-  const parents = [];
 
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < 40; i++) {
     const isMale = Math.random() > 0.4;
     const firstname = randomItem(isMale ? MALE_NAMES : FEMALE_NAMES);
     const lastname = randomItem(LASTNAMES);
+    let emailSuffix = "";
+    let email = genEmail(firstname, lastname, emailSuffix);
 
-    const email = uniqueValue(
-      (attempt) =>
-        buildEmail(firstname, lastname, attempt === 0 ? "" : String(attempt)),
-      usedEmails,
-    );
+    let attempt = 0;
+    while (usedEmails.has(email)) {
+      attempt++;
+      emailSuffix = String(attempt);
+      email = genEmail(firstname, lastname, emailSuffix);
+    }
+    usedEmails.add(email);
 
-    const user = await createUser({
+    const existing = await prisma.user.findUnique({ where: { email } });
+    if (existing) {
+      parentPool.push(existing);
+      continue;
+    }
+    const passwordHash = await authUtils.generatePasswordHash({
+      password: "password123",
+    });
+    const result = await userService.create({
       firstname,
       lastname,
       email,
+      passwordHash,
       role: "PARENT",
     });
-    parents.push(user);
+    parentPool.push(result.user);
   }
-  console.log(`   ✔ ${parents.length} padres/apoderados`);
-  return parents;
-};
+  console.log(`  ✔ ${parentPool.length} padres/apoderados creados`);
 
-/**
- * 6. Estudiantes
- */
-const seedStudents = async (count = 120) => {
-  console.log("🎒 Creando estudiantes...");
-  const usedDnis = new Set();
-  const usedEmails = new Set();
-  const usedPhones = new Set();
+  // ── 6. Estudiantes ─────────────────────────────────────────────────────────
+  console.log("\n🎒 Creando estudiantes...");
   const students = [];
+  const usedDnis = new Set();
+  const usedStudentEmails = new Set();
+  const usedPhones = new Set();
 
-  /** @type {import('@prisma/client').Gender[]} */
-  const GENDER_POOL = ["M", "M", "F", "F", "O"];
-  /** @type {import('@prisma/client').StatusStudent[]} */
-  const STATUS_POOL = ["ACTIVO", "ACTIVO", "ACTIVO", "INACTIVO", "SUSPENDIDO"];
-
-  for (let i = 0; i < count; i++) {
-    const gender = randomItem(GENDER_POOL);
-    const namePool =
+  for (let i = 0; i < 120; i++) {
+    const gender = randomItem(["M", "M", "F", "F", "O"]);
+    const firstname =
       gender === "M"
-        ? MALE_NAMES
+        ? randomItem(MALE_NAMES)
         : gender === "F"
-          ? FEMALE_NAMES
-          : [...MALE_NAMES, ...FEMALE_NAMES];
-    const firstname = randomItem(namePool);
+          ? randomItem(FEMALE_NAMES)
+          : randomItem([...MALE_NAMES, ...FEMALE_NAMES]);
     const lastname = `${randomItem(LASTNAMES)} ${randomItem(LASTNAMES)}`;
-    const status = randomItem(STATUS_POOL);
 
-    const dni = uniqueValue(() => randomDni(), usedDnis);
-    const email =
-      Math.random() > 0.4
-        ? uniqueValue(
-            (attempt) =>
-              buildEmail(
-                firstname,
-                lastname.split(" ")[0],
-                `${i}${attempt > 0 ? attempt : ""}`,
-              ),
-            usedEmails,
-          )
-        : null;
-    const phone =
-      Math.random() > 0.5 ? uniqueValue(() => randomPhone(), usedPhones) : null;
+    let dni = randomDni();
+    while (usedDnis.has(dni)) dni = randomDni();
+    usedDnis.add(dni);
+
+    let email = null;
+    if (Math.random() > 0.4) {
+      let base = genEmail(firstname, lastname.split(" ")[0], String(i));
+      while (usedStudentEmails.has(base)) {
+        base = genEmail(
+          firstname,
+          lastname.split(" ")[0],
+          String(i) + Math.floor(Math.random() * 100),
+        );
+      }
+      usedStudentEmails.add(base);
+      email = base;
+    }
+
+    let phone = null;
+    if (Math.random() > 0.5) {
+      let p = randomPhone();
+      while (usedPhones.has(p)) p = randomPhone();
+      usedPhones.add(p);
+      phone = p;
+    }
 
     try {
       const student = await prisma.student.create({
-        data: { firstname, lastname, dni, email, phone, gender, status },
+        data: {
+          firstname,
+          lastname,
+          dni,
+          email,
+          phone,
+          gender,
+          status: randomItem(STUDENT_STATUSES),
+        },
       });
       students.push(student);
     } catch (err) {
-      console.warn(`   ⚠ Estudiante #${i} omitido: ${err.message}`);
+      console.warn(`  ⚠ No se pudo crear estudiante #${i}: ${err.message}`);
     }
   }
-  console.log(`   ✔ ${students.length} estudiantes`);
-  return students;
-};
+  console.log(`  ✔ ${students.length} estudiantes creados`);
 
-/**
- * 7. Relaciones estudiante-apoderado
- */
-const seedStudentParents = async (students, parents) => {
-  console.log("🔗 Vinculando estudiantes con apoderados...");
-
-  /** @type {import('@prisma/client').Relationship[]} */
-  const RELATIONSHIP_POOL = [
-    "PADRE",
-    "MADRE",
-    "ABUELO",
-    "ABUELA",
-    "TÍO",
-    "TÍA",
-    "APODERADO",
-    "OTRO",
-  ];
-
-  let count = 0;
+  // ── 7. StudentParent ───────────────────────────────────────────────────────
+  console.log("\n🔗 Vinculando estudiantes con padres...");
+  let spCount = 0;
   for (const student of students) {
     const numParents = Math.random() > 0.4 ? 2 : 1;
-    const chosen = [...parents]
-      .sort(() => Math.random() - 0.5)
-      .slice(0, numParents);
+    const shuffled = [...parentPool].sort(() => Math.random() - 0.5);
+    const chosen = shuffled.slice(0, numParents);
     const usedParentIds = new Set();
 
     for (const parent of chosen) {
@@ -426,212 +313,194 @@ const seedStudentParents = async (students, parents) => {
           data: {
             idStudent: student.idStudent,
             idParent: parent.idUser,
-            relationship: randomItem(RELATIONSHIP_POOL),
+            relationship: randomItem(RELATIONSHIPS),
           },
         });
-        count++;
+        spCount++;
       } catch {
-        // Relación duplicada — se ignora intencionalmente
+        // relación duplicada, ignorar
       }
     }
   }
-  console.log(`   ✔ ${count} vínculos estudiante-apoderado`);
-  return count;
-};
+  console.log(`  ✔ ${spCount} relaciones estudiante-apoderado creadas`);
 
-/**
- * 8. Matrículas (ClassroomStudent)
- */
-const seedClassroomStudents = async (classrooms, students) => {
-  console.log("📋 Matriculando estudiantes...");
+  // ── 8. ClassroomStudent ────────────────────────────────────────────────────
+  console.log("\n📋 Matriculando estudiantes en aulas...");
 
   const activeClassrooms = classrooms.filter((c) => c.status === "ACTIVO");
-  const inactiveClassrooms = classrooms.filter((c) => c.status === "INACTIVO");
+  let csCount = 0;
 
-  const shuffled = [...students].sort(() => Math.random() - 0.5);
+  const shuffledStudents = [...students].sort(() => Math.random() - 0.5);
   let idx = 0;
-  let count = 0;
 
-  const enroll = async (classroomList, minSize, maxSize) => {
-    for (const classroom of classroomList) {
-      const size =
-        minSize + Math.floor(Math.random() * (maxSize - minSize + 1));
-      for (let k = 0; k < size && idx < shuffled.length; k++, idx++) {
-        try {
-          await prisma.classroomStudent.create({
-            data: {
-              idClassroom: classroom.idClassroom,
-              idStudent: shuffled[idx].idStudent,
-            },
-          });
-          count++;
-        } catch {
-          // Matrícula duplicada — se ignora
-        }
+  for (const classroom of activeClassrooms) {
+    const classSize = Math.floor(Math.random() * 4) + 5; // 5 a 8
+    for (let k = 0; k < classSize && idx < shuffledStudents.length; k++, idx++) {
+      try {
+        await prisma.classroomStudent.create({
+          data: {
+            idClassroom: classroom.idClassroom,
+            idStudent: shuffledStudents[idx].idStudent,
+          },
+        });
+        csCount++;
+      } catch {
+        // duplicado, ignorar
       }
     }
-  };
-
-  await enroll(activeClassrooms, 5, 8);
-  await enroll(inactiveClassrooms, 3, 5);
-
-  console.log(`   ✔ ${count} matrículas`);
-  return count;
-};
-
-/**
- * 9. Catálogo de incidencias
- */
-const seedIncidentCatalog = async () => {
-  console.log("📖 Creando catálogo de incidencias...");
-  const catalog = [];
-  for (const entry of INCIDENT_CATALOG_SEEDS) {
-    const item = await prisma.incidentCatalog.upsert({
-      where: { name: entry.name },
-      update: {},
-      create: entry,
-    });
-    catalog.push(item);
   }
-  console.log(`   ✔ ${catalog.length} tipos de incidencia`);
-  return catalog;
-};
 
-/**
- * 10. Asistencias (Attendance)
- * Genera registros de asistencia para los estudiantes activos del año actual.
- */
-const seedAttendances = async (students, auxiliares) => {
-  console.log("✅ Generando registros de asistencia...");
-
-  /** @type {import('@prisma/client').StatusAssistance[]} */
-  const STATUS_POOL = [
-    "PRESENTE",
-    "PRESENTE",
-    "PRESENTE",
-    "PRESENTE",
-    "TARDANZA",
-    "JUSTIFICADA",
-  ];
-
-  const activeStudents = students.filter((s) => s.status === "ACTIVO");
-  const yearStart = new Date(CURRENT_YEAR, 2, 1); // 1 de marzo
-  const yearEnd = new Date(CURRENT_YEAR, 10, 30); // 30 de noviembre
-
-  let count = 0;
-  // 3 días de muestra por estudiante activo
-  for (const student of activeStudents) {
-    const usedDates = new Set();
-    for (let d = 0; d < 3; d++) {
+  const oldClassrooms = classrooms.filter((c) => c.status === "INACTIVO");
+  for (const classroom of oldClassrooms) {
+    const classSize = Math.floor(Math.random() * 3) + 3;
+    for (let k = 0; k < classSize && idx < shuffledStudents.length; k++, idx++) {
       try {
-        const date = randomWeekday(yearStart, yearEnd);
-        const dateKey = date.toISOString().slice(0, 10);
-        if (usedDates.has(dateKey)) continue;
-        usedDates.add(dateKey);
+        await prisma.classroomStudent.create({
+          data: {
+            idClassroom: classroom.idClassroom,
+            idStudent: shuffledStudents[idx].idStudent,
+          },
+        });
+        csCount++;
+      } catch {
+        // duplicado, ignorar
+      }
+    }
+  }
+  console.log(`  ✔ ${csCount} matrículas creadas`);
 
-        const status = randomItem(STATUS_POOL);
+  // ── 9. Catálogo de incidencias ─────────────────────────────────────────────
+  console.log("\n📖 Creando catálogo de incidencias...");
+  const incidentCatalog = [];
+  for (const item of INCIDENT_CATALOG_DATA) {
+    const catalog = await prisma.incidentCatalog.upsert({
+      where: { name: item.name },
+      update: {},
+      create: {
+        name: item.name,
+        description: item.description,
+        type: item.type,
+        pointsDeducted: item.pointsDeducted,
+      },
+    });
+    incidentCatalog.push(catalog);
+    console.log(`  ✔ ${catalog.type} - ${catalog.name}`);
+  }
+
+  // ── 10. Asistencias ────────────────────────────────────────────────────────
+  console.log("\n📅 Creando asistencias...");
+
+  // Solo estudiantes activos en aulas activas
+  const activeStudents = students.filter((s) => s.status === "ACTIVO");
+  let attCount = 0;
+
+  // Generar ~3 registros por estudiante activo en fechas distintas
+  for (const student of activeStudents) {
+    const numRecords = Math.floor(Math.random() * 3) + 2; // 2 a 4 registros
+    const usedDates = new Set();
+
+    for (let r = 0; r < numRecords; r++) {
+      let date = randomRecentDate(45);
+      // Garantizar fecha única por estudiante
+      let attempts = 0;
+      while (usedDates.has(date.toISOString()) && attempts < 10) {
+        date = randomRecentDate(45);
+        attempts++;
+      }
+      if (usedDates.has(date.toISOString())) continue;
+      usedDates.add(date.toISOString());
+
+      const auxiliar = randomItem(auxiliares);
+      const status = randomItem(ATTENDANCE_STATUSES);
+      const note =
+        status === "TARDANZA"
+          ? "Llegó tarde sin justificación."
+          : status === "JUSTIFICADA"
+            ? "Presentó certificado médico."
+            : null;
+
+      try {
         await prisma.attendance.create({
           data: {
             date,
             status,
-            note: status !== "PRESENTE" ? "Registro automático de seed" : null,
+            note,
             idStudent: student.idStudent,
-            idAuxiliar: randomItem(auxiliares).idUser,
+            idAuxiliar: auxiliar.idUser,
           },
         });
-        count++;
+        attCount++;
       } catch {
-        // Fecha duplicada para el mismo estudiante — se ignora
+        // @@unique([idStudent, date]) duplicado, ignorar
       }
     }
   }
-  console.log(`   ✔ ${count} registros de asistencia`);
-  return count;
-};
+  console.log(`  ✔ ${attCount} registros de asistencia creados`);
 
-/**
- * 11. Incidencias (Incident)
- * Genera algunas incidencias de muestra para estudiantes activos.
- */
-const seedIncidents = async (students, auxiliares, catalog) => {
-  console.log("⚠️  Generando incidencias...");
+  // ── 11. Incidencias ────────────────────────────────────────────────────────
+  console.log("\n⚠️  Creando incidencias...");
+  let incCount = 0;
 
-  const activeStudents = students.filter((s) => s.status === "ACTIVO");
-  const yearStart = new Date(CURRENT_YEAR, 2, 1);
-  const yearEnd = new Date(CURRENT_YEAR, 10, 30);
-
-  let count = 0;
-  // ~20% de los estudiantes activos tienen al menos una incidencia
-  const withIncidents = activeStudents
+  // ~30% de los estudiantes activos tienen al menos una incidencia
+  const studentsWithIncidents = activeStudents
     .sort(() => Math.random() - 0.5)
-    .slice(0, Math.ceil(activeStudents.length * 0.2));
+    .slice(0, Math.floor(activeStudents.length * 0.3));
 
-  for (const student of withIncidents) {
-    const numIncidents = 1 + Math.floor(Math.random() * 2); // 1 ó 2
-    const usedKeys = new Set();
+  for (const student of studentsWithIncidents) {
+    const numIncidents = Math.floor(Math.random() * 3) + 1; // 1 a 3
+    const usedKeys = new Set(); // evitar @@unique([idStudent, date, idIncidentCatalog])
 
-    for (let i = 0; i < numIncidents; i++) {
+    for (let r = 0; r < numIncidents; r++) {
+      const date = randomRecentDate(60);
+      const catalog = randomItem(incidentCatalog);
+      const key = `${student.idStudent}_${date.toISOString()}_${catalog.idIncidentCatalog}`;
+      if (usedKeys.has(key)) continue;
+      usedKeys.add(key);
+
+      const auxiliar = randomItem(auxiliares);
+      const note =
+        catalog.type === "MUY_GRAVE"
+          ? "Se notificó a los apoderados y se derivó a dirección."
+          : catalog.type === "GRAVE"
+            ? "Se realizó llamado de atención formal."
+            : null;
+
       try {
-        const date = randomWeekday(yearStart, yearEnd);
-        const incidentType = randomItem(catalog);
-        const key = `${date.toISOString().slice(0, 10)}-${incidentType.idIncidentCatalog}`;
-        if (usedKeys.has(key)) continue;
-        usedKeys.add(key);
-
         await prisma.incident.create({
           data: {
             date,
-            note: "Incidencia registrada durante seed.",
+            note,
             idStudent: student.idStudent,
-            idAuxiliar: randomItem(auxiliares).idUser,
-            idIncidentCatalog: incidentType.idIncidentCatalog,
+            idAuxiliar: auxiliar.idUser,
+            idIncidentCatalog: catalog.idIncidentCatalog,
           },
         });
-        count++;
+        incCount++;
       } catch {
-        // Combinación duplicada (estudiante + fecha + tipo) — se ignora
+        // @@unique duplicado, ignorar
       }
     }
   }
-  console.log(`   ✔ ${count} incidencias`);
-  return count;
-};
+  console.log(`  ✔ ${incCount} incidencias creadas`);
 
-// ─── Seed principal ───────────────────────────────────────────────────────────
-
-const seed = async () => {
-  console.log("🌱 Iniciando seed...\n");
-
-  const grades = await seedGrades();
-  const sections = await seedSections(grades);
-  const classrooms = await seedClassrooms(sections);
-  const auxiliares = await seedAuxiliares();
-  const parents = await seedParents(40);
-  const students = await seedStudents(120);
-  const catalog = await seedIncidentCatalog();
-
-  const spCount = await seedStudentParents(students, parents);
-  const csCount = await seedClassroomStudents(classrooms, students);
-  const attCount = await seedAttendances(students, auxiliares);
-  const incCount = await seedIncidents(students, auxiliares, catalog);
-
+  // ─── Resumen ────────────────────────────────────────────────────────────────
   console.log("\n✅ Seed completado:");
-  console.log(`   Grados:               ${grades.length}`);
-  console.log(`   Secciones:            ${sections.length}`);
-  console.log(`   Aulas:                ${classrooms.length}`);
-  console.log(`   Auxiliares:           ${auxiliares.length}`);
-  console.log(`   Padres/Apoderados:    ${parents.length}`);
-  console.log(`   Estudiantes:          ${students.length}`);
-  console.log(`   Catálogo incidencias: ${catalog.length}`);
-  console.log(`   Vínculos apoderado:   ${spCount}`);
-  console.log(`   Matrículas:           ${csCount}`);
-  console.log(`   Asistencias:          ${attCount}`);
-  console.log(`   Incidencias:          ${incCount}`);
+  console.log(`   Grados:              ${grades.length}`);
+  console.log(`   Secciones:           ${sections.length}`);
+  console.log(`   Aulas:               ${classrooms.length}`);
+  console.log(`   Auxiliares:          ${auxiliares.length}`);
+  console.log(`   Padres:              ${parentPool.length}`);
+  console.log(`   Estudiantes:         ${students.length}`);
+  console.log(`   Vínculos padre:      ${spCount}`);
+  console.log(`   Matrículas:          ${csCount}`);
+  console.log(`   Catálogo incid.:     ${incidentCatalog.length}`);
+  console.log(`   Asistencias:         ${attCount}`);
+  console.log(`   Incidencias:         ${incCount}`);
 };
 
 seed()
-  .catch((err) => {
-    console.error("❌ Error en seed:", err);
+  .catch((e) => {
+    console.error("❌ Error en seed:", e);
     process.exit(1);
   })
   .finally(() => prisma.$disconnect());
