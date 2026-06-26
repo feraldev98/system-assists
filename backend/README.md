@@ -70,6 +70,7 @@ pnpm run dev
 - [INICIAR SESIÓN](docs/auth/login.md)
 - [CERRAR SESIÓN](docs/auth/logout.md)
 - [CAMBIAR CONTRASEÑA](docs/auth/change-password.md)
+- [OBTENER INFORMACIÓN DEL USUARIO LOGUEADO](docs/auth/me.md)
 
 ### USER
 

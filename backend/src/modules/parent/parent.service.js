@@ -162,6 +162,26 @@ const parentService = {
     });
     return deletedParent;
   },
+
+  getStudents: async ({ idParent }) => {
+    const students = await prisma.studentParent.findMany({
+      where: {
+        idParent,
+      },
+      select: parentFields.student,
+    });
+
+    if (!students || students.length === 0) {
+      throw new AppError("Registro no encontrado", 404, [
+        {
+          field: "parent",
+          message: "No existen estudiantes asociados a este usuario",
+        },
+      ]);
+    }
+
+    return students;
+  },
 };
 
 export { parentService };

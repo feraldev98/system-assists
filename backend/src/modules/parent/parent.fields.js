@@ -67,6 +67,20 @@ const parentFields = {
     "APODERADO",
     "OTRO",
   ],
+
+  student: {
+    student: {
+      select: {
+        idStudent: true,
+        firstname: true,
+        lastname: true,
+        phone: true,
+        email: true,
+        dni: true,
+        status: true,
+      },
+    },
+  },
 };
 
 export { parentFields };
