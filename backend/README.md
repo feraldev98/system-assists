@@ -33,6 +33,8 @@ PARENT
 
 - [INICIAR SESIÓN](docs/auth/login.md)
 - [CERRAR SESIÓN](docs/auth/logout.md)
+- [CAMBIAR CONTRASEÑA](docs/auth/change-password.md)
+- [OBTENER USUARIO AUTENTICADO](docs/auth/me.md)
 
 ### USER
 
