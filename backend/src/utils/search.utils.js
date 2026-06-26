@@ -7,6 +7,7 @@ const searchUtils = {
     relationStringFields = [],
     relationNestedFields = [],
     filters = {},
+    enumFields = [],
   }) => {
     const where = {};
 
@@ -29,6 +30,14 @@ const searchUtils = {
         },
       })),
     );
+
+    // Enums: solo agregar si el search coincide con algún valor
+    enumFields.forEach(({ field, values }) => {
+      const matches = values.filter((v) =>
+        v.toLowerCase().includes(search.toLowerCase()),
+      );
+      OR.push(...matches.map((v) => ({ [field]: v })));
+    });
 
     // relaciones string
     OR.push(

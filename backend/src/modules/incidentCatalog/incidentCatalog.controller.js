@@ -61,7 +61,7 @@ const incidentCatalogController = {
       return res.json({
         success: true,
         message: "Catálogo de incidente encontrado",
-        incidentCatalog: { ...incidentCatalog },
+        data: incidentCatalog,
       });
     } catch (error) {
       next(error);

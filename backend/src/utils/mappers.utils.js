@@ -25,6 +25,7 @@ const mappersUtils = {
       year: row.classroom?.year ?? null,
       grade: row.classroom?.section?.grade?.level ?? null,
       section: row.classroom?.section?.name ?? null,
+      student: row.student,
     };
   },
   formatAttendance: (row) => ({

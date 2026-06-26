@@ -39,21 +39,17 @@
 }
 ```
 
-## Response
+## Success Response
 
 ```json
 {
   "success": true,
   "message": "Salón de clase encontrado",
   "classroom": {
-    "idClassroom": 3,
-    "year": 2020,
-    "section": {
-      "name": "A",
-      "grade": {
-        "level": 2
-      }
-    }
+    "idClassroom": 4,
+    "year": 2026,
+    "grade": 1,
+    "section": "B"
   }
 }
 ```

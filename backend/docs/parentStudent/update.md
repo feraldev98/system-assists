@@ -11,8 +11,8 @@
 
 ## URL Params
 
-| URL Param | Type   | Required | Description                                      |
-| --------- | ------ | -------- | ------------------------------------------------ |
+| URL Param | Type   | Required | Description                                         |
+| --------- | ------ | -------- | --------------------------------------------------- |
 | id        | number | Sí       | ID de la relación familiar que se desea actualizar. |
 
 ## Body
@@ -27,6 +27,7 @@ Todos los campos son opcionales. Se actualizarán únicamente los campos enviado
 
 - PATCH /parent/1
 - BODY:
+
 ```json
 {
   "relationship": "MOTHER"
@@ -36,10 +37,12 @@ Todos los campos son opcionales. Se actualizarán únicamente los campos enviado
 ## Validations
 
 ### Params
+
 - id: requerido, número entero positivo.
 - No se permiten campos adicionales.
 
 ### Body
+
 - idStudent: opcional, debe ser un número entero positivo.
 - idParent: opcional, debe ser un número entero positivo.
 - relationship: opcional, debe ser un valor válido del enum de relaciones.
@@ -68,29 +71,23 @@ Todos los campos son opcionales. Se actualizarán únicamente los campos enviado
   "success": true,
   "message": "Relación familiar actualizada correctamente",
   "data": {
-    "idStudentParent": 6,
-    "relationship": "MADRE",
+    "idStudentParent": 2,
+    "relationship": "APODERADO",
     "parent": {
-      "idUser": 2,
-      "firstname": "JO JHNZ",
-      "lastname": "KAELWWW FEREWN D",
-      "email": "auxili11ar2w232@gmail.com",
-      "phone": "+51985988977",
-      "role": "PARENT",
-      "createdAt": "2026-06-10T17:23:27.244Z",
-      "updatedAt": "2026-06-10T17:23:27.244Z"
+      "idUser": 1,
+      "firstname": "Admin",
+      "lastname": "System",
+      "email": "admin@system.com",
+      "phone": null
     },
     "student": {
-      "idStudent": 10,
-      "firstname": "WILLY",
-      "lastname": "WONA",
-      "code": "4955aac2-2bf7-41ba-8e96-b2b09a56ead4",
-      "gender": "M",
-      "phone": null,
+      "idStudent": 1,
+      "firstname": "Alejandro",
+      "lastname": "Herrera Ortiz",
+      "phone": "989285616",
       "email": null,
-      "status": "ACTIVO",
-      "createdAt": "2026-06-11T22:25:02.803Z",
-      "updatedAt": "2026-06-11T22:25:02.803Z"
+      "dni": "58770185",
+      "status": "ACTIVO"
     }
   }
 }
@@ -134,10 +131,7 @@ Todos los campos son opcionales. Se actualizarán únicamente los campos enviado
   "message": "Valor duplicado",
   "errors": [
     {
-      "field": [
-        "idParent",
-        "idStudent"
-      ],
+      "field": ["idParent", "idStudent"],
       "message": "Ya existe un registro con este valor"
     }
   ]

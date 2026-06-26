@@ -47,6 +47,8 @@ model Section {
   grade      Grade       @relation(fields: [idGrade], references: [idGrade])
   idGrade    Int
   classrooms Classroom[]
+
+  @@unique([name, idGrade])
 }
 
 enum StatusStudent {
@@ -148,7 +150,6 @@ model Attendance {
   date         DateTime         @db.Date
   status       StatusAssistance @default(PRESENTE)
   note         String?          @db.VarChar(100)
-  points       Int
   idStudent    Int
   idAuxiliar   Int
   createdAt    DateTime         @default(now())

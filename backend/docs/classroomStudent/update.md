@@ -1,6 +1,6 @@
 # ACTUALIZAR RELACIÓN ENTRE SALÓN DE CLASE Y ESTUDIANTE
 
-## PATCH /user/:id
+## PATCH /classroom-student/:id
 
 - Actualiza una relación existente entre un salón de clase y un estudiante.
 - Permite reasignar un estudiante a otro salón o modificar los datos de la relación.
@@ -25,7 +25,7 @@ Todos los campos son opcionales. Se actualizarán únicamente los campos enviado
 
 ## Example Request
 
-- PATCH /classroomStudent/1
+- PATCH /classroom-student/1
 - BODY:
 
 ```json
@@ -39,7 +39,8 @@ Todos los campos son opcionales. Se actualizarán únicamente los campos enviado
 
 ### Params
 
-- id: requerido, número entero positivo.
+- idClassroom: opcional, número entero positivo.
+- idStudent: opcional, número entero positivo.
 - No se permiten campos adicionales.
 
 ### Body
@@ -51,12 +52,12 @@ Todos los campos son opcionales. Se actualizarán únicamente los campos enviado
 
 ## Example Request
 
-- PATCH /classroomStudent/1
+- PATCH /classroom-student/2
 - BODY:
 
 ```json
 {
-  "idStudent": 1
+  "idClassroom": 2
 }
 ```
 
@@ -67,26 +68,20 @@ Todos los campos son opcionales. Se actualizarán únicamente los campos enviado
   "success": true,
   "message": "Estudiante reasignado correctamente",
   "classroomStudent": {
-    "idClassroomStudent": 1,
-    "classroom": {
-      "idClassroom": 1,
-      "year": 2026,
-      "section": {
-        "grade": {
-          "level": 1
-        },
-        "name": "A"
-      }
-    },
+    "idClassroomStudent": 2,
+    "idClassroom": 2,
+    "year": 2026,
+    "grade": 1,
+    "section": "A",
     "student": {
-      "idStudent": 1,
-      "firstname": "MASHIDA",
-      "lastname": "TV",
-      "code": "07ca1fd7-3185-41c6-ba46-b96bcf3f0eae",
+      "idStudent": 110,
+      "firstname": "Daniel",
+      "lastname": "López García",
+      "dni": "49233738",
       "gender": "M",
       "phone": null,
-      "email": null,
-      "status": "ACTIVO"
+      "email": "daniel.lopez109@school.edu.pe",
+      "status": "INACTIVO"
     }
   }
 }

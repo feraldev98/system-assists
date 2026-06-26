@@ -10,25 +10,25 @@ const incidentRoutes = Router();
 incidentRoutes.post(
   "/",
   authMiddleware,
-  authMiddlewareRole(["ADMIN"]),
+  authMiddlewareRole(["ADMIN", "AUXILIAR"]),
   incidentController.create,
 );
 incidentRoutes.get(
   "/",
   authMiddleware,
-  authMiddlewareRole(["ADMIN"]),
+  authMiddlewareRole(["ADMIN", "AUXILIAR"]),
   incidentController.get,
 );
 incidentRoutes.get(
   "/:id",
   authMiddleware,
-  authMiddlewareRole(["ADMIN"]),
+  authMiddlewareRole(["ADMIN", "AUXILIAR"]),
   incidentController.getById,
 );
 incidentRoutes.patch(
   "/:id",
   authMiddleware,
-  authMiddlewareRole(["ADMIN"]),
+  authMiddlewareRole(["ADMIN", "AUXILIAR"]),
   incidentController.update,
 );
 incidentRoutes.delete(
