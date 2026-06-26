@@ -91,7 +91,7 @@
 }
 ```
 
-## Duplicate User Response
+## Duplicate Parent Student Response
 
 ```json
 {

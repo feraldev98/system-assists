@@ -110,7 +110,7 @@
 }
 ```
 
-## Duplicate User Response
+## Duplicate Attendance Response
 
 ```json
 {
@@ -118,7 +118,7 @@
   "message": "Valor duplicado",
   "errors": [
     {
-      "field": "idStudent",
+      "field": ["idStudent", "date"],
       "message": "Ya existe un registro con este valor"
     }
   ]

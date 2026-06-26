@@ -124,6 +124,21 @@
 }
 ```
 
+## Duplicate Incident Catalog Response
+
+```json
+{
+  "success": false,
+  "message": "Valor duplicado",
+  "errors": [
+    {
+      "field": ["name"],
+      "message": "Ya existe un registro con este valor"
+    }
+  ]
+}
+```
+
 ## Unauthorized Response
 
 ```json

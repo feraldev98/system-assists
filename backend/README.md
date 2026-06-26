@@ -27,13 +27,38 @@ PARENT
 
 ---
 
-## Instalación
+## Scripts
 
-- Clonar el repositorio:
-  TODO:
+- "env": copia el archivo `.env.example` a `.env`,
+- "db:migrate": migra la base de datos de la carpeta `prisma/schema.prisma` a postgres.
+- "db:generate": genera los archivos de prisma.
+- "db:studio": prisma studio para ver la base de datos.
+- "db:reset": resetea las migraciones de base de datos.
+- "dev": ejecuta el servidor en modo desarrollo.
+- "data:generate": genera datos de prueba en la base de datos.
+- "build": en construcción.
+- "setup": inicializar proyecto con cuenta administrador.
+
+---
+
+## 🔧 Configuración inicial
+
+- Inicializar proyecto con cuenta administrador:
 
 ```bash
-git clone
+pnpm run setup
+```
+
+- (Opcional) Generar datos de prueba:
+
+```bash
+pnpm run data:generate
+```
+
+- ejecutar el servidor en modo desarrollo:
+
+```bash
+pnpm run dev
 ```
 
 ---
@@ -110,8 +135,6 @@ git clone
 - [ACTUALIZAR CATALOGO DE INCIDENCIA](docs/incident-catalog/update.md)
 - [ELIMINAR CATALOGO DE INCIDENCIA](docs/incident-catalog/delete.md)
 
-TODO:
-
 ### INCIDENT
 
 - [CREAR NUEVA INCIDENCIA](docs/incident/create.md)
@@ -119,3 +142,7 @@ TODO:
 - [LISTAR INCIDENCIA POR ID](docs/incident/getById.md)
 - [ACTUALIZAR INCIDENCIA](docs/incident/update.md)
 - [ELIMINAR INCIDENCIA](docs/incident/delete.md)
+
+```
+
+```

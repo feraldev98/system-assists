@@ -77,7 +77,7 @@
 }
 ```
 
-## Duplicate User Response
+## Duplicate Classroom Student Response
 
 ```json
 {

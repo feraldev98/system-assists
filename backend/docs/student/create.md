@@ -108,7 +108,7 @@
 }
 ```
 
-## Duplicate User Response
+## Duplicate Student Response
 
 - email
 - phone
@@ -120,8 +120,8 @@
   "message": "Valor duplicado",
   "errors": [
     {
-      "field": "phone",
-      "message": "Ya existe un registro con este valor"
+      "field": ["firstname", "lastname"],
+      "message": "El estudiante ya esta registraado con esos nombres"
     }
   ]
 }

@@ -67,7 +67,7 @@ BODY:
 }
 ```
 
-## Duplicate User Response
+## Duplicate Section Response
 
 ```json
 {

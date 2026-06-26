@@ -73,7 +73,7 @@
 }
 ```
 
-## Duplicate User Response
+## Duplicate Grade Response
 
 ```json
 {
