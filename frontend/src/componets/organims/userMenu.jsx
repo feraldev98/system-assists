@@ -13,14 +13,14 @@ import { ChangePasswordModal } from '../modals/modalsUser/userPasswordModal';
 import { useNotifications } from "../../hooks/hooksAssistant/useNotifications";
 import { useStudents } from "../../hooks/hooksAssistant/useStudent";
 
-function UserMenu({ onLogout, mobile = false }) {
+function UserMenu({ mobile = false }) {
 
   //hook modal
   const userMenuModal = useModal()
   const passwordModal = useModal()
 
   //hook idenfiticar rol
-  const { role } = useAuth()
+  const { role, userData } = useAuth()
 
   //hook mobilOpen
   const { setMobileOpen } = useNavbar()
@@ -30,20 +30,21 @@ function UserMenu({ onLogout, mobile = false }) {
 
   //navegar a las notificaciones segun el rol
   const notificationsRutes = {
-    admin: '/notifications-assistant',
-    assistant: '/notifications-assistant',
-    father: '/notifications-student',
+    ADMIN: '/notifications-assistant',
+    AUXILIAR: '/notifications-assistant',
+    PARENT: '/notifications-student',
   }
   const notificationRoute =
     notificationsRutes[role] || '/notifications-student';
 
-
+  //información del usuario authendicado
   const user = {
-    name: 'Wynsely Durán',
-    email: 'wynjs@gmail.com',
-    avatar: null
-  };
+  name: `${userData?.firstname} ${userData?.lastname}`,
+  email: userData?.email,
+  avatar: null, // mientras no tengas foto
+};
 
+  console.log(userData);
   return (
     <div className={`
         ${mobile
@@ -100,6 +101,7 @@ function UserMenu({ onLogout, mobile = false }) {
           <UserMenuModal
             closeModal={userMenuModal.closeModal}
             openPasswordModal={passwordModal.openModal}
+            user={user}
           />
         )
       }

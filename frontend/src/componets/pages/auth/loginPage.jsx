@@ -4,28 +4,6 @@ import { FormLogin } from '../../organims/formLogin'
 import { DescriptionLogin } from '../../molecules/loginPage/descriptión'
 
 export const LoginPage = ({ onLogin }) => {
-
-  const navigate = useNavigate()
-  const handleLoginSuccess = (user) => {
-    onLogin(user)
-
-    // redirección según rol
-    switch (user.role) {
-
-      case 'admin':
-        navigate('/')
-        break
-      case 'assistant':
-        navigate('/attendance-control')
-        break
-      case 'father':
-        navigate('/attendance-student')
-        break
-      default:
-        navigate('/')
-    }
-  }
-
   return (
     <div className="min-h-screen flex flex-col md:flex-row font-[Poppins] overflow-hidden">
 
@@ -43,7 +21,9 @@ export const LoginPage = ({ onLogin }) => {
         <div className="absolute inset-0 bg-[radial-gradient(500px_circle_at_0%_0%,rgba(166,166,166,0.45),transparent_70%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(600px_circle_at_100%_100%,rgba(3,45,60,0.12),transparent_70%)]" />
 
-        <FormLogin onLogin={handleLoginSuccess} />
+        <FormLogin
+          onLogin={onLogin}
+        />
       </div>
     </div>
   )

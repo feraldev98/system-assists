@@ -1,5 +1,5 @@
 export const menuByRole = {
-  admin: [
+  ADMIN: [
     {
       text: "Asistencia",
       submenu: [
@@ -41,12 +41,16 @@ export const menuByRole = {
           text: "Registrar Usuarios",
           href: "/admin/register-user",
         },
+        {
+          text: "Códigos QR",
+          href: "/admin/generateQR",
+        },
       ],
     },
   ],
 
   
-assistant: [
+AUXILIAR: [
     {
       text: "Asistencia",
       href: "/attendance-control",
@@ -61,7 +65,7 @@ assistant: [
     },
   ],
 
-  father: [
+  PARENT: [
     {
       text: "Asistencia",
       href: "/attendance-student",

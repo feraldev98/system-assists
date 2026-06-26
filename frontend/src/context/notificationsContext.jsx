@@ -12,11 +12,11 @@ export function NotificationsProvider({ children }) {
 
   const getInitial = () => {
     switch (role) {
-      case "assistant":
-      case "admin":
+      case "AUXILIAR":
+      case "ADMIN":
         return notificationsAssitantMock;
 
-      case "father":
+      case "PARENT":
         return notificationsFatherMock;
 
       default:

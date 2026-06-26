@@ -3,12 +3,12 @@ import { useAuth } from "./useAuth";
 export const useGreeting = () => {
 
   const { userData } = useAuth();
-  const role = userData?.role || "admin";
+  const role = userData?.role || "ADMIN";
 
   const greetingLabel = {
-    admin: "Administrador",
-    assistant: "Auxiliar",
-    father: "Padre de familia",
+    ADMIN: "Administrador",
+    AUXILIAR: "Auxiliar",
+    PARENT: "Padre de familia",
   }[role] || "Usuario";
 
   const hour = new Date().getHours();

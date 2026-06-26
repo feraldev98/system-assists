@@ -5,20 +5,18 @@ import { useAuth } from "../../../hooks/hookGlobals/useAuth";
 import { menuUserItems } from "../../../mocks/menuModalUser";
 import { Link } from "react-router-dom";
 
-function UserMenuModal({ closeModal, openPasswordModal, }) {
+function UserMenuModal({ closeModal, openPasswordModal, user }) {
 
   // USAMOS EL HOOK useAuth PARA EL MENEJO DE SERRAR SESIÓN
   const { logout } = useAuth()
 
+  const handleLogoutClick =  async () =>{
+    await logout()
+    closeModal()
+  }
+
   const [isClosing, setIsClosing] = useState(false);
   const menuRef = useRef(null);
-
-
-  const user = {
-    name: "Wynsely Durán",
-    email: "wynjs@gmail.com",
-    avatar: null,
-  };
 
   const CLOSE_DURATION = 300
 
@@ -35,7 +33,7 @@ function UserMenuModal({ closeModal, openPasswordModal, }) {
 
       case "logout":
         setTimeout(() => {
-          logout();
+          handleLogoutClick();
         }, CLOSE_DURATION);
         break;
 
@@ -126,10 +124,10 @@ function UserMenuModal({ closeModal, openPasswordModal, }) {
                 <button
                   onClick={() => handleClick(item.action)}
                   className="
-              w-full flex items-center gap-3
-              px-4 py-3 text-white text-left
-              hover:bg-blueT/80 transition-colors duration-200
-            "
+                    w-full flex items-center gap-3
+                    px-4 py-3 text-white text-left
+                  hover:bg-blueT/80 transition-colors duration-200
+                  "
                 >
                   <Icon size={18} />
                   <span className="text-sm">{item.text}</span>

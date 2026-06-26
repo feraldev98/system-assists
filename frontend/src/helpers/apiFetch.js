@@ -1,44 +1,35 @@
 const apiFetch = async (route, method = "GET", body) => {
-  try {
-    const url = `http://localhost:3000${route}`;
-    
-    const options = {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include"
-    };
+  const url = `http://localhost:3000${route}`;
 
-    if (body) {
-      options.body = JSON.stringify(body);
-    }
+  const options = {
+    method,
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  };
 
-    const response = await fetch(url, options);
-
-    // 1. Leemos el texto crudo primero (para evitar el error JSON.parse)
-    const text = await response.text();
-
-    // 2. Verificamos si la respuesta fue exitosa
-    if (!response.ok) {
-      // Si el servidor mandó un error, lo mostramos en consola
-      console.error(`Error API (${response.status}):`, text);
-      return null;
-    }
-
-    // 3. Intentamos convertir a JSON
-    try {
-      // Si está vacío, devolvemos array vacío o objeto vacío
-      return text ? JSON.parse(text) : [];
-    } catch (e) {
-      console.warn(" El servidor respondió OK pero no es JSON válido:", text, e);
-      return null;
-    }
-
-  } catch (error) {
-    console.error(" Error de conexión (Backend apagado):", error);
-    return null;
+  if (body) {
+    options.body = JSON.stringify(body);
   }
-}
+
+  let response;
+  try {
+    response = await fetch(url, options);
+  } catch (error) {
+    console.error("Error de conexión (Backend apagado):", error);
+    return { ok: false, status: 0, data: null };
+  }
+
+  const text = await response.text();
+  let data = null;
+
+  try {
+    data = text ? JSON.parse(text) : null;
+  } catch (e) {
+    console.warn("El servidor respondió pero no es JSON válido:", text);
+  }
+
+  // Ya no descartamos el body en caso de error
+  return { ok: response.ok, status: response.status, data };
+};
 
 export { apiFetch };

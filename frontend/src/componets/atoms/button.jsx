@@ -13,7 +13,7 @@ function Button({
     default: ` text-white px-3`,
     primary: `
     md:right-9 lg:right-9  xl:right-8 bottom-[-2em]
-    bg-blue h-10 lg:px-5 rounded-[10px]
+    bg-blue h-10 px-3 rounded-[10px]
     text-[.8em] lg:text-[.9em] xl:text-[1em]
     font-semibold text-white border-none
     shadow-blue

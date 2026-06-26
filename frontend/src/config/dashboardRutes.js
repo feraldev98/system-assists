@@ -1,5 +1,6 @@
-export const dashboardRoutes = {
-  admin: "/admin",
-  assistant: "/assistant",
-  father: "/father",
+
+export const ROLE_ROUTES = {
+  ADMIN: "/admin",
+  AUXILIAR: "/assistant",
+  PARENT: "/father",
 };

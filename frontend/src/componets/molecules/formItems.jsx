@@ -10,7 +10,8 @@ function FormItem({
   inputSize = 'small',
   selectVariant = 'default',
   selectSize = 'small',
-  labelSize = 'small'
+  labelSize = 'small',
+  required
 }) {
   return (
     <div className="flex flex-col gap-4 w-full">
@@ -47,6 +48,7 @@ function FormItem({
                       onChange={field.onChange}
                       variant={selectVariant}
                       size={selectSize}
+                      required={required}
                     />
                   ) : (
                     <Input
@@ -59,6 +61,7 @@ function FormItem({
                       align={inputAlign}
                       size={inputSize}
                       icon={item.icon}
+                      required={required}
                       onIconClick={item.onIconClick}
                     />
                   )}
@@ -87,6 +90,7 @@ function FormItem({
                 onChange={item.onChange}
                 variant={selectVariant}
                 size={selectSize}
+                required={required}
               />
             ) : item.type === "textarea" ? (
               <Textarea
@@ -108,6 +112,7 @@ function FormItem({
                 variant={inputVariant}
                 icon={item.icon}
                 onIconClick={item.onIconClick}
+                required={required}
               />
             )}
           </div>

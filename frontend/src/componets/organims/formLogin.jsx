@@ -1,85 +1,73 @@
 import { useState } from "react"
+import { IoEye, IoEyeOff } from "react-icons/io5";
 import { Button } from "../atoms/button"
-import { Title } from "../atoms/title"
-import { Link } from "../atoms/link"
 import { FormItem } from "../molecules/formItems"
 import { useNavigate } from 'react-router-dom'
+import { apiFetch } from "../../helpers/apiFetch"
+import { ValidationLogin } from "../../validations/validatioLogin"
+import { ROLE_ROUTES } from "../../config/dashboardRutes"
+import { useToast } from "../../hooks/hookGlobals/useToast"
+import { authStorage } from "../../helpers/authStorage"
+import { Link } from "../atoms/link"
+import { Title } from "../atoms/title"
+import { useToggle } from "../../hooks/hookModal/useToggle";
+import { useLoading } from "../../hooks/hookGlobals/useLoading";
 
 function FormLogin({ onLogin }) {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
   const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+  const {loading, startLoading, stopLoading} = useLoading()
+  const { showToast } = useToast()
+
+  //logica del ver y oculatar contraseña
+  const {state: showPassword, toggle: togglePassword} = useToggle()
 
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setError('')
+    e.preventDefault();
+    startLoading();
+    setError("");
 
-    setTimeout(() => {
+    try {
+      await ValidationLogin.validateAsync({ email, password });
 
-    const usuarios = [
-  {
-    user: 'admin',
-    pass: '1234',
-    role: 'admin'
-  },
+      const { ok, data } = await apiFetch("/login", "POST", { email, password });
 
-  {
-    user: 'assistant',
-    pass: '1234',
-    role: 'assistant'
-  },
-
-  {
-    user: 'father',
-    pass: '1234',
-    role: 'father'
-  }
-]
-
-      const usuario = usuarios.find(
-        u => u.user === email.toLowerCase().trim() && 
-        u.pass === password
-      )
-
-      if (!usuario) {
-        setError('Credenciales incorrectas')
-        setLoading(false)
-        return
+      if (!data) {
+        throw new Error("No se pudo conectar con el servidor. Intenta más tarde.");
       }
 
-      const response = {
-        name: usuario.user,
-        role: usuario.role,
-        email: `${usuario.user}@institucion.edu.pe`
+      if (!ok || !data.success) {
+        throw new Error(data.message || "Usuario y/o contraseña inválidos");
       }
 
-      localStorage.setItem('user', JSON.stringify(response))
-      if (onLogin) onLogin(response)
+      // Centralizado en authStorage, ya no localStorage directo
+      authStorage.saveUser(data.user);
 
-      // navegación según tu sistema
-      switch (usuario.role) {
-        case 'admin':
-          navigate('/admin')
-          break
-        case 'assistant':
-          navigate('/assistant')
-          break
-        case 'father':
-          navigate('/father')
-          break
-        default:
-          navigate('/')
+      if (onLogin) onLogin(data.user);
+
+      showToast(`Bienvenido, ${data.user.name ?? ""}`, "success");
+
+      const path = ROLE_ROUTES[data.user?.role];
+      if (path) {
+        navigate(path);
+      } else {
+        console.warn("Rol no reconocido:", data.user?.role);
+        navigate("/");
       }
 
-      setLoading(false)
-
-    }, 800)
-  }
+    } catch (err) {
+      console.error("Error de login:", err);
+      setError(err.message || "Ocurrió un error inesperado");
+      showToast(err.message || "No se pudo iniciar sesión", "error");
+    } finally {
+      stopLoading;
+    }
+  };
 
   const formFields = [
     {
@@ -94,11 +82,13 @@ function FormLogin({ onLogin }) {
     {
       text: 'Contraseña',
       htmlFor: 'passwd',
-      type: 'password',
+      type: showPassword ? 'text' : 'password',
       name: 'passwd',
       value: password,
       placeholder: 'Tu contraseña',
-      onChange: (e) => setPassword(e.target.value)
+      onChange: (e) => setPassword(e.target.value),
+      icon: showPassword ? <IoEye size={18}/> : <IoEyeOff size={18}/>,
+      onIconClick : togglePassword
     }
   ]
 
@@ -133,6 +123,7 @@ function FormLogin({ onLogin }) {
         type='submit'
         variant="primary"
         text={loading ? 'Enviando...' : 'Ingresar'}
+        disabled={loading}
         className="mt-4"
       />
 
@@ -141,14 +132,8 @@ function FormLogin({ onLogin }) {
         flex items-center justify-between 
         text-xs text-blue-600
       ">
-        <Link
-          text='Olvidé mi Contraseña'
-          href='#'
-        />
-        <Link
-          text='No tengo cuenta'
-          href='#'
-        />
+        <Link text='Olvidé mi Contraseña' href='#' />
+        <Link text='No tengo cuenta' href='#' />
       </div>
     </form>
   )

@@ -1,13 +1,21 @@
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/hookGlobals/useAuth";
+import { ROLE_ROUTES } from "../../config/dashboardRutes";
 
 function Logo({ variant = 'default' }) {
 
   const navigate = useNavigate()
-  const user = JSON.parse(localStorage.getItem('user'))
+  
+  const {user} = useAuth()
+
   const handleNavigate = () => {
-    if(!user) return
-    navigate(`/${user.role}`)
-  }
+    if (!user) return;
+    const path = ROLE_ROUTES[user.role];
+    console.log("Path:", path);
+    if (path) {
+      navigate(path);
+    }
+  };
 
   const variants = {
     default: `relative w-[7em] h-[7em] rounded-full overflow-hidden mt-13`,

@@ -1,81 +1,233 @@
-import { Route, Routes } from 'react-router-dom'
-import { Navbar } from './componets/organims/navbar'
-import { Footer } from './componets/organims/footer'
-import { useAuth } from './hooks/hookGlobals/useAuth'
-import { Navigate } from 'react-router-dom'
-import { dashboardRoutes } from './config/dashboardRutes'
-import { Profils } from './componets/pages/profils/profiles'
-// PAGES
-import { LoginPage } from './componets/pages/auth/loginPage'
-import { InstitutionPage } from './componets/pages/institution/institutionPage'
-// FATHER-STUDENT
-import { DashboardStudentPage } from './componets/pages/dashboard/dashboardStudentPage'
-import { AttendanceStudentPage } from './componets/pages/attendance/attendanceStudentPage'
-import { BehaviorStudentPage } from './componets/pages/behavior/behaviorStudentPage'
-import { NotificationsStudentPage } from './componets/pages/notifiacitons/notificationStudentPage'
-// ASSISTANT
-import { DashboardAssitantPage } from './componets/pages/dashboard/dashboardAssistant'
-import { AttendanceControlPage } from './componets/pages/attendance/attendanceControlPage'
-import { BehaviorControlPage } from './componets/pages/behavior/behaviorControlPage'
-import { NotificationsAssistantPage } from './componets/pages/notifiacitons/notificationsAssistantPage'
-// ADMIN
-import { DashboardAdminPage } from './componets/pages/dashboard/dashboardAdmin'
-import { RegisterUser } from './componets/pages/admin/registerUserPage'
-import { RegisterStudent } from './componets/pages/admin/registerStudentPage'
-import { MainLayout } from './componets/layouts/mainlayout'
-import { GenerateQRPage } from './componets/pages/admin/generateQRPage'
+import { Route, Routes, Navigate } from "react-router-dom";
+// Layout
+import { MainLayout } from "./componets/layouts/mainlayout";
+
+// Auth
+import { useAuth } from "./hooks/hookGlobals/useAuth";
+import { LoginPage } from "./componets/pages/auth/loginPage";
+// Pages
+import { Profils } from "./componets/pages/profils/profiles";
+import { InstitutionPage } from "./componets/pages/institution/institutionPage";
+// Student/Father
+import { DashboardStudentPage } from "./componets/pages/dashboard/dashboardStudentPage";
+import { AttendanceStudentPage } from "./componets/pages/attendance/attendanceStudentPage";
+import { BehaviorStudentPage } from "./componets/pages/behavior/behaviorStudentPage";
+import { NotificationsStudentPage } from "./componets/pages/notifiacitons/notificationStudentPage";
+// Assistant
+import { DashboardAssitantPage } from "./componets/pages/dashboard/dashboardAssistant";
+import { AttendanceControlPage } from "./componets/pages/attendance/attendanceControlPage";
+import { BehaviorControlPage } from "./componets/pages/behavior/behaviorControlPage";
+import { NotificationsAssistantPage } from "./componets/pages/notifiacitons/notificationsAssistantPage";
+// Admin
+import { DashboardAdminPage } from "./componets/pages/dashboard/dashboardAdmin";
+import { RegisterUser } from "./componets/pages/admin/registerUserPage";
+import { RegisterStudent } from "./componets/pages/admin/registerStudentPage";
+import { GenerateQRPage } from "./componets/pages/admin/generateQRPage";
+// Utils
+import { ProtectedRoute } from "./routes/protectedRoute";
+import { ROLE_ROUTES } from "./config/dashboardRutes";
 
 function App() {
-  const {
-    isAuthenticated,
-    userData,
-    login
-  } = useAuth()
+  const { isAuthenticated, userData, login, loading } = useAuth();
 
-  const pages = [
-    { path: '/father', component: <DashboardStudentPage userData={userData} /> },
-    { path: '/assistant', component: <DashboardAssitantPage userData={userData} /> },
-    { path: '/admin', component: <DashboardAdminPage userData={userData} /> },
-    { path: '/attendance-control', component: <AttendanceControlPage /> },
-    { path: '/attendance-student', component: <AttendanceStudentPage /> },
-    { path: '/behavior-control', component: <BehaviorControlPage /> },
-    { path: '/behavior-student', component: <BehaviorStudentPage /> },
-    { path: '/institution', component: <InstitutionPage /> },
-    { path: '/notifications-student', component: <NotificationsStudentPage /> },
-    { path: '/notifications-assistant', component: <NotificationsAssistantPage /> },
-    { path: '/admin/register-student', component: <RegisterStudent /> },
-    { path: '/admin/register-user', component: <RegisterUser /> },
-    { path: '/admin/generateQR', component: <GenerateQRPage /> },
-    { path: '/profile', component: <Profils /> },
-  ]
+  // Esperar a que el AuthProvider termine de verificar la sesión
+  if (loading) {
+    return (
+      <div className="w-screen h-screen flex items-center justify-center">
+        Cargando...
+      </div>
+    );
+  }
 
-  if (!isAuthenticated) {
-    return <LoginPage onLogin={login} />
+  // Si no hay sesión mostrar login
+  if (!isAuthenticated || !userData?.role) {
+    return <LoginPage onLogin={login} />;
   }
 
   return (
     <Routes>
       <Route element={<MainLayout />}>
+        {/* Redirección inicial según el rol */}
         <Route
-          path='/'
+          path="/"
           element={
             <Navigate
-              to={dashboardRoutes[userData?.role]}
+              to={ROLE_ROUTES[userData.role]}
               replace
             />
           }
         />
 
-        {pages.map((page, index) => (
-          <Route
-            key={index}
-            path={page.path}
-            element={page.component}
-          />
-        ))}
+        {/* ===================== PARENT ===================== */}
+
+        <Route
+          path="/father"
+          element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}
+              userRole={userData.role}
+              allowedRoles={["PARENT"]}
+            >
+              <DashboardStudentPage userData={userData} />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/attendance-student"
+          element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}
+              userRole={userData.role}
+              allowedRoles={["PARENT"]}
+            >
+              <AttendanceStudentPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/behavior-student"
+          element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}
+              userRole={userData.role}
+              allowedRoles={["PARENT"]}
+            >
+              <BehaviorStudentPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/notifications-student"
+          element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}
+              userRole={userData.role}
+              allowedRoles={["PARENT"]}
+            >
+              <NotificationsStudentPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ===================== AUXILIAR ===================== */}
+
+        <Route
+          path="/assistant"
+          element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}
+              userRole={userData.role}
+              allowedRoles={["AUXILIAR"]}
+            >
+              <DashboardAssitantPage userData={userData} />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/attendance-control"
+          element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}
+              userRole={userData.role}
+              allowedRoles={["AUXILIAR"]}
+            >
+              <AttendanceControlPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/behavior-control"
+          element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}
+              userRole={userData.role}
+              allowedRoles={["AUXILIAR"]}
+            >
+              <BehaviorControlPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/notifications-assistant"
+          element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}
+              userRole={userData.role}
+              allowedRoles={["AUXILIAR"]}
+            >
+              <NotificationsAssistantPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ===================== ADMIN ===================== */}
+
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}
+              userRole={userData.role}
+              allowedRoles={["ADMIN"]}
+            >
+              <DashboardAdminPage userData={userData} />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/register-user"
+          element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}
+              userRole={userData.role}
+              allowedRoles={["ADMIN"]}
+            >
+              <RegisterUser />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/register-student"
+          element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}
+              userRole={userData.role}
+              allowedRoles={["ADMIN"]}
+            >
+              <RegisterStudent />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/generateQR"
+          element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}
+              userRole={userData.role}
+              allowedRoles={["ADMIN"]}
+            >
+              <GenerateQRPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ===================== GENERALES ===================== */}
+
+        <Route path="/institution" element={<InstitutionPage />} />
+
+        <Route path="/profile" element={<Profils />} />
       </Route>
     </Routes>
-  )
+  );
 }
 
-export default App
+export default App;
