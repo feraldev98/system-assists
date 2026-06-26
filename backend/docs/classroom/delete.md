@@ -40,21 +40,17 @@
 }
 ```
 
-## Response
+## Success Response
 
 ```json
 {
   "success": true,
-  "message": "Aula eliminada correctamente",
+  "message": "Salón de clase eliminado correctamente",
   "classroom": {
-    "idClassroom": 12,
-    "year": 2021,
-    "section": {
-      "name": "A",
-      "grade": {
-        "level": 1
-      }
-    }
+    "idClassroom": 15,
+    "year": 2025,
+    "grade": 2,
+    "section": "D"
   }
 }
 ```
@@ -82,7 +78,7 @@
   "message": "No se puede eliminar el registro",
   "errors": [
     {
-      "field": "id",
+      "field": [],
       "message": "Existen registros relacionados que dependen de este registro"
     }
   ]

@@ -26,60 +26,78 @@
 - GET /classroom?page=1&limit=10&sortOrder=desc
 - GET /classroom?page=1&limit=10&sortBy=year
 
-## Response
+## Success Response
 
 ```json
 {
   "success": true,
   "data": [
     {
-      "idClassroom": 14,
-      "year": 1998,
-      "section": {
-        "name": "A",
-        "grade": {
-          "level": 3
-        }
-      }
+      "idClassroom": 49,
+      "year": 2002,
+      "grade": 2,
+      "section": "A"
     },
     {
-      "idClassroom": 1,
-      "year": 2020,
-      "section": {
-        "name": "A",
-        "grade": {
-          "level": 1
-        }
-      }
+      "idClassroom": 21,
+      "year": 2025,
+      "grade": 3,
+      "section": "C"
+    },
+    {
+      "idClassroom": 9,
+      "year": 2025,
+      "grade": 2,
+      "section": "A"
     },
     {
       "idClassroom": 3,
-      "year": 2020,
-      "section": {
-        "name": "A",
-        "grade": {
-          "level": 2
-        }
-      }
+      "year": 2025,
+      "grade": 1,
+      "section": "B"
     },
-    ...
-    ,
     {
-      "idClassroom": 15,
-      "year": 2022,
-      "section": {
-        "name": "A",
-        "grade": {
-          "level": 1
-        }
-      }
+      "idClassroom": 7,
+      "year": 2025,
+      "grade": 1,
+      "section": "D"
+    },
+    {
+      "idClassroom": 19,
+      "year": 2025,
+      "grade": 3,
+      "section": "B"
+    },
+    {
+      "idClassroom": 13,
+      "year": 2025,
+      "grade": 2,
+      "section": "C"
+    },
+    {
+      "idClassroom": 5,
+      "year": 2025,
+      "grade": 1,
+      "section": "C"
+    },
+    {
+      "idClassroom": 11,
+      "year": 2025,
+      "grade": 2,
+      "section": "B"
+    },
+    {
+      "idClassroom": 17,
+      "year": 2025,
+      "grade": 3,
+      "section": "A"
     }
   ],
   "pagination": {
     "page": 1,
     "limit": 10,
-    "total": 10,
-    "totalPages": 1
+    "total": 47,
+    "totalPages": 5
   }
 }
 ```
@@ -94,8 +112,7 @@ El parámetro search busca coincidencias sobre los siguientes campos:
 
 ## Example Search Query
 
-- GET /classroom?search=A
-- GET /classroom?search=C
+- GET /classroom?search=3
 
 ## Example Search Response
 
@@ -104,20 +121,64 @@ El parámetro search busca coincidencias sobre los siguientes campos:
   "success": true,
   "data": [
     {
-      "idClassroom": 6,
-      "year": 2020,
-      "section": {
-        "name": "C",
-        "grade": {
-          "level": 1
-        }
-      }
+      "idClassroom": 3,
+      "year": 2025,
+      "grade": 1,
+      "section": "B"
+    },
+    {
+      "idClassroom": 17,
+      "year": 2025,
+      "grade": 3,
+      "section": "A"
+    },
+    {
+      "idClassroom": 19,
+      "year": 2025,
+      "grade": 3,
+      "section": "B"
+    },
+    {
+      "idClassroom": 21,
+      "year": 2025,
+      "grade": 3,
+      "section": "C"
+    },
+    {
+      "idClassroom": 23,
+      "year": 2025,
+      "grade": 3,
+      "section": "D"
+    },
+    {
+      "idClassroom": 18,
+      "year": 2026,
+      "grade": 3,
+      "section": "A"
+    },
+    {
+      "idClassroom": 20,
+      "year": 2026,
+      "grade": 3,
+      "section": "B"
+    },
+    {
+      "idClassroom": 22,
+      "year": 2026,
+      "grade": 3,
+      "section": "C"
+    },
+    {
+      "idClassroom": 24,
+      "year": 2026,
+      "grade": 3,
+      "section": "D"
     }
   ],
   "pagination": {
     "page": 1,
     "limit": 10,
-    "total": 1,
+    "total": 9,
     "totalPages": 1
   }
 }

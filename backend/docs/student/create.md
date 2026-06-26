@@ -94,22 +94,21 @@
   "success": true,
   "message": "Estudiante creado correctamente",
   "student": {
-    "student": {
-      "firstname": "Ploqwz",
-      "lastname": "qweqwq",
-      "code": "c8cc6423-8958-433a-9828-0f7c54ed8eac",
-      "gender": "M",
-      "phone": "+51951753852",
-      "email": null,
-      "status": "EXPULSADO",
-      "createdAt": "2026-06-07T21:37:40.446Z",
-      "updatedAt": "2026-06-07T21:37:40.446Z"
-    }
+    "idStudent": 121,
+    "firstname": "JUAN DIEGO",
+    "lastname": "FLORES A",
+    "dni": "12345678",
+    "gender": "M",
+    "phone": "+51982456753",
+    "email": null,
+    "status": "ACTIVO",
+    "createdAt": "2026-06-25T05:19:17.702Z",
+    "updatedAt": "2026-06-25T05:19:17.702Z"
   }
 }
 ```
 
-## Duplicate User Response
+## Duplicate Student Response
 
 - email
 - phone
@@ -121,8 +120,8 @@
   "message": "Valor duplicado",
   "errors": [
     {
-      "field": "phone",
-      "message": "Ya existe un registro con este valor"
+      "field": ["firstname", "lastname"],
+      "message": "El estudiante ya esta registraado con esos nombres"
     }
   ]
 }

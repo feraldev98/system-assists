@@ -3,7 +3,7 @@
 ## POST /login
 
 - Autentica un usuario mediante email y contraseña.
-- Si las credenciales son válidas, el servidor genera una cookie HTTPOnly llamada token que contiene el JWT de autenticación.
+- Si las credenciales son válidas, el servidor genera una cookie llamada token que contiene el JWT de autenticación.
 
 ## Body:
 
@@ -37,7 +37,7 @@
   "errors": [
     {
       "field": "email",
-      "message": "El email es requerido"
+      "message": "El correo es requerido"
     },
     {
       "field": "password",
@@ -52,7 +52,7 @@
 ```json
 {
   "success": true,
-  "message": "Bienvenido Fernando System",
+  "message": "Bienvenido Admin System",
   "user": {
     "email": "admin@system.com",
     "firstname": "Admin",

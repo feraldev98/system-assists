@@ -11,14 +11,14 @@
 
 ## Query Params
 
-| Parameter    | Type   | Required | Description                                                                                                                         |
-| ------------ | ------ | -------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| page         | number | No       | Número de página. Valor mínimo: 1. Default: 1.                                                                                      |
-| limit        | number | No       | Cantidad de registros por página. Mínimo: 1. Máximo: 50. Default: 10.                                                               |
+| Parameter    | Type   | Required | Description                                                                                                                                  |
+| ------------ | ------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| page         | number | No       | Número de página. Valor mínimo: 1. Default: 1.                                                                                               |
+| limit        | number | No       | Cantidad de registros por página. Mínimo: 1. Máximo: 50. Default: 10.                                                                        |
 | search       | string | No       | Busca coincidencias por ID de relación, ID de estudiante, ID de padre, nombre o apellido del estudiante, nombre, apellido o email del padre. |
-| sortOrder    | string | No       | Ordenamiento ascendente o descendente. Valores permitidos: asc, desc. Default: asc.                                                 |
-| sortBy       | string | No       | Campo utilizado para ordenar resultados. Valores permitidos: idStudentParent, relationship, student, parent. Default: parent.        |
-| relationship | string | No       | Filtra por tipo de relación. Valores permitidos: PADRE, MADRE, ABUELO, ABUELA, TÍO, TÍA, APODERADO, OTRO.                          |
+| sortOrder    | string | No       | Ordenamiento ascendente o descendente. Valores permitidos: asc, desc. Default: asc.                                                          |
+| sortBy       | string | No       | Campo utilizado para ordenar resultados. Valores permitidos: idStudentParent, relationship, student, parent. Default: parent.                |
+| relationship | string | No       | Filtra por tipo de relación. Valores permitidos: PADRE, MADRE, ABUELO, ABUELA, TÍO, TÍA, APODERADO, OTRO.                                    |
 
 ## Example Request
 
@@ -146,63 +146,32 @@ El parámetro search busca coincidencias sobre los campos:
   "success": true,
   "data": [
     {
-      "idStudentParent": 15,
-      "relationship": "ABUELO",
+      "idStudentParent": 163,
+      "relationship": "MADRE",
       "parent": {
-        "idUser": 2,
-        "firstname": "JO JHNZ",
-        "lastname": "KAELWWW FEREWN D",
-        "email": "auxili11ar2w232@gmail.com",
-        "phone": "+51985988977",
-        "role": "PARENT",
-        "createdAt": "2026-06-10T17:23:27.244Z",
-        "updatedAt": "2026-06-10T17:23:27.244Z"
+        "idUser": 28,
+        "firstname": "Andrea",
+        "lastname": "Ramos",
+        "email": "andrea.ramos@school.edu.pe",
+        "phone": null
       },
+      ...
       "student": {
-        "idStudent": 5,
-        "firstname": "ALEX",
-        "lastname": "DELARGE",
-        "code": "ea6584a3-22ac-4111-a79f-f3738ba3e447",
-        "gender": "M",
+        "idStudent": 61,
+        "firstname": "Carmen",
+        "lastname": "Apaza Apaza",
         "phone": null,
-        "email": null,
-        "status": "ACTIVO",
-        "createdAt": "2026-06-11T16:20:36.513Z",
-        "updatedAt": "2026-06-11T16:20:36.513Z"
-      }
-    },
-    {
-      "idStudentParent": 27,
-      "relationship": "ABUELO",
-      "parent": {
-        "idUser": 4,
-        "firstname": "JO JHNZ",
-        "lastname": "KAELWWW FEREWN D",
-        "email": "auxili11qar2w232@gmail.com",
-        "phone": "+51985988977",
-        "role": "PARENT",
-        "createdAt": "2026-06-11T16:29:06.658Z",
-        "updatedAt": "2026-06-11T16:29:06.658Z"
-      },
-      "student": {
-        "idStudent": 5,
-        "firstname": "ALEX",
-        "lastname": "DELARGE",
-        "code": "ea6584a3-22ac-4111-a79f-f3738ba3e447",
-        "gender": "M",
-        "phone": null,
-        "email": null,
-        "status": "ACTIVO",
-        "createdAt": "2026-06-11T16:20:36.513Z",
-        "updatedAt": "2026-06-11T16:20:36.513Z"
+        "email": "carmen.apaza60@school.edu.pe",
+        "dni": "90788590",
+        "status": "ACTIVO"
       }
     }
   ],
   "pagination": {
     "page": 1,
     "limit": 10,
-    "total": 2,
-    "totalPages": 1
+    "total": 200,
+    "totalPages": 20
   }
 }
 ```

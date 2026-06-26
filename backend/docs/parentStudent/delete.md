@@ -11,8 +11,8 @@
 
 ## URL Params
 
-| URL Param | Type   | Required | Description                                      |
-| --------- | ------ | -------- | ------------------------------------------------ |
+| URL Param | Type   | Required | Description                                       |
+| --------- | ------ | -------- | ------------------------------------------------- |
 | id        | number | Sí       | ID de la relación familiar que se desea eliminar. |
 
 ## Example Request

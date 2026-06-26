@@ -67,13 +67,13 @@
   "success": true,
   "message": "Grado creado correctamente",
   "grade": {
-    "idGrade": 5,
-    "level": 12
+    "idGrade": 7,
+    "level": 15
   }
 }
 ```
 
-## Duplicate User Response
+## Duplicate Grade Response
 
 ```json
 {

@@ -1,6 +1,6 @@
 # CREAR NUEVA RELACION ENTRE SALÓN DE CLASE Y ESTUDIANTE
 
-## POST /classroomStudent
+## POST /classroom-student
 
 - Crea un nuevo usuario en el sistema.
 - Requiere autenticación.
@@ -16,7 +16,7 @@
 
 ## Example Request
 
-- POST /classroomStudent
+- POST /classroom-student
 - BODY:
 
 ```json
@@ -58,32 +58,26 @@
   "success": true,
   "message": "Estudiante asignado correctamente",
   "classroomStudent": {
-    "idClassroomStudent": 4,
-    "classroom": {
-      "idClassroom": 1,
-      "year": 2026,
-      "section": {
-        "grade": {
-          "level": 1
-        },
-        "name": "A"
-      }
-    },
+    "idClassroomStudent": 127,
+    "idClassroom": 5,
+    "year": 2025,
+    "grade": 1,
+    "section": "C",
     "student": {
-      "idStudent": 3,
-      "firstname": "KICK",
-      "lastname": "PERU",
-      "code": "38eb7388-cee8-4c9e-b2aa-688f59d64960",
-      "gender": "M",
-      "phone": null,
-      "email": null,
-      "status": "ACTIVO"
+      "idStudent": 15,
+      "firstname": "Patricia",
+      "lastname": "Reyes Pérez",
+      "dni": "69230782",
+      "gender": "F",
+      "phone": "964254732",
+      "email": "patricia.reyes14@school.edu.pe",
+      "status": "SUSPENDIDO"
     }
   }
 }
 ```
 
-## Duplicate User Response
+## Duplicate Classroom Student Response
 
 ```json
 {

@@ -11,8 +11,8 @@
 
 ## URL Params
 
-| URL Param | Type   | Required | Description                                    |
-| --------- | ------ | -------- | ---------------------------------------------- |
+| URL Param | Type   | Required | Description                                     |
+| --------- | ------ | -------- | ----------------------------------------------- |
 | id        | number | Sí       | ID de la relación familiar que se desea buscar. |
 
 ## Example Request
@@ -46,29 +46,23 @@
   "success": true,
   "message": "Relación familiar encontrada",
   "data": {
-    "idStudentParent": 9,
-    "relationship": "ABUELO",
+    "idStudentParent": 25,
+    "relationship": "TÍO",
     "parent": {
-      "idUser": 2,
-      "firstname": "JO JHNZ",
-      "lastname": "KAELWWW FEREWN D",
-      "email": "auxili11ar2w232@gmail.com",
-      "phone": "+51985988977",
-      "role": "PARENT",
-      "createdAt": "2026-06-10T17:23:27.244Z",
-      "updatedAt": "2026-06-10T17:23:27.244Z"
+      "idUser": 33,
+      "firstname": "Ricardo",
+      "lastname": "Condori",
+      "email": "ricardo.condori@school.edu.pe",
+      "phone": null
     },
     "student": {
-      "idStudent": 1,
-      "firstname": "WEQWQ Q W QW",
-      "lastname": "VO WQQWEEN",
-      "code": "2a4fbdbf-abee-4432-8646-10fdda9aca9c",
-      "gender": "F",
-      "phone": null,
-      "email": null,
-      "status": "ACTIVO",
-      "createdAt": "2026-06-10T17:39:30.905Z",
-      "updatedAt": "2026-06-10T17:39:30.905Z"
+      "idStudent": 15,
+      "firstname": "Patricia",
+      "lastname": "Reyes Pérez",
+      "phone": "964254732",
+      "email": "patricia.reyes14@school.edu.pe",
+      "dni": "69230782",
+      "status": "SUSPENDIDO"
     }
   }
 }
