@@ -1,6 +1,10 @@
 import { studentService } from "./student.service.js";
 import { studentSchema } from "./student.schema.js";
 import { validateUtils } from "../../utils/validate.utils.js";
+import { userService } from "../user/user.service.js";
+import { parentService } from "../parent/parent.service.js";
+import { attendanceService } from "../attendance/attendance.service.js";
+import { incidentService } from "../incident/incident.service.js";
 
 const studentController = {
   create: async (req, res, next) => {
@@ -100,6 +104,106 @@ const studentController = {
         success: true,
         message: "Estudiante eliminado correctamente",
         student: deletedStudent,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  getAttendance: async (req, res, next) => {
+    try {
+      const { id: idStudent } = await validateUtils.validateSchema({
+        schema: studentSchema.params,
+        data: req.params,
+      });
+
+      const userData = await userService.getByEmail({ email: req.user.email });
+
+      if (userData.role === "PARENT") {
+        const student = await parentService.getStudentParent({
+          idParent: userData.idUser,
+          idStudent,
+        });
+
+        const attendance = await attendanceService.getByIdStudent({
+          idStudent,
+        });
+
+        return res.json({
+          success: true,
+          message: "Asistencias del estudiante",
+          data: {
+            student,
+            parent: userData,
+            attendance,
+          },
+        });
+      }
+
+      const attendance = await attendanceService.getByIdStudent({
+        idStudent,
+      });
+
+      const student = await studentService.getById({ idStudent });
+
+      return res.json({
+        success: true,
+        message: "Asistencias del estudiante",
+        data: {
+          student,
+          parent: userData,
+          attendance,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  getIncidents: async (req, res, next) => {
+    try {
+      const { id: idStudent } = await validateUtils.validateSchema({
+        schema: studentSchema.params,
+        data: req.params,
+      });
+
+      const userData = await userService.getByEmail({ email: req.user.email });
+
+      if (userData.role === "PARENT") {
+        const student = await parentService.getStudentParent({
+          idParent: userData.idUser,
+          idStudent,
+        });
+
+        const incidents = await incidentService.getByIdStudent({
+          idStudent,
+        });
+
+        return res.json({
+          success: true,
+          message: "Incidentes del estudiante",
+          data: {
+            student,
+            parent: userData,
+            incidents,
+          },
+        });
+      }
+
+      const incidents = await incidentService.getByIdStudent({
+        idStudent,
+      });
+
+      const student = await studentService.getById({ idStudent });
+
+      return res.json({
+        success: true,
+        message: "Incidentes del estudiante",
+        data: {
+          student,
+          parent: userData,
+          incidents,
+        },
       });
     } catch (error) {
       next(error);

@@ -129,6 +129,25 @@ const attendanceService = {
 
     return deletedAttendance;
   },
+
+  getByIdStudent: async ({ idStudent }) => {
+    const attendance = await prisma.attendance.findMany({
+      where: {
+        idStudent,
+      },
+    });
+
+    if (!attendance || attendance.length === 0) {
+      throw new AppError("Registro no encontrado", 404, [
+        {
+          field: "idStudent",
+          message: "No existen asistencias registradas para este estudiante",
+        },
+      ]);
+    }
+
+    return attendance;
+  },
 };
 
 export { attendanceService };

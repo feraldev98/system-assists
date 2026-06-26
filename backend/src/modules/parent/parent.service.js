@@ -182,6 +182,46 @@ const parentService = {
 
     return students;
   },
+
+  getAttendanceByParent: async ({ idParent, idStudent }) => {
+    const student = await prisma.studentParent.findFirst({
+      where: {
+        idStudent,
+        idParent: idParent,
+      },
+    });
+
+    if (!student) {
+      throw new AppError("Acceso denegado", 403, [
+        {
+          field: "idStudent",
+          message: "No tiene acceso a las asistencias de este estudiante",
+        },
+      ]);
+    }
+
+    return student;
+  },
+
+  getStudentParent: async ({ idParent, idStudent }) => {
+    const student = await prisma.studentParent.findFirst({
+      where: {
+        idStudent,
+        idParent: idParent,
+      },
+    });
+
+    if (!student) {
+      throw new AppError("Acceso denegado", 403, [
+        {
+          field: "idStudent",
+          message: "No tiene acceso a los incidentes de este estudiante",
+        },
+      ]);
+    }
+
+    return student;
+  },
 };
 
 export { parentService };

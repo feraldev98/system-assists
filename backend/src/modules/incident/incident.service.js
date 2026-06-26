@@ -88,6 +88,25 @@ const incidentService = {
 
     return deletedIncident;
   },
+
+  getByIdStudent: async ({ idStudent }) => {
+    const incidents = await prisma.incident.findMany({
+      where: { idStudent },
+      select: incidentFields.select,
+    });
+
+    if (!incidents || incidents.length === 0) {
+      throw new AppError("Registro no encontrado", 404, [
+        {
+          field: "idStudent",
+          message:
+            "No existen incidentes para el estudiante con el ID proporcionado",
+        },
+      ]);
+    }
+
+    return incidents;
+  },
 };
 
 export { incidentService };
