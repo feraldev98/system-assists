@@ -85,6 +85,23 @@ const userService = {
     }
     return user;
   },
+
+  getByEmail: async ({ email }) => {
+    const user = await prisma.user.findUnique({
+      where: { email },
+      select: userFields.select,
+    });
+
+    if (!user) {
+      throw new AppError("Registro no encontrado", 404, [
+        {
+          field: "email",
+          message: "No existe un registro con el ID proporcionado",
+        },
+      ]);
+    }
+    return user;
+  },
 };
 
 export { userService };
