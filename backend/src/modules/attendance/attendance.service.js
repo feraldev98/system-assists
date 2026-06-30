@@ -170,6 +170,23 @@ const attendanceService = {
     return total;
   },
 
+  countByIdStudent: async ({ idStudent }) => {
+    const late = await prisma.attendance.count({
+      where: {
+        idStudent,
+        status: "TARDANZA",
+      },
+    });
+
+    const total = await prisma.attendance.count({
+      where: {
+        idStudent,
+      },
+    });
+
+    return { total, late };
+  },
+
   getByWeekSummary: async ({ idStudent }) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -547,29 +564,76 @@ const attendanceService = {
       studentIds.map((id, i) => [id, weekSummaries[i].attendances]),
     );
 
-    const studentsSummary = students.map(({ student }) => {
-      const deducted = incidentMap.get(student.idStudent) ?? 0;
-      const score = Math.max(0, 20 - deducted);
-      const conductGrade =
-        score >= 18 ? "AD" : score >= 14 ? "A" : score >= 11 ? "B" : "C";
+    const studentsSummary = await Promise.all(
+      students.map(async ({ student }) => {
+        const deducted = incidentMap.get(student.idStudent) ?? 0;
+        const score = Math.max(0, 20 - deducted);
+        const conductGrade =
+          score >= 18 ? "AD" : score >= 14 ? "A" : score >= 11 ? "B" : "C";
 
-      return {
-        idStudent: student.idStudent,
-        firstname: student.firstname,
-        lastname: student.lastname,
-        dni: student.dni,
-        phone: student.phone,
-        email: student.email,
-        status: student.status,
-        attendanceToday: attendanceMap.get(student.idStudent) ?? "FALTA",
-        totalDelaysYear: delayMap.get(student.idStudent) ?? 0,
-        conductPointsYear: incidentMap.get(student.idStudent) ?? 0,
-        conductYear: conductGrade,
-        // todo: daysPresent: { total tarde, total presente } ,
-        // todo: averageAttendance { semanal, bimestral, anual, nivel de conducta}
-        attendanceWeek: weekMap.get(student.idStudent) ?? [],
-      };
-    });
+        const { attendanceLate, total } = {
+          attendanceLate: await prisma.attendance.count({
+            where: {
+              idStudent: student.idStudent,
+              status: "TARDANZA",
+              date: {
+                gte: startYear,
+                lt: endYear,
+              },
+            },
+          }),
+          total: await prisma.attendance.count({
+            where: {
+              idStudent: student.idStudent,
+            },
+          }),
+        };
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        // Lunes de esta semana
+        const weekStart = new Date(today);
+        const day = today.getDay(); // 0=domingo, 1=lunes...
+        const diffToMonday = day === 0 ? -6 : 1 - day; // si es domingo, retrocede 6
+        weekStart.setDate(today.getDate() + diffToMonday);
+
+        // Mañana (para incluir hoy completo)
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
+
+        const attendancesWeekTotal = await prisma.attendance.count({
+          where: {
+            idStudent: student.idStudent,
+            date: { gte: weekStart, lt: tomorrow },
+          },
+        });
+
+        const averageAttendanceWeek = Math.round(
+          (Number(attendancesWeekTotal) * 100) / 5,
+        );
+
+        return {
+          idStudent: student.idStudent,
+          firstname: student.firstname,
+          lastname: student.lastname,
+          dni: student.dni,
+          phone: student.phone,
+          email: student.email,
+          status: student.status,
+          attendanceToday: attendanceMap.get(student.idStudent) ?? "FALTA",
+          totalDelaysYear: delayMap.get(student.idStudent) ?? 0,
+          conductPointsYear: 20 - (incidentMap.get(student.idStudent) ?? 0),
+          conductYear: conductGrade,
+          averageAttendanceWeek,
+          daysPresent: {
+            total: total,
+            late: attendanceLate,
+          },
+          attendanceWeek: weekMap.get(student.idStudent) ?? [],
+        };
+      }),
+    );
 
     return { studentsSummary };
   },

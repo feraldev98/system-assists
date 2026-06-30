@@ -155,6 +155,7 @@ const userController = {
           });
           break;
         case "PARENT": {
+          console.error(user.idUser);
           data.mainSummary =
             await attendanceService.getAttendanceSummaryByParent({
               idParent: user.sub,
