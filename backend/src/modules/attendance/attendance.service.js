@@ -609,15 +609,9 @@ const attendanceService = {
           },
         });
 
-        const averageAttendance = {
-          semanal: (Number(attendancesWeekTotal) * 100) / Number(5),
-          // bimonthly
-          // annual fix
-          anual: (Number(total) * 100) / Number(200),
-          behavior: conductGrade,
-        };
-
-        console.log(averageAttendance);
+        const averageAttendanceWeek = Math.round(
+          (Number(attendancesWeekTotal) * 100) / 5,
+        );
 
         return {
           idStudent: student.idStudent,
@@ -629,14 +623,13 @@ const attendanceService = {
           status: student.status,
           attendanceToday: attendanceMap.get(student.idStudent) ?? "FALTA",
           totalDelaysYear: delayMap.get(student.idStudent) ?? 0,
-          conductPointsYear: incidentMap.get(student.idStudent) ?? 0,
+          conductPointsYear: 20 - (incidentMap.get(student.idStudent) ?? 0),
           conductYear: conductGrade,
+          averageAttendanceWeek,
           daysPresent: {
             total: total,
             late: attendanceLate,
           },
-          averageAttendance,
-          // todo: averageAttendance { semanal, bimestral, anual, nivel de conducta}
           attendanceWeek: weekMap.get(student.idStudent) ?? [],
         };
       }),
