@@ -15,7 +15,7 @@ const classroomAuxiliarController = {
       return res.json({
         success: true,
         message: "Auxiliar asignado correctamente",
-        classroomAuxiliar: queryResult,
+        data: queryResult,
       });
     } catch (error) {
       next(error);
