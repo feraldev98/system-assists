@@ -24,9 +24,38 @@ const classroomAuxiliarSchema = {
       message: "No se permiten campos adicionales",
     }),
 
+  createByGrade: z
+    .object({
+      idAuxiliar: idField({
+        label: "El ID del auxiliar",
+        required: true,
+      }),
+      grade: numericField({
+        label: "El grado del salon de clase",
+        required: true,
+        min: 1,
+        max: 5,
+      }),
+      year: numericField({
+        label: "El año del salon de clase",
+        required: false,
+        defaultValue: new Date().getFullYear(),
+      }),
+    })
+    .strict({
+      message: "No se permiten campos adicionales",
+    }),
+
   update: z
     .object({
-      // TODO: campos del update
+      idAuxiliar: idField({
+        label: "El ID de auxiliar",
+        required: false,
+      }),
+      idClassroom: idField({
+        label: "El ID de classroom",
+        required: false,
+      }),
     })
     .strict({
       message: "No se permiten campos adicionales",
@@ -41,7 +70,15 @@ const classroomAuxiliarSchema = {
 
   params: z.object({
     id: idField({
-      label: "El ID de classroomAuxiliar",
+      label: "El ID del registro",
+      required: false,
+    }),
+    idAuxiliar: idField({
+      label: "El ID de auxiliar",
+      required: false,
+    }),
+    idClassroom: idField({
+      label: "El ID de classroom",
       required: false,
     }),
     page: numericField({

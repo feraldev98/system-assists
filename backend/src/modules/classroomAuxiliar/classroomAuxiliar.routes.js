@@ -13,10 +13,16 @@ classroomAuxiliarRoutes.post(
   authMiddlewareRole(["ADMIN"]),
   classroomAuxiliarController.create,
 );
+classroomAuxiliarRoutes.post(
+  "/bulk-by-grade",
+  authMiddleware,
+  authMiddlewareRole(["ADMIN"]),
+  classroomAuxiliarController.createByGrade,
+);
 classroomAuxiliarRoutes.get(
   "/",
   authMiddleware,
-  authMiddlewareRole(["ADMIN"]),
+  authMiddlewareRole(["ADMIN", "AUXILIAR"]),
   classroomAuxiliarController.get,
 );
 classroomAuxiliarRoutes.get(

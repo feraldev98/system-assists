@@ -15,7 +15,7 @@ import { classroomStudentRoutes } from "./modules/classroomStudent/classroomStud
 import { attendanceRoutes } from "./modules/attendance/attendance.route.js";
 import { incidentCatalogRoutes } from "./modules/incidentCatalog/incidentCatalog.route.js";
 import { incidentRoutes } from "./modules/incident/incident.route.js";
-import { classroomAuxiliarRoutes } from "./modules/classroomAuxiliar/classroomAuxiliar.route.js";
+import { classroomAuxiliarRoutes } from "./modules/classroomAuxiliar/classroomAuxiliar.routes.js";
 
 const app = express();
 
